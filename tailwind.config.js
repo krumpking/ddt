@@ -12,10 +12,11 @@ module.exports = {
         "royal-blue": "#4169e1",
       },
       fontFamily: {
-        sans: ["Noto Sans", ...defaultTheme.fontFamily.sans],
+        sans: ["Comfortaa", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         "bg-swurl": "url('/images/bg-swurl.png')",
+        carousel: "url('/images/carousel.png')",
       },
       screens: {
         xxs: "250px",

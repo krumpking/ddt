@@ -64,7 +64,7 @@ const Carousel = ({ children }: IProps) => {
     ));
 
     const activeDot = children.map((slide, index) => (
-        <div className={currentSlide === index ? "bg-yellow-500 w-12 h-2 rounded-lg mx-2" : "bg-gray-200 w-12 h-2 rounded-lg mx-2"}>
+        <div className={currentSlide === index ? "bg-yellow-500 w-2 h-2 rounded-lg mx-2" : "bg-gray-600 w-2 h-2 rounded-lg mx-2"}>
         </div>
     ))
 
@@ -81,7 +81,6 @@ const Carousel = ({ children }: IProps) => {
         <div className="flex flex-col items-center overflow-hidden">
             <div className="flex flex-row">
                 <button >
-
                     <img src="/images/left.png" />
                 </button>
                 <SCarouselWrapper>
@@ -90,11 +89,10 @@ const Carousel = ({ children }: IProps) => {
                     </SCarouselSlides>
                 </SCarouselWrapper>
                 <button>
-
                     <img src="/images/right.png" />
                 </button>
             </div>
-            <div className="flex flex-row justify-evenly">
+            <div className="flex flex-row justify-evenly mt-10">
                 {activeDot}
             </div>
 

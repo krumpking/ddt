@@ -1,3 +1,5 @@
+import { collection } from "firebase/firestore";
+import { firestore } from "../../firebase/clientApp";
 
 // Main
 export const API_ROUTE = 'API_ROUTE'
@@ -15,3 +17,6 @@ export const FOURTH_COLOR = '#027f6d';
 export const FIFTH_COLOR = '#fdc92f';
 
 export const SIX_COLOR = '#7d5c00';
+
+
+export const DB_REF = collection(firestore, "admins");
