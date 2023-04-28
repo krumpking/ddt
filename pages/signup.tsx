@@ -112,9 +112,9 @@ const SignUp = () => {
             }
 
             addAdmin(admin).then((v) => {
-
-                if (!v) {
-                    toast.warn("Phone number already exists, user another phone number")
+                if (v == null) {
+                    toast.warn("Phone number already exists, user another phone number");
+                    setSent(false);
                 } else {
                     router.push('/home');
                 }
