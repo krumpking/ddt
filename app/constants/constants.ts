@@ -23,10 +23,12 @@ export const LIGHT_GRAY = '#ECECEC';
 
 export const ADMINS_DB_REF = collection(firestore, "admins");
 
+
 export const COOKIE_NAME = 'gMh88OSfz';
 export const COOKIE_PHONE = 'jZmDw9V3i';
 export const COOKIE_ORGANISATION = '6a7ZP6ZtJ';
 export const COOKIE_EMAIL = '1OU2lbIQK';
+export const COOKIE_ID = 'y5Kgz3qY';
 
 
 export const TEMPLATES = [
@@ -121,6 +123,8 @@ export const TEMPLATES = [
         dateCreated: "string"
     },
 ]
+
+export const PRODUCTION_CLIENT_ID = "Aaj2goduVRQ4UAkq_OorphhSJmPCTAcFcL81iwNbYq8RJIHG8RwAMYIyOEVsd4K3bWY2xOQFkHXIYy5y";
 
 
 

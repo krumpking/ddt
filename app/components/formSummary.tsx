@@ -23,7 +23,7 @@ const FormSummary: FC<MyProps> = ({ title, description, url }) => {
                 </div>
                 <div className="p-4  flex flex-col col-span-11">
                     <h1 className='font-bold'>{title}</h1>
-                    <p className='font-bold text-xs'>{description.substring(0, 30)}...</p>
+                    <p className='font-bold text-xs w-48'>{description.substring(0, 20)}...</p>
                 </div>
             </div>
 

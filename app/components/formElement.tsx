@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { FC } from 'react';
 import Elem, { iElements } from './elements';
 import { Menu, Transition } from '@headlessui/react'
-import { IForm, IFormElement } from '../types/type';
+import { IForm, IFormElement } from '../types/types';
 import Crypto from '../utils/crypto';
 import Random from '../utils/random';
 import Loader from './loader';

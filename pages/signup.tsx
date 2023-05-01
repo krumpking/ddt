@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PRIMARY_COLOR } from '../app/constants/constants';
+import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
 import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
@@ -8,6 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { addAdmin } from '../app/api/adminApi';
+import { setCookie } from 'react-use-cookie';
+import Crypto from '../app/utils/crypto';
+import { DocumentData, DocumentReference } from 'firebase/firestore';
 
 
 
@@ -101,9 +104,14 @@ const SignUp = () => {
 
     const signIn = () => {
         setLoading(true);
-        window.confirmationResult.confirm(accessCode).then(() => {
+        window.confirmationResult.confirm(accessCode).then((result: { user: any; }) => {
+
+            const user = result.user;
+            const userId = user.uid;
+
             // success
             const admin = {
+                id: userId,
                 name: fullName,
                 phoneNumber: phone,
                 createdDate: new Date().toString(),
@@ -111,11 +119,39 @@ const SignUp = () => {
                 organizationName: organisationName,
             }
 
-            addAdmin(admin).then((v) => {
+            addAdmin(admin).then((v: DocumentReference<DocumentData> | null) => {
                 if (v == null) {
                     toast.warn("Phone number already exists, user another phone number");
                     setSent(false);
                 } else {
+
+                    const key = v.id.substring(-13);
+                    setCookie(COOKIE_ID, Crypto.encrypt(userId, COOKIE_ID), {
+                        days: 1,
+                        SameSite: 'Strict',
+                        Secure: true,
+                    });
+                    setCookie(COOKIE_ORGANISATION, Crypto.encrypt(organisationName, key), {
+                        days: 1,
+                        SameSite: 'Strict',
+                        Secure: true,
+                    });
+                    setCookie(COOKIE_EMAIL, Crypto.encrypt(email, key), {
+                        days: 1,
+                        SameSite: 'Strict',
+                        Secure: true,
+                    });
+                    setCookie(COOKIE_NAME, Crypto.encrypt(fullName, key), {
+                        days: 1,
+                        SameSite: 'Strict',
+                        Secure: true,
+                    });
+
+                    setCookie(COOKIE_PHONE, Crypto.encrypt(phone, key), {
+                        days: 1,
+                        SameSite: 'Strict',
+                        Secure: true,
+                    });
                     router.push('/home');
                 }
                 setLoading(false);

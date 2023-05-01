@@ -12,9 +12,9 @@ export type IForm = {
     title: string,
     description: string,
     elements: IFormElement[],
-    ipAddress: string,
-    areasLocked: string,
-    dateCreated: string
+    dateCreated: string,
+    creatorId: string,
+    editorNumbers: string[]
 }
 
 export type IFormElement = {
@@ -23,5 +23,5 @@ export type IFormElement = {
     label: string,
     min?: number,
     max?: number,
-    options?: string[]
+    options?: string
 }

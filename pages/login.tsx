@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_EMAIL, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
+import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
 import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
@@ -19,6 +19,7 @@ const Login = () => {
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [userId, setUserId] = useState("");
 
 
 
@@ -50,7 +51,12 @@ const Login = () => {
     const login = () => {
         setLoading(true);
         if (sent) {
-            window.confirmationResult.confirm(accessCode).then(() => {
+            window.confirmationResult.confirm(accessCode).then((result: { user: any; }) => {
+
+
+                const user = result.user;
+                const userId = user.uid;
+
 
 
                 getUser(phone).then((v: QuerySnapshot<DocumentData> | null) => {
@@ -67,7 +73,12 @@ const Login = () => {
                         v.forEach((doc) => {
 
 
-                            const key = doc.id.substring(-8);
+                            const key = doc.id.substring(-13);
+                            setCookie(COOKIE_ID, Crypto.encrypt(userId, COOKIE_ID), {
+                                days: 1,
+                                SameSite: 'Strict',
+                                Secure: true,
+                            });
                             setCookie(COOKIE_ORGANISATION, Crypto.encrypt(doc.data().organizationName, key), {
                                 days: 1,
                                 SameSite: 'Strict',
