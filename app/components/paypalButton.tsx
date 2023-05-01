@@ -13,44 +13,49 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
 
     const [paidFor, setPaidFor] = useState(false);
     const [error, setError] = useState<any>();
+    const [iorder, setIorder] = useState<any>()
 
-    const handleApprove = (orderId: any) => {
+    const handleApprove = (order: any) => {
         // Call backend function to fulfill order
 
+        if (order.status == 'COMPLETED') {
+            // Display success message, modal or redirect user to success page
+            alert("Thank you for your purchase!");
+            toast.success('Payment received successfully');
+            var id = "";
+            if (getCookie(COOKIE_ID) !== "") {
+                id = Crypto.decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+
+            }
+            const key = id.substring(-13);
+            const payment = {
+                id: order.id,
+                userId: getCookie(COOKIE_ID),
+                phoneNumber: Crypto.decrypt(getCookie(COOKIE_PHONE), key),
+                date: new Date().toString(),
+                amount: product.price
+            }
+            console.log(payment);
+
+            addPayment(id, payment).then((v) => {
+                toast.success('Promo successfully added');
+            }).catch((e) => {
+                toast.error('There was an error adding your payment, please try again');
+
+            });
+        } else {
+
+        }
+
         // if response is success
-        setPaidFor(true);
+
         // Refresh user's account or subscription status
 
         // if response is error
         // setError("Your payment was processed successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.");
     };
 
-    if (paidFor) {
-        // Display success message, modal or redirect user to success page
-        alert("Thank you for your purchase!");
-        toast.success('Payment received successfully');
-        var id = "";
-        if (getCookie(COOKIE_ID) !== "") {
-            id = Crypto.decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
-        }
-        const key = id.substring(-13);
-        const payment = {
-            id: Random.randomString(13, "abcdefghijkhlmnopqrstuvwxz123456789"),
-            userId: getCookie(COOKIE_ID),
-            phoneNumber: Crypto.decrypt(getCookie(COOKIE_PHONE), COOKIE_ID),
-            date: new Date().toString(),
-            amount: product.amount
-        }
-
-        addPayment(id, payment).then((v) => {
-            toast.success('Promo successfully added');
-        }).catch((e) => {
-            toast.error('There was an error adding your payment, please try again');
-
-        });
-
-    }
 
     if (error) {
         // Display error message, modal or redirect user to error page
@@ -92,7 +97,8 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
                         const order = await actions.order.capture();
                         console.log("order", order);
 
-                        handleApprove(data.orderID);
+
+                        handleApprove(order);
                     }
 
                 }}

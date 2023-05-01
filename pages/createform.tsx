@@ -13,7 +13,7 @@ import Random from '../app/utils/random';
 import { getCookie } from 'react-use-cookie';
 import Crypto from '../app/utils/crypto';
 import { addForm } from '../app/api/adminApi';
-import Payment from '../app/utils/payments';
+import Payment from '../app/utils/paymentUtil';
 
 
 

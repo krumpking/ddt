@@ -31,7 +31,7 @@ const Payments = () => {
     const [paymentsEnd, setPaymentEnd] = useState(10);
     const [product, setProduct] = useState<any>({
         description: "Purchase DaCollectree",
-        price: 250
+        price: 1
     });
     const [lastPaymentDate, setLastPaymentDate] = useState("");
     const [nextPaymentDate, setNextPaymentDate] = useState("");

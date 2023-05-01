@@ -11,7 +11,7 @@ import DataSummary from '../app/components/dataSummary';
 import { getForms } from '../app/api/adminApi';
 import { getCookie } from 'react-use-cookie';
 import Crypto from '../app/utils/crypto';
-import Payment from '../app/utils/payments';
+import Payment from '../app/utils/paymentUtil';
 
 
 
