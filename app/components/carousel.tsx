@@ -69,7 +69,7 @@ const Carousel = ({ children }: IProps) => {
     ))
 
     const moveSlide = (right: boolean) => {
-        alert(currentSlide)
+
         if (right) {
             setCurrentSlide((Math.abs(currentSlide) - 1) % activeSlide.length);
         } else {

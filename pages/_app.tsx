@@ -8,19 +8,17 @@ import { PRODUCTION_CLIENT_ID } from '../app/constants/constants';
 
 const initialOptions = {
   "client-id": PRODUCTION_CLIENT_ID,
-  currency: "USD",
-  intent: "capture",
-  "data-client-token": "abc123xyz==",
 };
 
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <Provider store={store}>
+    <Provider store={store}>
+      <PayPalScriptProvider options={initialOptions}>
         < Component {...pageProps} />
-      </Provider>
-    </PayPalScriptProvider>
+      </PayPalScriptProvider>
+    </Provider>
+
 
 
 

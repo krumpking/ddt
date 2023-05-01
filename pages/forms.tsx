@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
+import Payment from '../app/utils/payments';
 
 
 
@@ -21,6 +22,13 @@ const Forms = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
+        const paymentStatus = Payment.checkPaymentStatus();
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
+            router.push({
+                pathname: '/payments',
+            });
+        }
 
         return () => {
 

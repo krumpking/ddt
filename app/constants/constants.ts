@@ -22,7 +22,7 @@ export const LIGHT_GRAY = '#ECECEC';
 
 
 export const ADMINS_DB_REF = collection(firestore, "admins");
-
+export const ADMINS_PAYMENTS_REF = collection(firestore, `payments`);
 
 export const COOKIE_NAME = 'gMh88OSfz';
 export const COOKIE_PHONE = 'jZmDw9V3i';

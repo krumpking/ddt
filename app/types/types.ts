@@ -25,3 +25,17 @@ export type IFormElement = {
     max?: number,
     options?: string
 }
+
+export type IPayments = {
+    id: string,
+    userId: string,
+    phoneNumber: string,
+    date: string,
+    amount: number
+}
+
+export interface DateTime {
+    // Required fields
+    readonly timestamp: number | undefined;
+    // Optional additional members based on other types
+}

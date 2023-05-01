@@ -13,6 +13,7 @@ import Random from '../app/utils/random';
 import { getCookie } from 'react-use-cookie';
 import Crypto from '../app/utils/crypto';
 import { addForm } from '../app/api/adminApi';
+import Payment from '../app/utils/payments';
 
 
 
@@ -41,6 +42,14 @@ const CreateForm = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
+
+        const paymentStatus = Payment.checkPaymentStatus();
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
+            router.push({
+                pathname: '/payments',
+            });
+        }
 
         if (elements.length < 1) {
             const defaultEl = {

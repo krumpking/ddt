@@ -1,6 +1,6 @@
 import { addDoc, collection, getCountFromServer, getDoc, getDocs, query, where } from "firebase/firestore";
 import { ADMINS_DB_REF } from "../constants/constants";
-import { IAdmin, IForm } from "../types/types";
+import { IAdmin, IForm, IPayments } from "../types/types";
 import { writeBatch, doc } from "firebase/firestore";
 import { firestore } from "../../firebase/clientApp";
 
@@ -77,6 +77,35 @@ export const addForm = async (id: string, form: IForm) => {
 
     return await addDoc(ADMINS_FORM_REF, form);
 
+
+
+}
+
+
+export const addPayment = async (id: string, payment: IPayments) => {
+
+    // Create a query against the collection.
+
+    return await addDoc(ADMINS_DB_REF, payment);
+
+
+}
+
+export const getPayments = async (id: string) => {
+
+    // Create a query against the collection.
+    const q = query(collection(firestore, "payments"), where("userId", "==", id));
+    const snapshot = await getCountFromServer(q);
+    if (snapshot.data().count > 0) {
+        const querySnapshot = await getDocs(q);
+        return {
+            count: snapshot.data().count,
+            data:
+                querySnapshot
+        };
+    } else {
+        return null;
+    }
 
 
 }

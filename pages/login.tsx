@@ -73,7 +73,7 @@ const Login = () => {
                         v.forEach((doc) => {
 
 
-                            const key = doc.id.substring(-13);
+                            const key = userId.substring(-13);
                             setCookie(COOKIE_ID, Crypto.encrypt(userId, COOKIE_ID), {
                                 days: 1,
                                 SameSite: 'Strict',
