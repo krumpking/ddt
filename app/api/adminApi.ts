@@ -1,5 +1,5 @@
 import { addDoc, collection, getCountFromServer, getDoc, getDocs, query, where } from "firebase/firestore";
-import { ADMINS_DB_REF } from "../constants/constants";
+import { ADMINS_DB_REF, ADMINS_PAYMENTS_REF } from "../constants/constants";
 import { IAdmin, IForm, IPayments } from "../types/types";
 import { writeBatch, doc } from "firebase/firestore";
 import { firestore } from "../../firebase/clientApp";
@@ -86,7 +86,7 @@ export const addPayment = async (id: string, payment: IPayments) => {
 
     // Create a query against the collection.
 
-    return await addDoc(ADMINS_DB_REF, payment);
+    return await addDoc(ADMINS_PAYMENTS_REF, payment);
 
 
 }

@@ -124,7 +124,7 @@ export const TEMPLATES = [
     },
 ]
 
-export const PRODUCTION_CLIENT_ID = "Aaj2goduVRQ4UAkq_OorphhSJmPCTAcFcL81iwNbYq8RJIHG8RwAMYIyOEVsd4K3bWY2xOQFkHXIYy5y";
+export const PRODUCTION_CLIENT_ID = "AaM2a1VHtTXZWjcVw7hjrsM7aR8SJ6L5OL00rYUdf_3BeTONzf7FvQrFvRwLq4T0X-9xaliSbRRwRTKX";
 
 
 

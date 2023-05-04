@@ -31,7 +31,8 @@ export type IPayments = {
     userId: string,
     phoneNumber: string,
     date: string,
-    amount: number
+    amount: number,
+    refCode: string
 }
 
 export interface DateTime {

@@ -14,6 +14,7 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
     const [paidFor, setPaidFor] = useState(false);
     const [error, setError] = useState<any>();
     const [iorder, setIorder] = useState<any>()
+    const [refCode, setRefCode] = useState("");
 
     const handleApprove = (order: any) => {
         // Call backend function to fulfill order
@@ -33,7 +34,8 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
                 userId: getCookie(COOKIE_ID),
                 phoneNumber: Crypto.decrypt(getCookie(COOKIE_PHONE), key),
                 date: new Date().toString(),
-                amount: product.price
+                amount: product.price,
+                refCode: refCode
             }
             console.log(payment);
 
@@ -67,11 +69,13 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
         <>
             <PayPalButtons
                 style={{
-                    color: "silver",
+                    color: "gold",
                     layout: "horizontal",
-                    height: 48,
+                    height: 55,
                     tagline: false,
-                    shape: "pill"
+                    shape: "pill",
+                    label: "pay",
+
                 }}
                 onClick={(data, actions) => {
                     // Validate on button click, client or server side

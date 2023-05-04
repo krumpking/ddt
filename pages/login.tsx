@@ -51,6 +51,7 @@ const Login = () => {
     const login = () => {
         setLoading(true);
         if (sent) {
+
             window.confirmationResult.confirm(accessCode).then((result: { user: any; }) => {
 
 
@@ -73,7 +74,7 @@ const Login = () => {
                         v.forEach((doc) => {
 
 
-                            const key = userId.substring(-13);
+                            const key = userId.substring(0, 13);
                             setCookie(COOKIE_ID, Crypto.encrypt(userId, COOKIE_ID), {
                                 days: 1,
                                 SameSite: 'Strict',
@@ -94,7 +95,6 @@ const Login = () => {
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-
                             setCookie(COOKIE_PHONE, Crypto.encrypt(phone, key), {
                                 days: 1,
                                 SameSite: 'Strict',
@@ -109,12 +109,18 @@ const Login = () => {
                     }
 
 
-                }).catch(console.error);
+                }).catch((e) => {
+                    toast.error('There was an error getting your profile, please try again');
+                    console.error(e);
+
+                });
                 // success
 
 
             }).catch((err: any) => {
                 alert("The One Time Password you sent was not correct please retry");
+                console.error(err);
+                toast.error('There was an error with the One Time Password, please try again');
             });
         } else {
             const appVerifier = window.recaptchaVerifier;

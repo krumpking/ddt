@@ -63,7 +63,8 @@ const Payments = () => {
                                 userId: element.data().userId,
                                 phoneNumber: element.data().phoneNumber,
                                 date: element.data().date,
-                                amount: element.data().amount
+                                amount: element.data().amount,
+                                refCode: element.data().refCode
                             }]);
                         }
 
@@ -132,7 +133,8 @@ const Payments = () => {
                 userId: getCookie(COOKIE_ID),
                 phoneNumber: Crypto.decrypt(getCookie(COOKIE_PHONE), COOKIE_ID),
                 date: new Date().toString(),
-                amount: product.amount
+                amount: product.amount,
+                refCode: ""
             }
 
             addPayment(userId, payment).then((v) => {
@@ -163,6 +165,36 @@ const Payments = () => {
                         <>
                             <div className='flex flex-col  w-full col-span-1  space-y-4'>
                                 <div className='flex flex-col justify-center items-center w-full bg-white rounded-[30px] h-84 p-4'>
+                                    <input
+                                        type="text"
+                                        value={sent ? accessCode : phone}
+                                        placeholder={"Refferial Code(If Available)"}
+                                        onChange={(e) => {
+                                            if (sent) {
+                                                setAccessCode(e.target.value);
+                                            } else {
+                                                setPhone(e.target.value)
+                                            }
+
+                                        }}
+                                        className="
+                                        text-center
+                                        w-full
+                                        rounded-[25px]
+                                        border-2
+                                        border-[#fdc92f]
+                                        py-3
+                                        px-5
+                                        bg-white
+                                        text-base text-body-color
+                                        placeholder-[#ACB6BE]
+                                        outline-none
+                                        focus-visible:shadow-none
+                                        focus:border-primary
+                                        mb-4
+                                        "
+                                        required
+                                    />
                                     <h1 className='col-span-3 m-4'>Make Payment</h1>
                                     {isPending ?
                                         <Loader />
