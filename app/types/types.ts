@@ -35,6 +35,18 @@ export type IPayments = {
     refCode: string
 }
 
+export type IData = {
+    id: string,
+    title: string,
+    descr: string,
+    date: string,
+    editorId: string,
+    encryption: number,
+    info: any[],
+    infoId: string
+}
+
+
 export interface DateTime {
     // Required fields
     readonly timestamp: number | undefined;

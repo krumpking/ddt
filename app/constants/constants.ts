@@ -29,6 +29,7 @@ export const COOKIE_PHONE = 'jZmDw9V3i';
 export const COOKIE_ORGANISATION = '6a7ZP6ZtJ';
 export const COOKIE_EMAIL = '1OU2lbIQK';
 export const COOKIE_ID = 'y5Kgz3qY';
+export const URL_LOCK_ID = 'AaM2a1VHtTXZWjcVw7hjrsM7aR8SJ6L5OL00rYUdf';
 
 
 export const TEMPLATES = [

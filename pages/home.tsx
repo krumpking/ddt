@@ -10,8 +10,8 @@ import FormSummary from '../app/components/formSummary';
 import DataSummary from '../app/components/dataSummary';
 import { getForms } from '../app/api/adminApi';
 import { getCookie } from 'react-use-cookie';
-import Crypto from '../app/utils/crypto';
 import Payment from '../app/utils/paymentUtil';
+import { decrypt } from '../app/utils/crypto';
 
 
 
@@ -40,7 +40,7 @@ const Home = () => {
             });
         }
 
-        const id = Crypto.decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
 
         getForms(id).then((v) => {

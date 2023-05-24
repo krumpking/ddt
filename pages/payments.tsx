@@ -10,10 +10,10 @@ import PaypalCheckoutButton from '../app/components/paypalButton';
 import { IPayments } from '../app/types/types';
 import ReactPaginate from 'react-paginate';
 import { addPayment, getPayments } from '../app/api/adminApi';
-import Crypto from '../app/utils/crypto';
 import { getCookie } from 'react-use-cookie';
 import DateMethods from '../app/utils/date';
 import Random from '../app/utils/random';
+import { decrypt } from '../app/utils/crypto';
 
 
 
@@ -43,7 +43,7 @@ const Payments = () => {
         document.body.style.backgroundColor = LIGHT_GRAY;
         var id = "";
         if (getCookie(COOKIE_ID) !== "") {
-            id = Crypto.decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+            id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
             setUserId(id);
         }
 
@@ -56,7 +56,7 @@ const Payments = () => {
                     const fromDb = element.data().userId;
                     if (fromDb !== "") {
                         console.log(fromDb);
-                        const idFromDB = Crypto.decrypt(fromDb, COOKIE_ID);
+                        const idFromDB = decrypt(fromDb, COOKIE_ID);
                         if (idFromDB === id) {
                             setPayments((prevPayments) => [...prevPayments, {
                                 id: element.id,
@@ -131,7 +131,7 @@ const Payments = () => {
             const payment = {
                 id: Random.randomString(13, "abcdefghijkhlmnopqrstuvwxz123456789"),
                 userId: getCookie(COOKIE_ID),
-                phoneNumber: Crypto.decrypt(getCookie(COOKIE_PHONE), COOKIE_ID),
+                phoneNumber: decrypt(getCookie(COOKIE_PHONE), COOKIE_ID),
                 date: new Date().toString(),
                 amount: product.amount,
                 refCode: ""

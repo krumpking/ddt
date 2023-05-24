@@ -9,8 +9,9 @@ import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { getUser } from '../app/api/adminApi';
 import { getCookie, setCookie } from 'react-use-cookie';
-import Crypto from '../app/utils/crypto';
+
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { encrypt } from '../app/utils/crypto';
 
 
 const Login = () => {
@@ -75,27 +76,27 @@ const Login = () => {
 
 
                             const key = userId.substring(0, 13);
-                            setCookie(COOKIE_ID, Crypto.encrypt(userId, COOKIE_ID), {
+                            setCookie(COOKIE_ID, encrypt(userId, COOKIE_ID), {
                                 days: 1,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-                            setCookie(COOKIE_ORGANISATION, Crypto.encrypt(doc.data().organizationName, key), {
+                            setCookie(COOKIE_ORGANISATION, encrypt(doc.data().organizationName, key), {
                                 days: 1,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-                            setCookie(COOKIE_EMAIL, Crypto.encrypt(doc.data().email, key), {
+                            setCookie(COOKIE_EMAIL, encrypt(doc.data().email, key), {
                                 days: 1,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-                            setCookie(COOKIE_NAME, Crypto.encrypt(doc.data().name, key), {
+                            setCookie(COOKIE_NAME, encrypt(doc.data().name, key), {
                                 days: 1,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-                            setCookie(COOKIE_PHONE, Crypto.encrypt(phone, key), {
+                            setCookie(COOKIE_PHONE, encrypt(phone, key), {
                                 days: 1,
                                 SameSite: 'Strict',
                                 Secure: true,

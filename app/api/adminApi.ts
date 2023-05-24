@@ -112,3 +112,45 @@ export const getPayments = async (id: string) => {
 
 
 
+export const getAllData = async (id: string) => {
+    // Create a query against the collection.
+    const q = query(collection(firestore, "data"), where("editorId", "==", id));
+    const snapshot = await getCountFromServer(q);
+    if (snapshot.data().count > 0) {
+        const querySnapshot = await getDocs(q);
+        return {
+            count: snapshot.data().count,
+            data:
+                querySnapshot
+        };
+    } else {
+        return null;
+    }
+}
+
+
+export const getSpecificData = async (id: string) => {
+
+
+
+
+    // Create a query against the collection.
+
+    const docRef = doc(firestore, "data", id);
+    const snapshot = await getDoc(docRef);
+
+    if (snapshot.exists()) {
+
+        return {
+            count: 1,
+            data:
+                snapshot
+        };
+    } else {
+        return null;
+    }
+}
+
+
+
+

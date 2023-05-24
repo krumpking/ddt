@@ -1225,6 +1225,11 @@
     redux-thunk "^2.4.2"
     reselect "^4.1.7"
 
+"@richmonkeys/aes-256-gcm@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@richmonkeys/aes-256-gcm/-/aes-256-gcm-1.1.2.tgz#1bcd8280d91b9215e023c5b6f4d744496bb40353"
+  integrity sha512-W7e5iLmJHNp2l1Q/dLnWRUTUyFoR/OBul/+MCqw87S2hTKzG91EmwKD4eZZ4mC+SXNF9DoQWrAKUqzE2FDeUFw==
+
 "@rushstack/eslint-patch@^1.1.3":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz"
@@ -1241,6 +1246,11 @@
   version "2.0.0"
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
+
+"@types/crypto-js@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-4.1.1.tgz#602859584cecc91894eb23a4892f38cfa927890d"
+  integrity sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==
 
 "@types/hoist-non-react-statics@*", "@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
@@ -1322,6 +1332,13 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
+
+"@types/react-table@^7.7.14":
+  version "7.7.14"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.14.tgz#b880f1ae140ed065bca2e21b3008ca1ebe71595a"
+  integrity sha512-TYrv7onCiakaG1uAu/UpQ9FojNEt/4/ht87EgJQaEGFoWV606ZLWUZAcUHzMxgc3v1mywP1cDyz3qB4ho3hWOw==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react@*", "@types/react@18.0.21":
   version "18.0.21"
@@ -2021,6 +2038,11 @@ cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 crypto@^1.0.1:
   version "1.0.1"
@@ -4401,6 +4423,16 @@ react-spring@^9.7.1:
     "@react-spring/three" "~9.7.1"
     "@react-spring/web" "~9.7.1"
     "@react-spring/zdog" "~9.7.1"
+
+react-table-scrollbar@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/react-table-scrollbar/-/react-table-scrollbar-0.1.11.tgz#e09887973e54805a478d222d388059a126c99d64"
+  integrity sha512-jfcMyQba5+8n7RQVGx76gw4zWFjyKvfzmMQdq46115Yjl2mBZJkS3KrRdipKZrOR4NC9IbtJ67tmjbfSJInw+w==
+
+react-table@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
+  integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
 
 react-toastify@^9.1.1:
   version "9.1.1"

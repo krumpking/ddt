@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FC } from 'react';
 import { FIFTH_COLOR } from '../constants/constants';
+
+
+
 
 
 
@@ -35,7 +38,18 @@ const Nav = () => {
             name: 'Log In',
             url: '/login',
         },
-    ])
+    ]);
+    const [res, setRes] = useState("");
+
+    useEffect(() => {
+
+        // let encrypt = Crypto.simpleEncrypt('I love the Lord Jesus', 'my 32 length key................');
+        // console.log(encrypt);
+        // const res = Crypto.simpleDecrypt('·î£ÓØÜáØÙÌ£', 'my 32 length key................');
+        // console.log(res);
+
+    }, [])
+
 
     return (
         <div className="flex justify-between items-center text-white p-4 m-8">
