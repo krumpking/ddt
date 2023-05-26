@@ -75,10 +75,6 @@ const Home = () => {
         })
 
 
-        // Get Forms
-        return () => {
-
-        }
 
     }, []);
 

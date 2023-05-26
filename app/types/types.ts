@@ -21,9 +21,9 @@ export type IFormElement = {
     id: string,
     elementId: number,
     label: string,
-    min?: number,
-    max?: number,
-    options?: string
+    arg1: any,
+    arg2: any,
+    arg3: any
 }
 
 export type IPayments = {

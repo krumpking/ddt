@@ -11,9 +11,9 @@ import { Menu, Transition } from '@headlessui/react';
 import Elem, { iElements } from '../app/components/elements';
 import Random from '../app/utils/random';
 import { getCookie } from 'react-use-cookie';
-import Crypto from '../app/utils/crypto';
 import { addForm } from '../app/api/adminApi';
 import Payment from '../app/utils/paymentUtil';
+import { decrypt } from '../app/utils/crypto';
 
 
 
@@ -32,9 +32,9 @@ const CreateForm = () => {
     const [label, setLabel] = useState("");
     const [num, setNum] = useState(0);
     const [clicked, setClicked] = useState("");
-    const [min, setMin] = useState(0);
-    const [max, setMax] = useState(10);
-    const [options, setOptions] = useState("");
+    const [arg1, setArg1] = useState<any>(null);
+    const [arg2, setArg2] = useState<any>(null);
+    const [arg3, setArg3] = useState<any>(null);
     const [editors, setEditors] = useState("");
 
 
@@ -56,6 +56,9 @@ const CreateForm = () => {
                 id: 'one',
                 elementId: 0,
                 label: "Enter input label",
+                arg1: "",
+                arg2: "",
+                arg3: "",
             }
 
             setElements(prevEl => [...prevEl, defaultEl]);
@@ -70,7 +73,7 @@ const CreateForm = () => {
 
         setLoading(true);
 
-        const id = Crypto.decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
         const newForm = {
             id: createId(),
@@ -87,6 +90,9 @@ const CreateForm = () => {
         addForm(id, newForm).then((v) => {
             toast.success('Form created successfully');
             setLoading(false);
+            router.push({
+                pathname: '/forms',
+            });
         }).catch((e) => {
             setLoading(false);
             toast.error(e.message);
@@ -125,7 +131,11 @@ const CreateForm = () => {
                                     setHeaderFocus(true);
                                 }}
                                 onBlur={() => {
-                                    setHeaderFocus(false);
+
+                                    if (formTitle !== "" && formDescr !== "" && editors !== "") {
+                                        setHeaderFocus(false);
+                                    }
+
                                 }}>
                                 <div className='bg-[#00947a] w-full rounded-t-[25px] h-2'></div>
 
@@ -309,9 +319,9 @@ const CreateForm = () => {
                                                             <input
                                                                 type="number"
                                                                 placeholder={"minimum"}
-                                                                value={min}
+                                                                value={arg2}
                                                                 onChange={(e) => {
-                                                                    setMin(parseInt(e.target.value));
+                                                                    setArg2(parseInt(e.target.value));
                                                                 }}
                                                                 className="
                                                             col-span-1
@@ -332,9 +342,9 @@ const CreateForm = () => {
                                                             <input
                                                                 type="number"
                                                                 placeholder={"maximum"}
-                                                                value={max}
+                                                                value={arg3}
                                                                 onChange={(e) => {
-                                                                    setMax(parseInt(e.target.value));
+                                                                    setArg3(parseInt(e.target.value));
                                                                 }}
                                                                 className="
                                                             col-span-1
@@ -360,9 +370,11 @@ const CreateForm = () => {
                                                                     <input
                                                                         type="text"
                                                                         placeholder={"Enter options/choices separated by a comma e.g yes,no"}
-                                                                        value={options}
+                                                                        value={arg1}
                                                                         onChange={(e) => {
-                                                                            setOptions(e.target.value);
+                                                                            setArg1(e.target.value.split(","));
+                                                                            setArg2(e.target.value.split(","));
+                                                                            setArg3(e.target.value.split(","));
                                                                         }}
                                                                         className="
                                                             col-span-1
@@ -403,7 +415,7 @@ const CreateForm = () => {
                                                         onClick={() => {
 
                                                             const oldArr = elements.map((item) =>
-                                                                item.id === v.id ? { ...item, elementId: num, label: label, options: options, min: min, max: max } : item
+                                                                item.id === v.id ? { ...item, elementId: num, label: label, arg1: arg1, arg2: arg2, arg3: arg3 } : item
                                                             );
                                                             setElements(oldArr);
                                                             setClicked("one");
@@ -422,9 +434,9 @@ const CreateForm = () => {
                                                                 id: createId(),
                                                                 elementId: v.elementId,
                                                                 label: v.label,
-                                                                options: v.options,
-                                                                min: v.min,
-                                                                max: v.max
+                                                                arg1: v.arg1,
+                                                                arg2: v.arg2,
+                                                                arg3: v.arg3
                                                             }
                                                             const oldArr = [...elements];
                                                             if (elements.length == 1) {
@@ -470,9 +482,9 @@ const CreateForm = () => {
                                                                 id: createId(),
                                                                 elementId: num,
                                                                 label: label,
-                                                                options: options,
-                                                                max: max,
-                                                                min: min
+                                                                arg1: arg1,
+                                                                arg2: arg2,
+                                                                arg3: arg3
                                                             }
                                                             const oldArr = [...elements];
                                                             if (elements.length == 1) {
@@ -528,7 +540,7 @@ const CreateForm = () => {
 
                                         </div>
                                         {v.elementId == 5 || v.elementId == 6 || v.elementId == 15 || v.elementId == 21 ?
-                                            <p>{v.elementId == 15 ? `Minimum: ${v.min}  Maximum: ${v.max}` : `Acceptable  Options/Choices: ${v.options}`}</p>
+                                            <p>{v.elementId == 15 ? `Minimum: ${v.arg2}  Maximum: ${v.arg3}` : `Acceptable  Options/Choices: ${v.arg3}`}</p>
                                             : <p></p>}
 
                                     </div>

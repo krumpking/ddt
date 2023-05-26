@@ -11,6 +11,7 @@ import { IData } from '../../app/types/types';
 import { forEach } from 'lodash';
 import { decrypt, simpleDecrypt } from '../../app/utils/crypto';
 import Loader from '../../app/components/loader';
+import { isBase64 } from '../../app/utils/stringM';
 
 
 
@@ -19,6 +20,7 @@ const DataDisplay = () => {
     const router = useRouter();
     const [data, setData] = useState<IData>();
     const [loading, setLoading] = useState(true);
+    const [imageBase64, setImageBase64] = useState("");
 
 
 
@@ -117,9 +119,14 @@ const DataDisplay = () => {
                                         {
                                             data?.info.map((value, index) => (
                                                 <tr className={index % 2 == 0 ? 'bg-[#ECECEC]' : 'bg-white'}>
-                                                    {data?.info[index].data.map((v: any) => (
-                                                        <td className='text-left'>{simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId)}</td>
-                                                    ))
+                                                    {data?.info[index].data.map((v: any) => {
+
+                                                        return (
+                                                            <td className='text-left'>{simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId)}</td>
+                                                        )
+
+
+                                                    })
 
                                                     }
                                                 </tr>
@@ -129,6 +136,9 @@ const DataDisplay = () => {
 
                                     </tbody>
                                 </table>
+                            </div>
+                            <div>
+                                <img src={`data:image/jpeg;base64,${imageBase64}`} />
                             </div>
                         </div>}
                 </div>

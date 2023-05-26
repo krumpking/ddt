@@ -76,12 +76,12 @@ const Data = () => {
 
 
                 <ClientNav organisationName={'Vision Is Primary'} url={'data'} />
-                <div className='bg-white col-span-8 m-8 rounded-[30px] p-16 grid grid-cols-5 gap-16'>
+                <div className='bg-white col-span-8 m-8 rounded-[30px] p-16'>
 
                     {loading ?
                         <div className='flex flex-col justify-center items-center w-full col-span-8'>
                             <Loader />
-                        </div> : <div>
+                        </div> : <div className=' grid grid-cols-5 gap-4'>
                             {data.map((v) => (
                                 <FormSummary title={v.title} description={v.descr} url={typeof v.id !== 'undefined' ? `/display/${encrypt(v.id, URL_LOCK_ID)}` : null} />
                             ))}
