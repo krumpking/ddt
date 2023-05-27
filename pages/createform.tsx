@@ -241,7 +241,7 @@ const CreateForm = () => {
 
 
                         {elements.map((v) => (
-                            <div className='w-full flex flex-col items-center'>
+                            <div className='w-full flex flex-col items-center' key={v.id}>
 
                                 {clicked === v.id ?
                                     <div className='grid grid-cols-12 w-3/4 gap-4'>
@@ -300,6 +300,7 @@ const CreateForm = () => {
                                                                     <div className="px-1 py-1 flex flex-col space-y-2 w-full">
                                                                         {iElements.map((v, index) => (
                                                                             <Menu.Button
+                                                                                key={index}
                                                                                 onClick={() => {
                                                                                     setNum(index);
                                                                                 }}>

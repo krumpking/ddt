@@ -6,6 +6,7 @@ import { PRIMARY_COLOR, WHATSAPP_CONTACT } from '../app/constants/constants';
 import Nav from '../app/components/nav';
 import Header from '../app/components/header';
 import Carousel from '../app/components/carousel';
+import Link from 'next/link';
 
 
 
@@ -24,36 +25,106 @@ const Home: NextPage = () => {
 
   const shownSlides = [
     {
-      title: 'Benifit 1',
-      description: 'Order 3 or more 4x6 photo prints in the month of October and get the same 3 in 6x9 FREE!',
-      buttonText: 'Get this deal',
+      title: 'Efficiency',
+      description: 'Digital data can be stored, retrieved, and shared instantly and effortlessly. Compared to paper documents that require manual sorting, filing, and transporting, digital files save time and resources, which can then be directed towards more critical functions.',
+      buttonText: 'Get Started',
     },
     {
-      title: 'Benifit 2',
-      description: 'Order 3 or more 4x6 photo prints in the month of October and get the same 3 in 6x9 FREE!',
-      buttonText: 'Get this deal',
+      title: 'Security',
+      description: 'Digital data can be encrypted and protected through firewalls and other security measures. Access permissions ensure only authorized personnel can view sensitive information, whereas paper copies can be lost, stolen, or damaged.',
+      buttonText: 'Get Started',
     },
     {
-      title: 'Benifit 3',
-      description: 'Order 3 or more 4x6 photo prints in the month of October and get the same 3 in 6x9 FREE!',
-      buttonText: 'Get this deal',
+      title: 'Cost savings',
+      description: 'Paper documentation requires printing, storage space, mailing fees, and disposal costs. Conversely, digital data requires minimal infrastructure investment and low maintenance costs. Overall, this leads to significant cost reductions compared to paper-based systems.',
+      buttonText: 'Get Started',
     },
+    {
+      title: 'Collaboration',
+      description: ' Digital data makes collaboration easier between team members regardless of geographical location. Multiple people can edit the same document simultaneously, and real-time updates eliminate version control conflicts common with paper documents.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Data analysis',
+      description: 'Digital data lends itself to easier manipulation, organization, and analysis, making it simpler to identify patterns, trends, and relationships. Advanced software programs perform calculations and generate reports automatically, saving time and reducing errors.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Portability',
+      description: 'Digital data is lightweight and highly portable, making it ideal for fieldwork where lugging around bulky folders would be impractical. Mobile device compatibility means team members can access necessary files from anywhere, anytime.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Adaptability',
+      description: 'Digital data is highly flexible, able to accommodate various file formats and types without issue.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Improved decision-making',
+      description: 'Digital data provides immediate access to accurate, up-to-date information. This allows organizations to make informed decisions faster, which can lead to increased efficiency and competitiveness in today\'s fast- paced business environment.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Disaster recovery',
+      description: 'Digital data offers better protection against unforeseen events such as fires, floods, and earthquakes. Backups and cloud storage ensure continuity when facing catastrophic situations that could destroy paper documents irretrievably.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Integration with automated systems',
+      description: 'Digital data easily integrates with workflows involving artificial intelligence, machine learning algorithms, and Internet of Things (IoT) devices. Such connections help optimize operations, increase productivity, and reduce human input requirement',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Flexible scalability',
+      description: 'Digital data is highly scalable, meaning organizations can quickly adjust to changes in volume or complexity without incurring high setup costs. Scale-out architectures and cloud environments provide elastic capacity, allowing companies to respond rapidly to growing demands or unexpected surges.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Enhanced privacy',
+      description: 'Digital data can incorporate robust encryption mechanisms to protect confidential information from unauthorized access. By keeping private details secure, organizations demonstrate responsible stewardship of sensitive data while building trust among clients, partners, and regulators.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Transparency and accountability',
+      description: 'Digital data creates an auditable trail of actions taken, allowing managers to review user activity, track progress, and verify compliance efforts. This level of transparency increases accountability within teams, leading to higher standards and ethical behavior.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Increased mobility',
+      description: 'With digital data available online or offline, employees and customers have the flexibility to work remotely or access services at any time, from virtually anywhere. This capability boosts convenience, adaptability, and responsiveness during both routine and emergency circumstances.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Streamlined supply chain management',
+      description: 'Digital data streamlines procurement procedures, inventory tracking, and logistics coordination. Automating these processes improves visibility into materials flow, ensures timelier deliveries, and reduces waste due to miscommunication, overstocking, or understocking issues.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Expanded creative opportunities',
+      description: 'Digital data presents endless possibilities for generating, editing, and combining multimedia elements like text, images, videos, audio clips, animations, and virtual/augmented reality experiences. These interactive forms of storytelling engage users and foster memorable encounters with branded content.',
+      buttonText: 'Get Started'
+    },
+    {
+      title: 'Innovation and experimentation',
+      description: 'Digital data encourages risk-taking, iterative testing, and rapid prototyping. Embracing failure as part of the learning process, companies are freer to explore novel approaches and potentially groundbreaking applications that conventional methods might have discouraged or deemed too expensive to pursue.',
+      buttonText: 'Get Started'
+    }
   ]
 
   const testimonialSlidesData = [
     {
-      name: 'Insane Deals',
-      message: 'Order 3 or more 4x6 photo prints in the month of October and get the same 3 in 6x9 FREE!',
-      image: '/images/test-1.png',
+      name: 'Reduced costs',
+      message: 'Digital Data Tree can help your organisation to reduce their costs by eliminating the need to store and maintain physical records.',
+      image: '/images/1.png',
     },
     {
-      name: 'Insane Deals',
-      message: 'Order 3 or more 4x6 photo prints in the month of October and get the same 3 in 6x9 FREE!',
+      name: 'Improved security',
+      message: 'Digitized information is more secure than physical records, as it can be encrypted and stored in a secure location.Digital Data Tree uses Bank Level Encryption',
       image: '/images/unashe.png',
     },
     {
-      name: 'Insane Deals',
-      message: 'Order 3 or more 4x6 photo prints in the month of October and get the same 3 in 6x9 FREE!',
+      name: 'Increased flexibility',
+      message: 'Digitized information can be accessed from anywhere, which can give your organization more flexibility in how you operate.',
       image: '/images/test-1.png',
     },
   ]
@@ -61,12 +132,15 @@ const Home: NextPage = () => {
 
   const slide = (title: string, description: string, buttonText: string) => {
     return (
-      <div className="w-full h-96 rounded-lg">
+      <div className="h-fit rounded-lg flex flex-col content-center items-center">
         <h1 className='text-4xl text-white font-extrabold mb-4'>{title}</h1>
-        <p className='text-white'>{description}</p>
+        <button className="w-1/4 text-center">
+          <p className='text-white '>{description}</p>
+        </button>
+
         <button
-          className='h-12 w-32 bg-white rounded-lg mt-32 mx-auto'>
-          <p className='font-bold text-xl'>{buttonText}</p>
+          className='h-12 w-48 bg-[#00947a] rounded-[25px] mt-5 mx-auto text-white p-2'>
+          <Link href='/signup'><p className='font-bold text-xl'>{buttonText}</p></Link>
         </button>
       </div>
 
@@ -103,18 +177,15 @@ const Home: NextPage = () => {
       <div className="rounded-t-[70px] bg-[#027f6d] text-center items-center content-center">
         <div id="discover">
           <img src='/images/start.png' className='mx-auto w-48 h-24' />
-          <h1 className='text-white text-3xl font-bold'>Discover Templates , Export Examples</h1>
-          <p className='text-white font-bold'>Description statement below carousel,statement below carousel,statement below carousel,statement below carousel,statement below carousel,statement below carousel,statement below carousel,statement below carousel,</p>
-          <img src="/images/sample.png" className='h-full w-full' />
+          <div className='p-16'>
+            <h1 className='text-white text-3xl font-bold'>Turn any data into any format/presentation of your choice</h1>
+            <p className='text-white font-bold mt-5'>With our data management and visualization tool, you can easily transform your data into any presentation format of your choice, including tables, charts, graphs, maps, and text, all with just a click of a button.</p>
+          </div>
+
+          {/* <img src="/images/sample.png" className='h-full w-full' /> */}
 
         </div>
-        <div id="benefits">
-          <Carousel children={shownSlides.map((v) => {
-            return (
-              slide(v.title, v.description, v.buttonText)
-            )
-          })} />
-        </div>
+
 
         <div className='bg-[#fdc92f] w-full h-48 mt-24 flex flex-row p-8 items-center content-center justify-center space-x-5'>
           <div className='flex flex-col m-4'>
@@ -152,17 +223,27 @@ const Home: NextPage = () => {
           </div>
 
         </div>
+        <div id="benefits" className='text-center p-16'>
+          {/* // eslint-disable */}
+          <Carousel children={shownSlides.map((v) => {
+            return (
+              slide(v.title, v.description, v.buttonText)
+            )
+          })} />
+        </div>
         <div className='p-8' id="action">
           <h1 className='text-white text-3xl font-bold m-4'>See it in action</h1>
-          <p className='text-white m-4'>Description descr descr descr descr descr descrdescrdescrdescrdescrdescr descr descr descr descr descr descr descrdescrdescrdescr</p>
+          <p className='text-white m-4'>Elegent and intuitive interface makes Digital Data Tree, easy to use</p>
           <video className='w-full h-96 m-4' autoPlay={false} loop={true} controls>
-            <source src={"/videos/shereigns.webm"} type="video/mp4" />
+            <source src={"/videos/ex1.mkv"} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
         <div className='p-8' id="testimonials">
-          <h1 className='text-white text-3xl font-bold m-4'>What they say about Digital Data Tree</h1>
-          <p className='text-white m-4'>Description descr descr descr descr descr descrdescrdescrdescrdescrdescr descr descr descr descr descr descr descrdescrdescrdescr</p>
+          <h1 className='text-white text-3xl font-bold m-4'>Business Case for Digital Data Tree</h1>
+          <p className='text-white m-4'>Overall, digitization can offer a wide range of benefits for businesses of all sizes. By embracing digitization, businesses can improve their efficiency, productivity, customer service, and bottom line.
+
+          </p>
           <Carousel children={testimonialSlidesData.map((v) => {
             return (
               testimonialSlides(v.name, v.message, v.image)
@@ -170,182 +251,87 @@ const Home: NextPage = () => {
           })} />
 
         </div>
-        <div className='flex flex-col items-center content-center text-center rounded-t-[70px] bg-[#0fa991]   p-16 ' id="pricing">
-          <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl '  >
-            <h1 className='text-5xl m-8'>Get Free Quotation</h1>
-            <form onSubmit={
-              (e) => {
-                e.preventDefault()
-                sendQuotation()
-              }
-            }>
+        <div className='text-center rounded-t-[70px] bg-[#0fa991] p-16 m-auto w-full ' id="pricing">
+          <h1 className='text-3xl m-2 text-white'>Pricing</h1>
+          <div className='grid grid-cols-5 content-center place-content-center place-items-center '>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
+              <h1 className='text-xl m-8'>Customer Relationship Management</h1>
+              <p>Contact management</p>
+              <p>Sales management</p>
+              <p>Customer service</p>
+              <p>Reporting and analytics</p>
+              <h1 className='text-xl m-8 line-through '>500USD</h1>
+              <p className='text-sm line-through '>50USD pm hosting</p>
+            </div>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
+              <h1 className='text-xl m-8'>HR System</h1>
+              <p>Onboarding</p>
+              <p>Performance management</p>
+              <p>Time and attendance</p>
+              <p>Leave management</p>
+              <p>Training and development</p>
+              <p>Reporting and analytics</p>
+              <h1 className='text-xl m-8 line-through '>620USD</h1>
+              <p className='text-sm line-through '>25USD pm hosting</p>
 
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Fist Name and/or Middle Name"
-                  onChange={(e) => {
-                    setName(e.target.value)
-                  }}
-                  className="
-                      w-full
-                      rounded-[25px]
-                      border-2
-                      border-[#7d5c00]
-                      py-3
-                      px-5
-                      bg-white
-                      text-base text-body-color
-                      placeholder-[#ACB6BE]
-                      outline-none
-                      focus-visible:shadow-none
-                      focus:border-primary
-                      "
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Surname/Last Name"
-                  onChange={(e) => {
-                    setSurname(e.target.value)
-                  }}
-                  className="
-                      w-full
-                      rounded-[25px]
-                      border-2
-                      border-[#7d5c00]
-                      py-3
-                      px-5
-                      bg-white
-                      text-base text-body-color
-                      placeholder-[#ACB6BE]
-                      outline-none
-                      focus-visible:shadow-none
-                      focus:border-primary
-                      "
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Email"
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                  }}
-                  className="
-                      w-full
-                      rounded-[25px]
-                      border-2
-                      border-[#7d5c00]
-                      py-3
-                      px-5
-                      bg-white
-                      text-base text-body-color
-                      placeholder-[#ACB6BE]
-                      outline-none
-                      focus-visible:shadow-none
-                      focus:border-primary
-                      "
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Phone (include country your code )"
-                  onChange={(e) => {
-                    setPhone(e.target.value)
-                  }}
-                  className="
-                      w-full
-                      rounded-[25px]
-                      border-2
-                      border-[#7d5c00]
-                      py-3
-                      px-5
-                      bg-white
-                      text-base text-body-color
-                      placeholder-[#ACB6BE]
-                      outline-none
-                      focus-visible:shadow-none
-                      focus:border-primary
-                      "
-                  required
-                />
-              </div>
+            </div>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
+              <h1 className='text-xl m-8'>Digital Data Tree</h1>
+              <p>Customer Relationship Management</p>
+              <p>HR System</p>
+              <p>Enteprise Resource Planning</p>
+              <p>Inventory Management</p>
+              <p>Compliance System</p>
+              <p>E-Receipting</p>
+              <p>Events Management</p>
+              <p>....and many more </p>
+              <h1>Events Management</h1>
+              <h1 className='text-xl mt-8 line-through '>2740USD</h1>
+              <h1 className='text-xl '>250USD</h1>
+              <p className='text-sm line-through '>100USD pm hosting</p>
 
-              <div className="mb-10">
-                <input
-                  type="submit"
-                  value={"Send Me My Free Quotation"}
-                  className="
-                      font-bold
-                        w-full
-                        rounded-[25px]
-                      border-2
-                      border-[#7d5c00]
-                        border-primary
-                        py-3
-                        px-5
-                        bg-[#7d5c00]
-                        text-base 
-                        text-white
-                        cursor-pointer
-                        hover:bg-opacity-90
-                        transition
-                        "
-                />
-              </div>
-            </form>
-
-
-
-
+              <p className='text-sm'>25USD pm</p>
+              <p className='text-sm'>hosting</p>
+              <p className='text-sm'>24/7 support</p>
+            </div>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
+              <h1 className='text-xl m-8'>ERP</h1>
+              <p>Manage production</p>
+              <p>Accounting</p>
+              <p>Record customer interactions</p>
+              <p>Manage sales orders, quotes, and invoices</p>
+              <p>Reporting and analytics</p>
+              <h1 className='text-xl m-8 line-through '>1220USD</h1>
+              <p className='text-sm line-through '>100USD pm hosting</p>
+            </div>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
+              <h1 className='text-xl m-8'>Inventory Management</h1>
+              <p>Item tracking</p>
+              <p>Receiving,Putaway, Picking, Shipping and Returns</p>
+              <p> Cycle counting</p>
+              <p>Reporting and analytics</p>
+              <h1 className='text-xl m-8 line-through '>1220USD</h1>
+              <p className='text-sm line-through '>100USD pm hosting</p>
+            </div>
           </div>
-
-
-          <h1>Want to go paperless </h1>
-          <h1>Get Started with Digital Data Tree Now</h1>
-          <div className='grid grid-cols-3 w-full'>
-
-            <h1 className='text-[#027f6d] text-5xl font-bold p-4'>
-              Start Now
-            </h1>
-            <button className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold text-5xl text-center m-auto' >
-              Start Now
-            </button>
-            <h1 className='text-[#027f6d] text-5xl font-bold p-4'>
-              Start Now
-            </h1>
-
+          <button className={`bg-[#fdc92f] rounded-[30px] p-2 m-8`}>
+            <Link className='text-xl   text-[#7d5c00] text-center p-4' href='/signup'>Get Started</Link>
+          </button>
+          <div className='flex flex-col items-center content-center'>
+            <img src='/images/vipLogo.png' className='h-24 mt-8' />
+            <p className='text-white text-xs'> a product of</p>
+            <p className='text-white'>Vision Is Primary</p>
+            <p className='text-white'>©2023</p>
           </div>
-
-          <div>
-            <h1>Digital Data Tree</h1>
-          </div>
-          <div className='grid grid-cols-3 w-full'>
-
-            <p className='text-white'>
-              Start Now
-            </p>
-            <p className='text-white' >
-              Start Now
-            </p>
-            <p className='text-white'>
-              Start Now
-            </p>
-
-          </div>
-
         </div>
 
+
+
+
       </div>
-      <a href={WHATSAPP_CONTACT}>
+      <Link href={WHATSAPP_CONTACT}>
         <img src='/images/whatsapp.png' className={'animate-bounce fixed bottom-20  right-10 h-16 w-16'} />
-      </a>
+      </Link>
 
     </div >
   )

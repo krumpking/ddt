@@ -83,7 +83,7 @@ const Data = () => {
                             <Loader />
                         </div> : <div className=' grid grid-cols-5 gap-4'>
                             {data.map((v) => (
-                                <FormSummary title={v.title} description={v.descr} url={typeof v.id !== 'undefined' ? `/display/${encrypt(v.id, URL_LOCK_ID)}` : null} />
+                                <FormSummary key={v.id} title={v.title} description={v.descr} url={typeof v.id !== 'undefined' ? `/display/${encrypt(v.id, URL_LOCK_ID)}` : null} />
                             ))}
                         </div>}
                 </div>

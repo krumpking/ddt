@@ -3,10 +3,10 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Random from "../utils/random";
-import Crypto from "../utils/crypto";
 import { getCookie } from "react-use-cookie";
 import { COOKIE_ID, COOKIE_PHONE } from "../constants/constants";
 import { addPayment } from "../api/adminApi";
+import { decrypt } from "../utils/crypto";
 
 const PaypalCheckoutButton = (props: { product: any; }) => {
     const { product } = props;
@@ -25,14 +25,14 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
             toast.success('Payment received successfully');
             var id = "";
             if (getCookie(COOKIE_ID) !== "") {
-                id = Crypto.decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+                id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
             }
             const key = id.substring(-13);
             const payment = {
                 id: order.id,
                 userId: getCookie(COOKIE_ID),
-                phoneNumber: Crypto.decrypt(getCookie(COOKIE_PHONE), key),
+                phoneNumber: decrypt(getCookie(COOKIE_PHONE), key),
                 date: new Date().toString(),
                 amount: product.price,
                 refCode: refCode

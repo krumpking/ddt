@@ -108,7 +108,7 @@ const DataDisplay = () => {
                                     <thead className='bg-[#00947a] text-white font-bold'>
                                         <tr>
                                             {data?.info[0].data.map((v: any) => (
-                                                <th className='text-left w-96'>{v.label}</th>
+                                                <th key={v.label} className='text-left w-96'>{v.label}</th>
                                             ))}
                                         </tr>
 
@@ -118,11 +118,11 @@ const DataDisplay = () => {
 
                                         {
                                             data?.info.map((value, index) => (
-                                                <tr className={index % 2 == 0 ? 'bg-[#ECECEC]' : 'bg-white'}>
+                                                <tr key={index} className={index % 2 == 0 ? 'bg-[#ECECEC]' : 'bg-white'}>
                                                     {data?.info[index].data.map((v: any) => {
 
                                                         return (
-                                                            <td className='text-left'>{simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId)}</td>
+                                                            <td className='text-left' key={v.info}>{simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId)}</td>
                                                         )
 
 
@@ -137,9 +137,7 @@ const DataDisplay = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div>
-                                <img src={`data:image/jpeg;base64,${imageBase64}`} />
-                            </div>
+
                         </div>}
                 </div>
 

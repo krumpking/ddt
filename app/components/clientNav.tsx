@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { FC, useEffect, useState } from 'react'
 import { Audio } from 'react-loader-spinner';
 
@@ -8,22 +9,32 @@ interface MyProps {
 }
 
 const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
+    const [apkUrl, setApkUrl] = useState("");
 
     useEffect(() => {
         document.body.style.backgroundColor = '#00947a';
 
 
-        return () => {
 
-        }
 
     }, []);
+
+
+    const handleDownload = async () => {
+
+
+        const link = document.createElement("a");
+        link.href = `/apk/app.apk`;
+        link.download = "app.apk";
+        link.click();
+
+    };
 
     return (
         <div className='bg-[#00947a] h-full col-span-2 m-8 rounded-[30px] flex flex-col items-center shadow-md'>
 
-            <img src="/images/whatsapp.png" className='h-24 w-24 my-6' />
-            <h1 className='text-white font-bold mb-6'>{organisationName}</h1>
+            <img src="/images/logowhitebg.png" className='h-24 w-24 my-6 rounded-xl' />
+            <h1 className='text-white font-bold mb-6'>{'Digital Data Tree'}</h1>
             <div className='flex flex-col space-y-4'>
                 <a href={'/home'} className={url === 'home' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
                     <div className='grid grid-cols-4 w-full '>
@@ -77,6 +88,26 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                         <h1 className='col-span-3 text-white'>Support</h1>
                     </div>
                 </a>
+                <button
+                    onClick={handleDownload}
+                    className='
+                        font-bold
+                        w-full
+                        rounded-[25px]
+                        border-2
+                        border-[#fdc92f]
+                        border-primary
+                        py-2
+                        px-5
+                        bg-[#fdc92f]
+                        text-base 
+                        text-[#7d5c00]
+                        cursor-pointer
+                        hover:bg-opacity-90
+                        transition
+                        '>
+                    Download App
+                </button>
             </div >
 
         </div >

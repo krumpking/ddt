@@ -9,8 +9,8 @@ import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { addAdmin } from '../app/api/adminApi';
 import { setCookie } from 'react-use-cookie';
-import Crypto from '../app/utils/crypto';
 import { DocumentData, DocumentReference } from 'firebase/firestore';
+import { encrypt } from '../app/utils/crypto';
 
 
 
@@ -126,28 +126,28 @@ const SignUp = () => {
                 } else {
 
                     const key = v.id.substring(-13);
-                    setCookie(COOKIE_ID, Crypto.encrypt(userId, COOKIE_ID), {
+                    setCookie(COOKIE_ID, encrypt(userId, COOKIE_ID), {
                         days: 1,
                         SameSite: 'Strict',
                         Secure: true,
                     });
-                    setCookie(COOKIE_ORGANISATION, Crypto.encrypt(organisationName, key), {
+                    setCookie(COOKIE_ORGANISATION, encrypt(organisationName, key), {
                         days: 1,
                         SameSite: 'Strict',
                         Secure: true,
                     });
-                    setCookie(COOKIE_EMAIL, Crypto.encrypt(email, key), {
+                    setCookie(COOKIE_EMAIL, encrypt(email, key), {
                         days: 1,
                         SameSite: 'Strict',
                         Secure: true,
                     });
-                    setCookie(COOKIE_NAME, Crypto.encrypt(fullName, key), {
+                    setCookie(COOKIE_NAME, encrypt(fullName, key), {
                         days: 1,
                         SameSite: 'Strict',
                         Secure: true,
                     });
 
-                    setCookie(COOKIE_PHONE, Crypto.encrypt(phone, key), {
+                    setCookie(COOKIE_PHONE, encrypt(phone, key), {
                         days: 1,
                         SameSite: 'Strict',
                         Secure: true,

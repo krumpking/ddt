@@ -3,7 +3,6 @@ import { FC } from 'react';
 import Elem, { iElements } from './elements';
 import { Menu, Transition } from '@headlessui/react'
 import { IForm, IFormElement } from '../types/types';
-import Crypto from '../utils/crypto';
 import Random from '../utils/random';
 import Loader from './loader';
 
@@ -31,7 +30,6 @@ const FormElement: FC<MyProps> = ({ addElement, duplicateElement, deleteElement,
             setClicked(form.id);
         }
 
-        console.log(`${clicked} === ${form.id}`);
 
 
     }, [elements])
@@ -134,6 +132,9 @@ const FormElement: FC<MyProps> = ({ addElement, duplicateElement, deleteElement,
                                     id: createId(),
                                     elementId: num,
                                     label: label,
+                                    arg1: null,
+                                    arg2: null,
+                                    arg3: null
                                 }
                                 setClicked(el.id);
                                 addElement(el);
@@ -151,6 +152,9 @@ const FormElement: FC<MyProps> = ({ addElement, duplicateElement, deleteElement,
                                     id: createId(),
                                     elementId: form.elementId,
                                     label: form.label,
+                                    arg1: null,
+                                    arg2: null,
+                                    arg3: null
                                 }
                                 addElement(el);
                                 setClicked(el.id);

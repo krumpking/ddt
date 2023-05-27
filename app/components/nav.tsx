@@ -23,7 +23,7 @@ const Nav = () => {
             url: '#action',
         },
         {
-            name: 'Testimonials',
+            name: 'Business Case',
             url: '#testimonials',
         },
         {
@@ -60,12 +60,13 @@ const Nav = () => {
                 {navItems.map((v, index) => {
                     if (index === 5 || index === 6) {
                         return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
-                            <a className='text-xl   text-white text-center p-4' href={v.url}>{v.name}</a>
+                            <a className='text-xl text-[#7d5c00] text-center p-4' href={v.url}>{v.name}</a>
                         </div>)
                     } else {
                         return (<a className='text-xl  p-2' href={v.url}>{v.name}</a>)
                     }
                 })}
+
 
             </div>
 

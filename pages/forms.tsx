@@ -107,7 +107,7 @@ const Forms = () => {
 
                             </a>
                             {previousForms.map((v) => (
-                                <FormSummary title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? v.id : null} />
+                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? v.id : null} />
                             ))}
 
                         </div>
