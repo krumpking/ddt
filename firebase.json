@@ -12,8 +12,48 @@
     ],
     "rewrites": [
       {
-        "source": "/display/**",
+        "source": "/diplay/**",
         "destination": "/display/[id].html"
+      },
+      {
+        "source": "/login",
+        "destination": "/login.html"
+      },
+      {
+        "source": "/createForm",
+        "destination": "/createForm.html"
+      },
+      {
+        "source": "/data",
+        "destination": "/data.html"
+      },
+      {
+        "source": "/formats",
+        "destination": "/formats.html"
+      },
+      {
+        "source": "/forms",
+        "destination": "/forms.html"
+      },
+      {
+        "source": "/home",
+        "destination": "/home.html"
+      },
+      {
+        "source": "/payments",
+        "destination": "/payments.html"
+      },
+      {
+        "source": "/signup",
+        "destination": "/signup.html"
+      },
+      {
+        "source": "/support",
+        "destination": "/support.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   },
