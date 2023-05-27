@@ -52,7 +52,7 @@
         "destination": "/support.html"
       },
       {
-        "source": "**",
+        "source": "/",
         "destination": "/index.html"
       }
     ]
