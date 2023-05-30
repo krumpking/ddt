@@ -30,22 +30,29 @@ export function encrypt(str: string, code: string): string {
 export function decrypt(str: string, code: string): string {
 
 
-    const cipherAlgorithm = 'aes-256-gcm';
-    const key = crypto
-        .createHash('sha256')
-        .update(code)
-        .digest('base64')
-        .substring(0, 32);
+    if (str.split('|').length > 2) {
+        const cipherAlgorithm = 'aes-256-gcm';
+        const key = crypto
+            .createHash('sha256')
+            .update(code)
+            .digest('base64')
+            .substring(0, 32);
 
 
-    const [authTag, initVectorHex, encrypted] = str.split('|');
-    const initVector = Buffer.from(initVectorHex, 'hex');
-    const decipher = crypto.createDecipheriv(cipherAlgorithm, key, initVector);
-    decipher.setAuthTag(Buffer.from(authTag, 'hex'));
-    const decrypted =
-        decipher.update(encrypted, 'hex', 'utf-8') + decipher.final('utf-8');
+        const [authTag, initVectorHex, encrypted] = str.split('|');
+        const initVector = Buffer.from(initVectorHex, 'hex');
+        const decipher = crypto.createDecipheriv(cipherAlgorithm, key, initVector);
+        decipher.setAuthTag(Buffer.from(authTag, 'hex'));
+        const decrypted =
+            decipher.update(encrypted, 'hex', 'utf-8') + decipher.final('utf-8');
 
-    return decrypted;
+        return decrypted;
+    } else {
+        return "";
+    }
+
+
+
 }
 
 export function simpleEncrypt(text: string, key: string): string {

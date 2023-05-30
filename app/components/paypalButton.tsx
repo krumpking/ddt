@@ -32,14 +32,13 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
             const payment = {
                 id: order.id,
                 userId: getCookie(COOKIE_ID),
-                phoneNumber: decrypt(getCookie(COOKIE_PHONE), key),
                 date: new Date().toString(),
                 amount: product.price,
                 refCode: refCode
             }
             console.log(payment);
 
-            addPayment(id, payment).then((v) => {
+            addPayment(payment).then((v) => {
                 toast.success('Promo successfully added');
             }).catch((e) => {
                 toast.error('There was an error adding your payment, please try again');
@@ -68,14 +67,9 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
     return (
         <>
             <PayPalButtons
+                className={"z-0 bg-[#fdc92f] rounded-[25px] text-center w-full"}
                 style={{
-                    color: "gold",
-                    layout: "horizontal",
-                    height: 55,
-                    tagline: false,
-                    shape: "pill",
-                    label: "pay",
-
+                    shape: "pill"
                 }}
                 onClick={(data, actions) => {
                     // Validate on button click, client or server side

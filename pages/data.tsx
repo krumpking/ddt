@@ -28,42 +28,67 @@ const Data = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
-        const paymentStatus = Payment.checkPaymentStatus();
-        if (!paymentStatus) {
-            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
+        checkPayment();
+
+        var infoFormCookie = getCookie(COOKIE_ID);
+        if (typeof infoFormCookie !== 'undefined') {
+
+
+            if (infoFormCookie.length > 0) {
+                const id = decrypt(infoFormCookie, COOKIE_ID);
+
+                setData([]);
+                getAllData(id).then((v) => {
+
+                    if (v !== null) {
+
+                        v.data.forEach(element => {
+                            setData((data) => [...data, {
+                                id: element.id,
+                                title: element.data().title,
+                                descr: element.data().descr,
+                                date: element.data().date,
+                                editorId: element.data().editorId,
+                                encryption: element.data().encryption,
+                                info: element.data().info,
+                                infoId: element.data().infoId
+                            }]);
+                        });
+
+                        setLoading(false);
+
+                    }
+
+                }).catch(console.error);
+
+            } else {
+                router.push({
+                    pathname: '/login',
+                });
+            }
+
+
+        } else {
             router.push({
-                pathname: '/payments',
+                pathname: '/login',
             });
         }
 
-        const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-        setData([]);
-        getAllData(id).then((v) => {
-
-            if (v !== null) {
-
-                v.data.forEach(element => {
-                    setData((data) => [...data, {
-                        id: element.id,
-                        title: element.data().title,
-                        descr: element.data().descr,
-                        date: element.data().date,
-                        editorId: element.data().editorId,
-                        encryption: element.data().encryption,
-                        info: element.data().info,
-                        infoId: element.data().infoId
-                    }]);
-                });
-
-                setLoading(false);
-
-            }
-
-        }).catch(console.error);
-
-
-
     }, []);
+
+    const checkPayment = async () => {
+        const paymentStatus = await Payment.checkPaymentStatus();
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying Digital Data Tree');
+
+            setTimeout(() => {
+                router.push({
+                    pathname: '/payments',
+                });
+            }, 5000);
+
+        }
+    }
 
 
 
@@ -72,16 +97,20 @@ const Data = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-10'>
 
 
-                <ClientNav organisationName={'Vision Is Primary'} url={'data'} />
-                <div className='bg-white col-span-8 m-8 rounded-[30px] p-16'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12'>
+
+                <div className='lg:col-span-3'>
+                    <ClientNav organisationName={'Vision Is Primary'} url={'data'} />
+                </div>
+
+                <div className='bg-white col-span-9 m-8 rounded-[30px] p-4 lg:p-16'>
 
                     {loading ?
                         <div className='flex flex-col justify-center items-center w-full col-span-8'>
                             <Loader />
-                        </div> : <div className=' grid grid-cols-5 gap-4'>
+                        </div> : <div className=' grid grid-cols-1 smXS:grid-cols-2 md:grid-cols-3  2xl:grid-cols-5 gap-4 p-4 justify-items-center'>
                             {data.map((v) => (
                                 <FormSummary key={v.id} title={v.title} description={v.descr} url={typeof v.id !== 'undefined' ? `/display/${encrypt(v.id, URL_LOCK_ID)}` : null} />
                             ))}
@@ -92,6 +121,7 @@ const Data = () => {
 
 
             </div>
+
 
             <ToastContainer
                 position="top-right"

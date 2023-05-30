@@ -133,14 +133,14 @@ const Home: NextPage = () => {
   const slide = (title: string, description: string, buttonText: string) => {
     return (
       <div className="h-fit rounded-lg flex flex-col content-center items-center">
-        <h1 className='text-4xl text-white font-extrabold mb-4'>{title}</h1>
-        <button className="w-1/4 text-center">
-          <p className='text-white '>{description}</p>
+        <h1 className='text-xs xxsMD:text-sm xsMD:text-xl mini:text-4xl text-white font-extrabold mb-4'>{title}</h1>
+        <button className="w-24 xxsMD:w-48 md:w-1/12 lg:w-1/6 2xl:w-1/4 text-center">
+          <p className='text-white text-xs xsMD:text-sm'>{description}</p>
         </button>
 
         <button
-          className='h-12 w-48 bg-[#00947a] rounded-[25px] mt-5 mx-auto text-white p-2'>
-          <Link href='/signup'><p className='font-bold text-xl'>{buttonText}</p></Link>
+          className='h-12 w-24 xxsMD:w-48 bg-[#00947a] rounded-[25px] mt-5 mx-auto text-white p-2'>
+          <Link href='/signup'><p className='font-bold text-xs xxsMD:text-xl'>{buttonText}</p></Link>
         </button>
       </div>
 
@@ -150,12 +150,12 @@ const Home: NextPage = () => {
 
   const testimonialSlides = (name: string, testimonial: string, img: string) => {
     return (
-      <div className="w-full h-96 rounded-lg flex flex-col items-center mb-8">
+      <div className="w-full h-fit rounded-lg flex flex-col items-center mb-8">
         <div className='bg-carousel w-full bg-no-repeat bg-center flex flex-col items-center'>
           <img src={img} className='h-96 w-fit' />
         </div>
         <h1 className='text-xl text-white font-extrabold mb-4'>{name}</h1>
-        <p className='text-white'>{testimonial}</p>
+        <p className='text-white w-48 smXS:w-full'>{testimonial}</p>
       </div>
 
 
@@ -168,7 +168,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className='relative bg-[#00947a] w-full h-full'>
+    <div className='relative bg-[#00947a] w-full h-fit'>
 
       <div>
         <Nav />
@@ -178,8 +178,8 @@ const Home: NextPage = () => {
         <div id="discover">
           <img src='/images/start.png' className='mx-auto w-48 h-24' />
           <div className='p-16'>
-            <h1 className='text-white text-3xl font-bold'>Turn any data into any format/presentation of your choice</h1>
-            <p className='text-white font-bold mt-5'>With our data management and visualization tool, you can easily transform your data into any presentation format of your choice, including tables, charts, graphs, maps, and text, all with just a click of a button.</p>
+            <h1 className='text-white text-sm xs:text-xl xsMD:text-3xl font-bold'>Turn any data into any format/presentation of your choice</h1>
+            <p className='text-white font-bold mt-5 text-xs xs:text-sm xxsMD:text-base'>With our data management and visualization tool, you can easily transform your data into any presentation format of your choice, including tables, charts, graphs, maps, and text, all with just a click of a button.</p>
           </div>
 
           {/* <img src="/images/sample.png" className='h-full w-full' /> */}
@@ -187,39 +187,39 @@ const Home: NextPage = () => {
         </div>
 
 
-        <div className='bg-[#fdc92f] w-full h-48 mt-24 flex flex-row p-8 items-center content-center justify-center space-x-5'>
-          <div className='flex flex-col m-4'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 text-[#7d5c00]">
+        <div className='bg-[#fdc92f] w-full h-fit mt-24 grid grid-cols-1 mini:grid-cols-5 p-8 items-center content-center justify-center space-x-5'>
+          <div className='flex flex-col m-4  items-center'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l8.735 8.735m0 0a.374.374 0 11.53.53m-.53-.53l.53.53m0 0L21 21M14.652 9.348a3.75 3.75 0 010 5.304m2.121-7.425a6.75 6.75 0 010 9.546m2.121-11.667c3.808 3.807 3.808 9.98 0 13.788m-9.546-4.242a3.733 3.733 0 01-1.06-2.122m-1.061 4.243a6.75 6.75 0 01-1.625-6.929m-.496 9.05c-3.068-3.067-3.664-7.67-1.79-11.334M12 12h.008v.008H12V12z" />
             </svg>
 
-            <h1 className='font-bold text-[#7d5c00]'>Works Offline</h1>
+            <h1 className='text-xs md:text-sm font-bold text-[#7d5c00]'>Works Offline</h1>
           </div>
           <div className='flex flex-col m-4 items-center'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 text-[#7d5c00]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <h1 className='font-bold text-[#7d5c00]'>End to End Encryption</h1>
+            <h1 className='text-xs md:text-sm font-bold text-[#7d5c00]'>End to End Encryption</h1>
           </div>
           <div className='flex flex-col m-4 items-center'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 text-[#7d5c00]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
             </svg>
-            <h1 className='font-bold text-[#7d5c00]'>Barcode/QR Code Scanner Functions</h1>
+            <h1 className='text-xs md:text-sm  font-bold text-[#7d5c00]'>Barcode/QR Code Scanner Functions</h1>
           </div>
           <div className='flex flex-col m-4 items-center'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 text-[#7d5c00]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
             </svg>
-            <h1 className='font-bold text-[#7d5c00]'>Hosted on the Cloud</h1>
+            <h1 className='text-xs md:text-sm  font-bold text-[#7d5c00]'>Hosted on the Cloud</h1>
           </div>
 
-          <div className='flex flex-col m-4'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 text-[#7d5c00]">
+          <div className='flex flex-col m-4  items-center'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
             </svg>
-            <h1 className='font-bold text-[#7d5c00]'>Mobile Application</h1>
+            <h1 className='text-xs md:text-sm  font-bold text-[#7d5c00]'>Mobile Application</h1>
           </div>
 
         </div>
@@ -251,31 +251,73 @@ const Home: NextPage = () => {
           })} />
 
         </div>
-        <div className='text-center rounded-t-[70px] bg-[#0fa991] p-16 m-auto w-full ' id="pricing">
+        <div className='text-center rounded-t-[70px] bg-[#0fa991]  p-8 xl:p-16 m-auto' id="pricing">
           <h1 className='text-3xl m-2 text-white'>Pricing</h1>
-          <div className='grid grid-cols-5 content-center place-content-center place-items-center '>
-            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
-              <h1 className='text-xl m-8'>Customer Relationship Management</h1>
-              <p>Contact management</p>
-              <p>Sales management</p>
-              <p>Customer service</p>
-              <p>Reporting and analytics</p>
-              <h1 className='text-xl m-8 line-through '>500USD</h1>
-              <p className='text-sm line-through '>50USD pm hosting</p>
-            </div>
-            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
-              <h1 className='text-xl m-8'>HR System</h1>
-              <p>Onboarding</p>
-              <p>Performance management</p>
-              <p>Time and attendance</p>
-              <p>Leave management</p>
-              <p>Training and development</p>
-              <p>Reporting and analytics</p>
-              <h1 className='text-xl m-8 line-through '>620USD</h1>
-              <p className='text-sm line-through '>25USD pm hosting</p>
+          <div className='hidden lg:block'>
+            <div className='grid grid-cols-5 content-center place-content-center place-items-center justify-center'>
+              <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col items-center w-48 2xl:w-72'>
+                <h1 className='text-xl m-8'>Customer Relationship Management</h1>
+                <p>Contact management</p>
+                <p>Sales management</p>
+                <p>Customer service</p>
+                <p>Reporting and analytics</p>
+                <h1 className='text-xl m-8 line-through '>500USD</h1>
+                <p className='text-sm line-through '>50USD pm hosting</p>
+              </div>
+              <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col items-center w-48 2xl:w-72'>
+                <h1 className='text-xl m-8'>HR System</h1>
+                <p>Onboarding</p>
+                <p>Performance management</p>
+                <p>Time and attendance</p>
+                <p>Leave management</p>
+                <p>Training and development</p>
+                <p>Reporting and analytics</p>
+                <h1 className='text-xl m-8 line-through '>620USD</h1>
+                <p className='text-sm line-through '>25USD pm hosting</p>
 
+              </div>
+              <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col items-center w-48 2xl:w-72'>
+                <h1 className='text-xl m-8'>Digital Data Tree</h1>
+                <p>Customer Relationship Management</p>
+                <p>HR System</p>
+                <p>Enteprise Resource Planning</p>
+                <p>Inventory Management</p>
+                <p>Compliance System</p>
+                <p>E-Receipting</p>
+                <p>Events Management</p>
+                <p>....and many more </p>
+                <h1>Events Management</h1>
+                <h1 className='text-xl mt-8 line-through '>2740USD</h1>
+                <h1 className='text-xl '>300USD</h1>
+                <p className='text-sm line-through '>100USD pm hosting</p>
+
+                <p className='text-sm'>25USD pm</p>
+                <p className='text-sm'>hosting</p>
+                <p className='text-sm'>24/7 support</p>
+              </div>
+              <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-48 items-center 2xl:w-72'>
+                <h1 className='text-xl m-8'>ERP</h1>
+                <p>Manage production</p>
+                <p>Accounting</p>
+                <p>Record customer interactions</p>
+                <p>Manage sales orders, quotes, and invoices</p>
+                <p>Reporting and analytics</p>
+                <h1 className='text-xl m-8 line-through '>1520USD</h1>
+                <p className='text-sm line-through '>100USD pm hosting</p>
+              </div>
+              <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col items-center w-48 2xl:w-72'>
+                <h1 className='text-xl m-8'>Inventory Management</h1>
+                <p>Item tracking</p>
+                <p>Receiving,Putaway, Picking, Shipping and Returns</p>
+                <p> Cycle counting</p>
+                <p>Reporting and analytics</p>
+                <h1 className='text-xl m-8 line-through '>1220USD</h1>
+                <p className='text-sm line-through '>100USD pm hosting</p>
+              </div>
             </div>
-            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
+          </div>
+          <div className='lg:hidden'>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-full'>
               <h1 className='text-xl m-8'>Digital Data Tree</h1>
               <p>Customer Relationship Management</p>
               <p>HR System</p>
@@ -285,7 +327,6 @@ const Home: NextPage = () => {
               <p>E-Receipting</p>
               <p>Events Management</p>
               <p>....and many more </p>
-              <h1>Events Management</h1>
               <h1 className='text-xl mt-8 line-through '>2740USD</h1>
               <h1 className='text-xl '>250USD</h1>
               <p className='text-sm line-through '>100USD pm hosting</p>
@@ -294,30 +335,12 @@ const Home: NextPage = () => {
               <p className='text-sm'>hosting</p>
               <p className='text-sm'>24/7 support</p>
             </div>
-            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
-              <h1 className='text-xl m-8'>ERP</h1>
-              <p>Manage production</p>
-              <p>Accounting</p>
-              <p>Record customer interactions</p>
-              <p>Manage sales orders, quotes, and invoices</p>
-              <p>Reporting and analytics</p>
-              <h1 className='text-xl m-8 line-through '>1220USD</h1>
-              <p className='text-sm line-through '>100USD pm hosting</p>
-            </div>
-            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-72'>
-              <h1 className='text-xl m-8'>Inventory Management</h1>
-              <p>Item tracking</p>
-              <p>Receiving,Putaway, Picking, Shipping and Returns</p>
-              <p> Cycle counting</p>
-              <p>Reporting and analytics</p>
-              <h1 className='text-xl m-8 line-through '>1220USD</h1>
-              <p className='text-sm line-through '>100USD pm hosting</p>
-            </div>
           </div>
-          <button className={`bg-[#fdc92f] rounded-[30px] p-2 m-8`}>
-            <Link className='text-xl   text-[#7d5c00] text-center p-4' href='/signup'>Get Started</Link>
+
+          <button className={`bg-[#fdc92f] rounded-[30px] p-3 m-8 text-center`}>
+            <Link className='text-xl text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>
           </button>
-          <div className='flex flex-col items-center content-center'>
+          <div className='flex flex-col items-center content-center h-fit'>
             <img src='/images/vipLogo.png' className='h-24 mt-8' />
             <p className='text-white text-xs'> a product of</p>
             <p className='text-white'>Vision Is Primary</p>

@@ -11,6 +11,7 @@ import { addAdmin } from '../app/api/adminApi';
 import { setCookie } from 'react-use-cookie';
 import { DocumentData, DocumentReference } from 'firebase/firestore';
 import { encrypt } from '../app/utils/crypto';
+import Link from 'next/link';
 
 
 
@@ -23,6 +24,9 @@ const SignUp = () => {
     const [fullName, setFullName] = useState("");
     const [organisationName, setOrganisationName] = useState("");
     const [email, setEmail] = useState("");
+    const [checked, setChecked] = useState(false);
+
+
 
 
 
@@ -78,26 +82,32 @@ const SignUp = () => {
 
 
     const signUp = () => {
-        setLoading(true);
 
-        const appVerifier = window.recaptchaVerifier;
-        signInWithPhoneNumber(auth, phone, appVerifier)
-            .then((confirmationResult) => {
-                // SMS sent. Prompt user to type the code from the message, then sign the
-                // user in with confirmationResult.confirm(code).
-                toast.success("Passcode sent")
-                setSent(true);
-                window.confirmationResult = confirmationResult;
+        if (checked) {
+            setLoading(true);
 
-                setLoading(false);
-                // ...
-            }).catch((error) => {
-                // Error; SMS not sent
-                // ...
-                console.error(error);
-                setLoading(false);
-                toast.error("There was an error please refresh the page and try again")
-            });
+            const appVerifier = window.recaptchaVerifier;
+            signInWithPhoneNumber(auth, phone, appVerifier)
+                .then((confirmationResult) => {
+                    // SMS sent. Prompt user to type the code from the message, then sign the
+                    // user in with confirmationResult.confirm(code).
+                    toast.success("Passcode sent")
+                    setSent(true);
+                    window.confirmationResult = confirmationResult;
+
+                    setLoading(false);
+                    // ...
+                }).catch((error) => {
+                    // Error; SMS not sent
+                    // ...
+                    console.error(error);
+                    setLoading(false);
+                    toast.error("There was an error please refresh the page and try again")
+                });
+        } else {
+            toast.error("It appears you are yet to agree to our Terms and Conditions")
+        }
+
 
 
     }
@@ -163,12 +173,16 @@ const SignUp = () => {
         });
     }
 
+    const handleChange = () => {
+        setChecked(!checked);
+    };
+
 
 
 
     return (
         <div className='bg-[#00947a] w-full h-full p-16 '>
-            <div className='bg-white h-full rounded-[25px] grid grid-cols-2 p-4 place-items-center'>
+            <div className='bg-white h-full rounded-[25px] grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
                 <Carousel children={shownSlides.map((v) => {
                     return (
                         slide(v.image)
@@ -354,7 +368,7 @@ const SignUp = () => {
                                         />
                                     </div>
 
-                                    <div className="mb-10">
+                                    <div className="mb-4">
                                         <input
                                             type="submit"
                                             value={"Send One Time Password"}
@@ -376,6 +390,19 @@ const SignUp = () => {
                                                 "
                                         />
                                     </div>
+                                    <div className='text-center' >
+                                        <input
+                                            onChange={handleChange}
+                                            type="checkbox"
+                                            id="terms"
+                                            name="terms"
+                                            value="terms"
+                                            className='accent-green-700 text-white bg-whites'></input>
+                                        <label htmlFor="terms"> I understand the Terms and Conditions</label><br></br>
+                                    </div>
+                                    <Link href={'/terms'}>
+                                        <p className='text-center text-xs text-gray-300 mb-4 font-bold underline'>See Terms</p>
+                                    </Link>
                                 </form>}
 
                         </>

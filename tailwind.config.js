@@ -33,7 +33,9 @@ module.exports = {
         // => @media (min-width: 760x) { ... }
 
         afterMini: "800px",
-        // => @media (min-width: 780x) { ... }
+        // => @media (min-width: 800) { ... }
+        nineSixteen: "900px",
+        // => @media (min-width: 800) { ... }
       },
     },
     clipPath: {

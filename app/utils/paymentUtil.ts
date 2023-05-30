@@ -11,42 +11,59 @@ export default class Payment {
 
     static async checkPaymentStatus(): Promise<boolean> {
 
-        const v = await getPayments(getCookie(COOKIE_ID));
+        var result = false;
 
-        var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-        if (v !== null) {
-
-            v.data.forEach(element => {
+        var infoFromCookie = getCookie(COOKIE_ID);
+        if (typeof infoFromCookie !== 'undefined') {
 
 
-                const fromDb = element.data().userId;
-                if (fromDb !== "") {
+            if (infoFromCookie.length > 0) {
 
-                    const idFromDB = decrypt(fromDb, COOKIE_ID);
-                    if (idFromDB === id) {
-                        const diff = DateMethods.diffDatesDays(element.data().date, new Date().toString());
-                        if (diff > 31) {
-                            return false;
-                        } else {
-                            return true;
+                const v = await getPayments(infoFromCookie);
+
+
+                var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+                if (v !== null) {
+
+                    v.data.forEach(element => {
+
+
+                        const fromDb = element.data().userId;
+                        if (fromDb !== "") {
+
+                            const idFromDB = decrypt(fromDb, COOKIE_ID);
+
+                            if (idFromDB === id) {
+                                const diff = DateMethods.diffDatesDays(element.data().date, new Date().toString());
+
+                                if (diff < 31) {
+
+                                    result = true;
+                                    return;
+                                }
+
+                            }
+
                         }
 
-                    }
+
+
+                    });
+
+
+
+
+
 
                 }
+            }
 
 
-
-            });
-
-
-
-            return false;
-
-
-        } else {
-            return false;
         }
+
+        return result;
+
+
 
 
 

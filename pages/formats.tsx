@@ -22,13 +22,7 @@ const Formats = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
-        const paymentStatus = Payment.checkPaymentStatus();
-        if (!paymentStatus) {
-            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
-            router.push({
-                pathname: '/payments',
-            });
-        }
+        checkPayment();
 
         return () => {
 
@@ -37,24 +31,42 @@ const Formats = () => {
     }, []);
 
 
+    const checkPayment = async () => {
+        const paymentStatus = await Payment.checkPaymentStatus();
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying Digital Data Tree');
+
+            setTimeout(() => {
+                router.push({
+                    pathname: '/payments',
+                });
+            }, 5000);
+
+        }
+    }
+
+
 
 
 
 
     return (
         <div>
-            <div className='grid grid-cols-10'>
 
+            <div className='flex flex-col lg:grid lg:grid-cols-12'>
 
-                <ClientNav organisationName={'Vision Is Primary'} url={'formats'} />
-                <div className='bg-white col-span-8 m-8 rounded-[30px]'>
-
+                <div className='lg:col-span-3'>
+                    <ClientNav organisationName={'Vision Is Primary'} url={'formats'} />
+                </div>
+                <div className='bg-white col-span-8 m-8 rounded-[30px] p-8'>
+                    <h1>Coming Soon</h1>
                 </div>
 
-
-
-
             </div>
+
+
+
+
 
             <ToastContainer
                 position="top-right"

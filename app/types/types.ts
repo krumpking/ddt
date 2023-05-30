@@ -29,7 +29,6 @@ export type IFormElement = {
 export type IPayments = {
     id: string,
     userId: string,
-    phoneNumber: string,
     date: string,
     amount: number,
     refCode: string

@@ -31,49 +31,53 @@ const DataDisplay = () => {
 
 
 
-        const paymentStatus = Payment.checkPaymentStatus();
-        if (!paymentStatus) {
-            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
-            router.push({
-                pathname: '/payments',
-            });
-        }
+        checkPayment();
 
         if (router.isReady) {
             const { id } = router.query;
 
             if (typeof id == 'string') {
-                var infoId = decrypt(id, URL_LOCK_ID);
-
-                getSpecificData(infoId).then((v) => {
-                    console.log(v);
-                    if (v != null) {
-                        var element = v.data;
 
 
-                        setData({
-                            id: element.id,
-                            title: element.data().title,
-                            descr: element.data().descr,
-                            date: element.data().date,
-                            editorId: element.data().editorId,
-                            encryption: element.data().encryption,
-                            info: element.data().info,
-                            infoId: element.data().infoId
-                        });
+                if (id.length > 0) {
+                    var infoId = decrypt(id, URL_LOCK_ID);
 
+                    getSpecificData(infoId).then((v) => {
+
+                        if (v != null) {
+                            var element = v.data;
+
+
+                            setData({
+                                id: element.id,
+                                title: element.data().title,
+                                descr: element.data().descr,
+                                date: element.data().date,
+                                editorId: element.data().editorId,
+                                encryption: element.data().encryption,
+                                info: element.data().info,
+                                infoId: element.data().infoId
+                            });
+
+                            setLoading(false);
+
+                        }
+
+
+
+
+
+                    }).catch((e: any) => {
                         setLoading(false);
+                        console.error(e);
+                    });
+                } else {
+                    toast.warn('Form Data not found');
+                    router.push({
+                        pathname: '/login',
+                    });
+                }
 
-                    }
-
-
-
-
-
-                }).catch((e: any) => {
-                    setLoading(false);
-                    console.error(e);
-                });
             }
         }
 
@@ -83,6 +87,20 @@ const DataDisplay = () => {
 
     }, [router.isReady]);
 
+    const checkPayment = async () => {
+        const paymentStatus = await Payment.checkPaymentStatus();
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying Digital Data Tree');
+
+            setTimeout(() => {
+                router.push({
+                    pathname: '/payments',
+                });
+            }, 5000);
+
+        }
+    }
+
 
 
 
@@ -90,19 +108,21 @@ const DataDisplay = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-10'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12'>
+
+                <div className='lg:col-span-3'>
+                    <ClientNav organisationName={'Vision Is Primary'} url={'data'} />
+                </div>
 
 
-                <ClientNav organisationName={'Vision Is Primary'} url={'data'} />
 
-
-                <div className='bg-white col-span-8 m-8 rounded-[30px]'>
+                <div className='bg-white lg:col-span-9 m-8 rounded-[30px]'>
 
                     {loading ?
                         <div className='flex flex-col justify-center items-center w-full col-span-8'>
                             <Loader />
                         </div> :
-                        <div className='p-16 rounded-md'>
+                        <div className='p-4 lg:p-8 2xl:p-16 rounded-md'>
                             <div className="overflow-x-auto ">
                                 <table className="w-full p-2 m-1 rounded-md border-2">
                                     <thead className='bg-[#00947a] text-white font-bold'>

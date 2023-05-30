@@ -48,7 +48,7 @@ const FormElement: FC<MyProps> = ({ addElement, duplicateElement, deleteElement,
         >
 
             {clicked === form.id ?
-                <div className='grid grid-cols-12 w-3/4 gap-4'>
+                <div className='grid grid-cols-12 w-11/12 gap-4'>
                     <div className='col-span-10 flex flex-row w-full shadow-md'>
                         <div className='bg-[#00947a] rounded-l-[30px] w-2'>
 
@@ -178,7 +178,7 @@ const FormElement: FC<MyProps> = ({ addElement, duplicateElement, deleteElement,
 
                     </div>
                 </div> :
-                <div className='flex flex-col space-y-4  bg-white shadow-2xl rounded-[10px] w-3/4 p-8'
+                <div className='flex flex-col space-y-4  bg-white shadow-2xl rounded-[10px] w-11/12 p-8'
                     onClick={() => {
                         setClicked(form.id);
                     }}

@@ -9,7 +9,7 @@ import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import PaypalCheckoutButton from '../app/components/paypalButton';
 import { IPayments } from '../app/types/types';
 import ReactPaginate from 'react-paginate';
-import { addPayment, getPayments } from '../app/api/adminApi';
+import { addPayment, getPayments, getPromo } from '../app/api/adminApi';
 import { getCookie } from 'react-use-cookie';
 import DateMethods from '../app/utils/date';
 import Random from '../app/utils/random';
@@ -41,68 +41,89 @@ const Payments = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        var id = "";
-        if (getCookie(COOKIE_ID) !== "") {
-            id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-            setUserId(id);
-        }
 
 
-        getPayments(getCookie(COOKIE_ID)).then((v) => {
+        var infoFormCookie = getCookie(COOKIE_ID);
+        if (typeof infoFormCookie !== 'undefined') {
 
-            if (v !== null) {
 
-                v.data.forEach(element => {
-                    const fromDb = element.data().userId;
-                    if (fromDb !== "") {
-                        console.log(fromDb);
-                        const idFromDB = decrypt(fromDb, COOKIE_ID);
-                        if (idFromDB === id) {
-                            setPayments((prevPayments) => [...prevPayments, {
-                                id: element.id,
-                                userId: element.data().userId,
-                                phoneNumber: element.data().phoneNumber,
-                                date: element.data().date,
-                                amount: element.data().amount,
-                                refCode: element.data().refCode
-                            }]);
+            if (infoFormCookie.length > 0) {
+                const id = decrypt(infoFormCookie, COOKIE_ID);
+                setUserId(id);
+
+                getPayments(id).then((v) => {
+
+                    if (v !== null) {
+
+                        v.data.forEach(element => {
+                            const fromDb = element.data().userId;
+                            if (fromDb !== "") {
+
+                                const idFromDB = decrypt(fromDb, COOKIE_ID);
+                                if (idFromDB === id) {
+
+
+                                    setPayments((prevPayments) => [...prevPayments, {
+                                        id: element.id,
+                                        userId: element.data().userId,
+                                        date: element.data().date,
+                                        amount: element.data().amount,
+                                        refCode: element.data().refCode
+                                    }]);
+                                }
+
+                            }
+
+
+
+                        });
+                        if (payments.length > 0) {
+                            setProduct({
+                                description: "DaCollectree hosting, security and backup fee",
+                                price: 20
+                            });
+                            setLastPaymentDate("Upcoming");
+
                         }
 
+                        var d = new Date(payments[0].date);
+                        setLastPaymentDate(`${d.getDate()} ${DateMethods.showMonth(d.getMonth() + 1)} ${d.getFullYear()}`);
+                        var nextDate = new Date(new Date().setDate(d.getDate() + 30));
+                        setNextPaymentDate(`${nextDate.getDate()} ${DateMethods.showMonth(nextDate.getMonth() + 1)} ${nextDate.getFullYear()}`);
+
+
+
+
                     }
+                    setLastPaymentDate('No Payment made');
 
+                    setLoading(false);
 
-
+                }).catch((err) => {
+                    console.error(err);
+                    setLoading(false);
                 });
-                if (payments.length > 0) {
-                    setProduct({
-                        description: "DaCollectree hosting, security and backup fee",
-                        price: 20
-                    });
-                    setLastPaymentDate("Upcoming");
 
+                var numOfPages = Math.floor(payments.length / 10);
+                if (payments.length % 10 > 0) {
+                    numOfPages++;
                 }
+                const pags = Array.from(Array(numOfPages).keys());
+                setPages(pags.length);
 
-                var d = new Date(payments[0].date);
-                setLastPaymentDate(`${d.getDate()} ${DateMethods.showMonth(d.getMonth() + 1)} ${d.getFullYear()}`);
-                var nextDate = new Date(new Date().setDate(d.getDate() + 30));
-                setNextPaymentDate(`${nextDate.getDate()} ${DateMethods.showMonth(nextDate.getMonth() + 1)} ${nextDate.getFullYear()}`);
-
-
-
-
+            } else {
+                router.push({
+                    pathname: '/login',
+                });
             }
-            setLastPaymentDate('No Payment made');
 
-            setLoading(false);
 
-        }).catch(console.error);
-
-        var numOfPages = Math.floor(payments.length / 10);
-        if (payments.length % 10 > 0) {
-            numOfPages++;
+        } else {
+            router.push({
+                pathname: '/login',
+            });
         }
-        const pags = Array.from(Array(numOfPages).keys());
-        setPages(pags.length);
+
 
 
 
@@ -124,35 +145,48 @@ const Payments = () => {
         }
     };
 
-    const checkPromoCode = () => {
-        if (promoCode == "1073Love") {
+    const checkPromoCode = async () => {
 
-            const key = userId.substring(-13);
-            const payment = {
-                id: Random.randomString(13, "abcdefghijkhlmnopqrstuvwxz123456789"),
-                userId: getCookie(COOKIE_ID),
-                phoneNumber: decrypt(getCookie(COOKIE_PHONE), COOKIE_ID),
-                date: new Date().toString(),
-                amount: product.amount,
-                refCode: ""
+
+        getPromo(promoCode).then((value) => {
+
+            if (value) {
+                toast.success('Promo code accepted');
+
+                const payment = {
+                    id: Random.randomString(13, "abcdefghijkhlmnopqrstuvwxz123456789"),
+                    userId: getCookie(COOKIE_ID),
+                    date: new Date().toString(),
+                    amount: 0,
+                    refCode: ""
+                }
+
+                addPayment(payment).then((v) => {
+
+                }).catch((er) => {
+                    console.error(er);
+                });
+            } else {
+                toast.warn('Your Promo code was not accepted, please check and try again, or contact support');
             }
+            setLoading(false);
+        }).catch((er) => {
+            console.error(er);
+            setLoading(false);
+        });
 
-            addPayment(userId, payment).then((v) => {
-                toast.success('Promo successfully added');
-            }).catch((e) => {
-                toast.error('There was an error adding your payment, please try again');
 
-            });
-        }
     }
 
     return (
         <div>
-            <div className='grid grid-cols-10'>
 
+            <div className='flex flex-col lg:grid lg:grid-cols-12'>
 
-                <ClientNav organisationName={'Vision Is Primary'} url={'payments'} />
-                <div className='col-span-8 m-8  grid grid-cols-2 gap-4'>
+                <div className='lg:col-span-3'>
+                    <ClientNav organisationName={'Vision Is Primary'} url={'payments'} />
+                </div>
+                <div className='col-span-9 m-8  lg:grid grid-cols-1 lg:grid-cols-2 gap-4'>
 
 
                     {loading ?
@@ -167,14 +201,12 @@ const Payments = () => {
                                 <div className='flex flex-col justify-center items-center w-full bg-white rounded-[30px] h-84 p-4'>
                                     <input
                                         type="text"
-                                        value={sent ? accessCode : phone}
+                                        value={accessCode}
                                         placeholder={"Refferial Code(If Available)"}
                                         onChange={(e) => {
-                                            if (sent) {
-                                                setAccessCode(e.target.value);
-                                            } else {
-                                                setPhone(e.target.value)
-                                            }
+
+                                            setAccessCode(e.target.value);
+
 
                                         }}
                                         className="
@@ -202,14 +234,11 @@ const Payments = () => {
                                     <h1 className='col-span-3 m-4'>or</h1>
                                     <input
                                         type="text"
-                                        value={sent ? accessCode : phone}
+                                        value={promoCode}
                                         placeholder={"Promo Code"}
                                         onChange={(e) => {
-                                            if (sent) {
-                                                setAccessCode(e.target.value);
-                                            } else {
-                                                setPhone(e.target.value)
-                                            }
+
+                                            setPromoCode(e.target.value);
 
                                         }}
                                         className="
@@ -232,7 +261,9 @@ const Payments = () => {
                                     />
                                     <button
                                         onClick={() => {
+                                            setLoading(true);
                                             checkPromoCode();
+
                                         }}
                                         className="
                                     font-bold
@@ -254,14 +285,14 @@ const Payments = () => {
                                     </button>
 
                                 </div>
-                                <div className='bg-[#00947a] p-4 h-64 rounded-[30px]'>
+                                <div className='bg-[#00947a] p-5 h-64 rounded-[30px]'>
                                     <h1 className='text-white'>Last payment date: {lastPaymentDate} </h1>
                                     <h1 className='text-white'>Next payment date: {nextPaymentDate} </h1>
                                     <div className='h-3'>
 
                                     </div>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor"
-                                        className="col-span-1 w-48 h-48 text-white justify-self-center">
+                                        className="col-span-1 w-48 h-48 text-white justify-self-center mb-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                                     </svg>
                                 </div>
@@ -303,9 +334,6 @@ const Payments = () => {
 
                                                                 <div className="font-medium text-gray-800">Download Invoice</div>
                                                             </button>
-                                                        </td>
-                                                        <td className="p-2 whitespace-nowrap">
-                                                            <p className="text-left text-sm">{v.phoneNumber}</p>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <p className="text-left font-medium ">{v.date}</p>
@@ -353,13 +381,16 @@ const Payments = () => {
 
 
                 </div>
-
             </div>
+
+
+
+
 
             <ToastContainer
                 position="top-right"
                 autoClose={5000} />
-        </div>
+        </div >
 
     )
 };

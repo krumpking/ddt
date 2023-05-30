@@ -20,12 +20,13 @@ const Home = () => {
     const [phone, setPhone] = useState("");
     const [accessCode, setAccessCode] = useState("");
     const [sent, setSent] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [previousForms, setPreviousForms] = useState<IForm[]>([]);
     const [numberOfForms, setNumberOfForms] = useState(0);
     const [numberOfDevices, setNumberOfDevices] = useState<any>([]);
     const [diskSpaceUsed, setDiskSpaceUsed] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
 
 
 
@@ -33,51 +34,96 @@ const Home = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
-        const paymentStatus = Payment.checkPaymentStatus();
-        if (!paymentStatus) {
-            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
-            router.push({
-                pathname: '/payments',
-            });
+        // setPreviousForms([
+        //     {
+        //         id: "element.id",
+        //         title: " element.data().title",
+        //         description: 'element.data().description',
+        //         elements: [{
+        //             id: "string",
+        //             elementId: 5,
+        //             label: "string",
+        //             arg1: "any",
+        //             arg2: "any",
+        //             arg3: "any"
+        //         }],
+        //         dateCreated: "element.data().dateCreated",
+        //         creatorId: "id",
+        //         editorNumbers: [" element.data().editorNumbers"]
+        //     }
+        // ])
+
+        checkPayment()
+
+
+
+        var infoFormCookie = getCookie(COOKIE_ID);
+        if (typeof infoFormCookie !== 'undefined') {
+
+
+            if (infoFormCookie.length > 0) {
+                const id = decrypt(infoFormCookie, COOKIE_ID);
+
+
+                getForms(id).then((v) => {
+                    if (v !== null) {
+                        v.data.forEach(element => {
+                            setPreviousForms((prevForms) => [...prevForms, {
+                                id: element.id,
+                                title: element.data().title,
+                                description: element.data().description,
+                                elements: element.data().elements,
+                                dateCreated: element.data().dateCreated,
+                                creatorId: id,
+                                editorNumbers: element.data().editorNumbers
+                            }]);
+
+                            element.data().editorNumbers.forEach((elem: any) => {
+                                setNumberOfDevices((prevNum: any) => [...prevNum, elem]);
+                            });
+
+
+
+
+
+                        });
+                        setLoading(false);
+                        setNumberOfForms(v.count);
+
+
+                    }
+                }).catch((e) => {
+                    toast.error('There was an error getting the')
+                })
+            } else {
+                router.push({
+                    pathname: '/login',
+                });
+            }
+
         }
 
-        const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
 
-        getForms(id).then((v) => {
-            if (v !== null) {
-                v.data.forEach(element => {
-                    setPreviousForms((prevForms) => [...prevForms, {
-                        id: element.id,
-                        title: element.data().title,
-                        description: element.data().description,
-                        elements: element.data().elements,
-                        dateCreated: element.data().dateCreated,
-                        creatorId: id,
-                        editorNumbers: element.data().editorNumbers
-                    }]);
-
-                    element.data().editorNumbers.forEach((elem: any) => {
-                        setNumberOfDevices((prevNum: any) => [...prevNum, elem]);
-                    });
-
-
-
-
-
-                });
-                setLoading(false);
-                setNumberOfForms(v.count);
-
-
-            }
-        }).catch((e) => {
-            toast.error('There was an error getting the')
-        })
 
 
 
     }, []);
+
+    const checkPayment = async () => {
+        const paymentStatus = await Payment.checkPaymentStatus();
+
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying Digital Data Tree');
+
+            setTimeout(() => {
+                router.push({
+                    pathname: '/payments',
+                });
+            }, 5000);
+
+        }
+    }
 
 
 
@@ -86,21 +132,24 @@ const Home = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-10'>
 
+            <div className='flex flex-col lg:grid lg:grid-cols-12 '>
 
-                <ClientNav organisationName={'Vision Is Primary'} url={'home'} />
+                <div className='lg:col-span-3'>
+                    <ClientNav organisationName={'Vision Is Primary'} url={'home'} />
+                </div>
+
 
                 {loading ?
-                    <div className='flex flex-col justify-center items-center w-full col-span-8'>
+                    <div className='flex flex-col justify-center items-center w-full col-span-9'>
                         <Loader />
                     </div>
 
                     :
-                    <div className='bg-white col-span-8 m-8 rounded-[30px] flex flex-col p-8'>
-                        <div className='grid grid-cols-5 gap-2 p-4'>
+                    <div className='bg-white col-span-8 my-8 rounded-[30px] flex flex-col p-8'>
+                        <div className='grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-5 gap-8 p-4 justify-items-center'>
                             {/* Previous Forms  */}
-                            <a href={'/createform'}>
+                            <a href={'/createForm'}>
                                 <div className='flex flex-col items-center shadow-2xl rounded-[30px] h-32 w-48 border p-4 text-[#00947a]'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 m-auto ">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -125,7 +174,7 @@ const Home = () => {
 
                         </div>
 
-                        <div className='grid grid-cols-5 gap-8 p-4'>
+                        <div className='grid grid-cols-1  md:grid-cols-3 2xl:grid-cols-5 gap-8 p-4 justify-items-center'>
                             {/* Templates */}
 
                             {TEMPLATES.map((v) => (
@@ -142,7 +191,7 @@ const Home = () => {
 
 
                         </div>
-                        <div className='grid grid-cols-5 gap-4'>
+                        <div className='grid grid-cols-1 2xl:grid-cols-5 gap-4'>
                             {/* Data Summary */}
                             <div className='col-span-2 flex flex-col space-y-4'>
                                 <DataSummary description={'Number of Forms created'} num={numberOfForms} />
@@ -175,6 +224,8 @@ const Home = () => {
 
 
             </div>
+
+
 
             <ToastContainer
                 position="top-right"

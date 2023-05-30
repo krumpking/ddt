@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FC } from 'react';
 import { FIFTH_COLOR } from '../constants/constants';
+import { Transition } from '@headlessui/react';
 
 
 
@@ -40,37 +41,123 @@ const Nav = () => {
         },
     ]);
     const [res, setRes] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
 
-        // let encrypt = Crypto.simpleEncrypt('I love the Lord Jesus', 'my 32 length key................');
-        // console.log(encrypt);
-        // const res = Crypto.simpleDecrypt('·î£ÓØÜáØÙÌ£', 'my 32 length key................');
-        // console.log(res);
-
-    }, [])
 
 
     return (
-        <div className="flex justify-between items-center text-white p-4 m-8">
-            <div>
-                <h1 className='text-3xl font-bold px-4'>Digital Data Tree</h1>
-            </div>
-            <div className='flex flex-row space-x-4 px-20'>
-                {navItems.map((v, index) => {
-                    if (index === 5 || index === 6) {
-                        return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
-                            <a className='text-xl text-[#7d5c00] text-center p-4' href={v.url}>{v.name}</a>
-                        </div>)
-                    } else {
-                        return (<a className='text-xl  p-2' href={v.url}>{v.name}</a>)
-                    }
-                })}
+
+        <nav className="bg-[#00947a]" >
+            <div className=" mx-auto px-4 sm:px-6 lg:px-8 justify-center content-center  items-center">
+                <div className="hidden nineSixteen:block">
+                    <div className="flex items-center justify-between m-4 content-center">
+                        <div className="flex-shrink-0">
+                            <h1 className='text-white lg:text-xl'> Digital Data Tree</h1>
+                        </div>
+
+                        <div className="flex items-baseline flex-row justify-end space-x-4 ">
+                            {navItems.map((v, index) => {
+                                if (index === 5 || index === 6) {
+                                    return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
+                                        <a className='md:text-xs 2xl:text-xl text-[#7d5c00] text-center  p-1 lg:p-4' href={v.url}>{v.name}</a>
+                                    </div>)
+                                } else {
+                                    return (<a className=' text-white space-x-1 md:text-xs 2xl:text-xl  p-2' href={v.url}>{v.name}</a>)
+                                }
+                            })}
+                        </div>
+
+                    </div>
+                </div>
+                <div className='nineSixteen:hidden'>
+
+                    <div className='flex items-center justify-between m-4'>
+                        <div className="flex-shrink-0">
+                            <h1 className='text-white text-xl'> Digital Data Tree</h1>
+                        </div>
+                        <div className="-mr-2 flex ">
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                type="button"
+                                className="bg-[#fdc92f] inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                aria-controls="mobile-menu"
+                                aria-expanded="false"
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                {!isOpen ? (
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
 
 
             </div>
 
-        </div>
+            <Transition
+                show={isOpen}
+                enter="transition ease-out duration-100 transform"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="transition ease-in duration-75 transform"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+            >
+                {(ref) => (
+                    <div className="nineSixteen:hidden" id="mobile-menu">
+                        <div ref={ref} className="flex flex-col px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg rounded-lg m-4">
+                            {navItems.map((v, index) => {
+                                if (index === 5 || index === 6) {
+                                    return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
+                                        <a className='smXS:text-xs md:text-sm afterMini:text-xs xl:text-xl text-[#7d5c00] text-center p-4' href={v.url}>{v.name}</a>
+                                    </div>)
+                                } else {
+                                    return (<a className='text-white space-x-1 smXS:text-xs md:text-sm afterMini:text-xs   xl:text-xl  p-2' href={v.url}>{v.name}</a>)
+                                }
+                            })}
+                        </div>
+                    </div>
+                )}
+            </Transition>
+        </nav >
+
+
+
+
+
     )
 };
 

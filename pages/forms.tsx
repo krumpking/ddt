@@ -30,50 +30,75 @@ const Forms = () => {
 
         setPreviousForms([]);
 
-        const paymentStatus = Payment.checkPaymentStatus();
-        if (!paymentStatus) {
-            toast.warn('It appears your payment is due, please pay up to continue enjoying DaCollectree');
+        checkPayment();
+
+        var infoFormCookie = getCookie(COOKIE_ID);
+        if (typeof infoFormCookie !== 'undefined') {
+
+
+            if (infoFormCookie.length > 0) {
+                const id = decrypt(infoFormCookie, COOKIE_ID);
+
+                getForms(id).then((v) => {
+                    if (v !== null) {
+                        v.data.forEach(element => {
+                            setPreviousForms((prevForms) => [...prevForms, {
+                                id: element.id,
+                                title: element.data().title,
+                                description: element.data().description,
+                                elements: element.data().elements,
+                                dateCreated: element.data().dateCreated,
+                                creatorId: id,
+                                editorNumbers: element.data().editorNumbers
+                            }]);
+
+
+
+
+
+
+
+                        });
+                        setLoading(false);
+
+
+                    }
+                }).catch((e) => {
+                    toast.error('There was an error getting the')
+                })
+
+            } else {
+                router.push({
+                    pathname: '/login',
+                });
+            }
+
+
+        } else {
             router.push({
-                pathname: '/payments',
+                pathname: '/login',
             });
         }
-
-        const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-
-
-        getForms(id).then((v) => {
-            if (v !== null) {
-                v.data.forEach(element => {
-                    setPreviousForms((prevForms) => [...prevForms, {
-                        id: element.id,
-                        title: element.data().title,
-                        description: element.data().description,
-                        elements: element.data().elements,
-                        dateCreated: element.data().dateCreated,
-                        creatorId: id,
-                        editorNumbers: element.data().editorNumbers
-                    }]);
-
-
-
-
-
-
-
-                });
-                setLoading(false);
-
-
-            }
-        }).catch((e) => {
-            toast.error('There was an error getting the')
-        })
 
 
 
 
 
     }, []);
+
+    const checkPayment = async () => {
+        const paymentStatus = await Payment.checkPaymentStatus();
+        if (!paymentStatus) {
+            toast.warn('It appears your payment is due, please pay up to continue enjoying Digital Data Tree');
+
+            setTimeout(() => {
+                router.push({
+                    pathname: '/payments',
+                });
+            }, 5000);
+
+        }
+    }
 
 
 
@@ -82,10 +107,13 @@ const Forms = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-10'>
 
+            <div className='flex flex-col lg:grid lg:grid-cols-12'>
 
-                <ClientNav organisationName={'Vision Is Primary'} url={'forms'} />
+                <div className='lg:col-span-3'>
+                    <ClientNav organisationName={'Vision Is Primary'} url={'forms'} />
+                </div>
+
 
 
                 {loading ?
@@ -94,10 +122,10 @@ const Forms = () => {
                     </div>
 
                     :
-                    <div className='bg-white col-span-8 m-8 rounded-[30px]'>
-                        <div className='grid grid-cols-5 gap-2 p-4'>
+                    <div className='bg-white col-span-9 m-8 rounded-[30px]'>
+                        <div className=' grid grid-cols-1 smXS:grid-cols-2 md:grid-cols-3  2xl:grid-cols-5 gap-4 p-4 justify-items-center'>
                             {/* Previous Forms  */}
-                            <a href={'/createform'}>
+                            <a href={'/createForm'}>
                                 <div className='flex flex-col items-center shadow-2xl rounded-[30px] h-32 w-48 border p-4 text-[#00947a]'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-32 h-32 m-auto ">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -117,6 +145,10 @@ const Forms = () => {
 
 
             </div>
+
+
+
+
 
             <ToastContainer
                 position="top-right"

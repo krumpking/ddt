@@ -16,11 +16,19 @@
         "destination": "/display/[id].html"
       },
       {
+        "source": "/terms",
+        "destination": "/terms.html"
+      },
+      {
+        "source": "/privacyPolicy",
+        "destination": "/privacyPolicy.html"
+      },
+      {
         "source": "/login",
         "destination": "/login.html"
       },
       {
-        "source": "/createForm",
+        "source": "/createform",
         "destination": "/createForm.html"
       },
       {

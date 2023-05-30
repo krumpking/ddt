@@ -1,8 +1,11 @@
-import { addDoc, collection, getCountFromServer, getDoc, getDocs, query, where } from "firebase/firestore";
-import { ADMINS_DB_REF, ADMINS_PAYMENTS_REF } from "../constants/constants";
+import { addDoc, collection, getCountFromServer, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { ADMINS_DB_REF, ADMINS_PAYMENTS_REF, COOKIE_ID, COOKIE_PHONE } from "../constants/constants";
 import { IAdmin, IForm, IPayments } from "../types/types";
 import { writeBatch, doc } from "firebase/firestore";
 import { firestore } from "../../firebase/clientApp";
+import Random from "../utils/random";
+import { getCookie } from "react-use-cookie";
+import { decrypt } from "../utils/crypto";
 
 
 
@@ -82,9 +85,10 @@ export const addForm = async (id: string, form: IForm) => {
 }
 
 
-export const addPayment = async (id: string, payment: IPayments) => {
+export const addPayment = async (payment: IPayments) => {
 
     // Create a query against the collection.
+
 
     return await addDoc(ADMINS_PAYMENTS_REF, payment);
 
@@ -96,7 +100,9 @@ export const getPayments = async (id: string) => {
     // Create a query against the collection.
     const q = query(collection(firestore, "payments"), where("userId", "==", id));
     const snapshot = await getCountFromServer(q);
+
     if (snapshot.data().count > 0) {
+
         const querySnapshot = await getDocs(q);
         return {
             count: snapshot.data().count,
@@ -149,6 +155,31 @@ export const getSpecificData = async (id: string) => {
     } else {
         return null;
     }
+}
+
+
+export const getPromo = async (code: string) => {
+
+    // Create a query against the collection.
+    const q = query(collection(firestore, "promo"), where("code", "==", code), where("used", "==", false));
+    const snapshot = await getCountFromServer(q);
+    if (snapshot.data().count > 0) {
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async element => {
+            console.log(element);
+            await updateDoc(doc(firestore, "promo", element.id), {
+                used: true
+            });
+        });
+
+
+
+        return true;
+    } else {
+        return false;
+    }
+
+
 }
 
 
