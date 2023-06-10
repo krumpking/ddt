@@ -46,6 +46,20 @@ export type IData = {
 }
 
 
+export type IAffiliate = {
+    id: string,
+    name: string,
+    phoneNumber: string,
+    createdDate: string,
+    email: string
+}
+
+export interface IDynamicObject {
+    [key: string]: any;
+}
+
+
+
 export interface DateTime {
     // Required fields
     readonly timestamp: number | undefined;

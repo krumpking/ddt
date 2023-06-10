@@ -32,6 +32,10 @@ const Nav = () => {
             url: '#pricing',
         },
         {
+            name: 'Become an Affiliate',
+            url: '#affiliate',
+        },
+        {
             name: 'Sign Up',
             url: '/signup',
         },
@@ -46,19 +50,24 @@ const Nav = () => {
 
 
 
-    return (
 
+
+
+
+
+
+    return (
         <nav className="bg-[#00947a]" >
             <div className=" mx-auto px-4 sm:px-6 lg:px-8 justify-center content-center  items-center">
                 <div className="hidden nineSixteen:block">
-                    <div className="flex items-center justify-between m-4 content-center">
+                    <div className="flex items-center justify-between p-4 content-center">
                         <div className="flex-shrink-0">
                             <h1 className='text-white lg:text-xl'> Digital Data Tree</h1>
                         </div>
 
                         <div className="flex items-baseline flex-row justify-end space-x-4 ">
                             {navItems.map((v, index) => {
-                                if (index === 5 || index === 6) {
+                                if (index === 5 || index === 6 || index == 7) {
                                     return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
                                         <a className='md:text-xs 2xl:text-xl text-[#7d5c00] text-center  p-1 lg:p-4' href={v.url}>{v.name}</a>
                                     </div>)
@@ -72,7 +81,7 @@ const Nav = () => {
                 </div>
                 <div className='nineSixteen:hidden'>
 
-                    <div className='flex items-center justify-between m-4'>
+                    <div className='flex items-center justify-between p-4'>
                         <div className="flex-shrink-0">
                             <h1 className='text-white text-xl'> Digital Data Tree</h1>
                         </div>
@@ -138,9 +147,9 @@ const Nav = () => {
             >
                 {(ref) => (
                     <div className="nineSixteen:hidden" id="mobile-menu">
-                        <div ref={ref} className="flex flex-col px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg rounded-lg m-4">
+                        <div ref={ref} className="flex flex-col px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg rounded-lg p-4">
                             {navItems.map((v, index) => {
-                                if (index === 5 || index === 6) {
+                                if (index === 5 || index === 6 || index === 7) {
                                     return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
                                         <a className='smXS:text-xs md:text-sm afterMini:text-xs xl:text-xl text-[#7d5c00] text-center p-4' href={v.url}>{v.name}</a>
                                     </div>)

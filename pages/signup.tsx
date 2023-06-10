@@ -12,7 +12,7 @@ import { setCookie } from 'react-use-cookie';
 import { DocumentData, DocumentReference } from 'firebase/firestore';
 import { encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
-
+import ReactGA from 'react-ga';
 
 
 const SignUp = () => {
@@ -33,6 +33,8 @@ const SignUp = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
         auth.languageCode = 'en';
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
             'size': 'visible',
@@ -181,13 +183,18 @@ const SignUp = () => {
 
 
     return (
-        <div className='bg-[#00947a] w-full h-full p-16 '>
+        <div className='bg-[#00947a] w-full h-full p-4 md:p-8 lg:p-16 '>
             <div className='bg-white h-full rounded-[25px] grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
-                <Carousel children={shownSlides.map((v) => {
-                    return (
-                        slide(v.image)
-                    )
-                })} />
+
+                <div className='hidden lg:block'>
+                    <Carousel children={shownSlides.map((v) => {
+                        return (
+                            slide(v.image)
+                        )
+                    })} />
+
+                </div>
+
                 <div className=''>
                     {loading ?
                         <Loader />

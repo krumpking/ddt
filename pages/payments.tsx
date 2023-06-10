@@ -14,13 +14,13 @@ import { getCookie } from 'react-use-cookie';
 import DateMethods from '../app/utils/date';
 import Random from '../app/utils/random';
 import { decrypt } from '../app/utils/crypto';
-
+import ReactGA from 'react-ga';
 
 
 
 const Payments = () => {
     const [phone, setPhone] = useState("");
-    const [accessCode, setAccessCode] = useState("");
+    const [accessCode, setAccessCode] = useState(0);
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
@@ -31,7 +31,7 @@ const Payments = () => {
     const [paymentsEnd, setPaymentEnd] = useState(10);
     const [product, setProduct] = useState<any>({
         description: "Purchase DaCollectree",
-        price: 1
+        price: 300
     });
     const [lastPaymentDate, setLastPaymentDate] = useState("");
     const [nextPaymentDate, setNextPaymentDate] = useState("");
@@ -41,7 +41,8 @@ const Payments = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
 
         var infoFormCookie = getCookie(COOKIE_ID);
         if (typeof infoFormCookie !== 'undefined') {
@@ -152,10 +153,10 @@ const Payments = () => {
 
             if (value) {
                 toast.success('Promo code accepted');
-
+                const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
                 const payment = {
                     id: Random.randomString(13, "abcdefghijkhlmnopqrstuvwxz123456789"),
-                    userId: getCookie(COOKIE_ID),
+                    userId: id,
                     date: new Date().toString(),
                     amount: 0,
                     refCode: ""
@@ -200,12 +201,12 @@ const Payments = () => {
                             <div className='flex flex-col  w-full col-span-1  space-y-4'>
                                 <div className='flex flex-col justify-center items-center w-full bg-white rounded-[30px] h-84 p-4'>
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={accessCode}
                                         placeholder={"Refferial Code(If Available)"}
                                         onChange={(e) => {
 
-                                            setAccessCode(e.target.value);
+                                            setAccessCode(parseInt(e.target.value));
 
 
                                         }}
@@ -230,7 +231,7 @@ const Payments = () => {
                                     <h1 className='col-span-3 m-4'>Make Payment</h1>
                                     {isPending ?
                                         <Loader />
-                                        : <PaypalCheckoutButton product={product} />}
+                                        : <PaypalCheckoutButton affNo={accessCode} />}
                                     <h1 className='col-span-3 m-4'>or</h1>
                                     <input
                                         type="text"
@@ -276,7 +277,7 @@ const Payments = () => {
                                         px-5
                                         bg-[#fdc92f]
                                         text-base 
-                                        text-white
+                                        text-[#7d5c00]
                                         cursor-pointer
                                         hover:bg-opacity-90
                                         transition

@@ -7,12 +7,12 @@ const data = [
     {
         id: 0,
         title: "First title",
-        image: '/images/ex1.jpg'
+        image: '/images/paper_to_digital.png'
     },
     {
         id: 1,
         title: "Second title",
-        image: '/images/ex2.jpg'
+        image: '/images/capabilities.png'
     },
     {
         id: 2,
@@ -29,6 +29,16 @@ const data = [
         id: 4,
         title: "Second title",
         image: '/images/ex6.png'
+    },
+    {
+        id: 5,
+        title: "First title",
+        image: '/images/ex1.jpg'
+    },
+    {
+        id: 6,
+        title: "Second title",
+        image: '/images/ex2.jpg'
     },
 ];
 

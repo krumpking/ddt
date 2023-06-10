@@ -10,6 +10,7 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
+    "@analytics/google-analytics": "^1.0.7",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@headlessui/react": "^1.7.3",
@@ -17,6 +18,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@richmonkeys/aes-256-gcm": "^1.1.2",
     "@types/lodash": "^4.14.187",
+    "analytics": "^0.8.7",
     "autoprefixer": "^10.4.12",
     "axios": "^1.2.0",
     "crypto": "^1.0.1",
@@ -32,7 +34,9 @@
     "react-canvas-draw": "^1.2.1",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-ga": "^3.3.1",
     "react-image-crop": "^10.0.8",
+    "react-lazyload": "^3.2.0",
     "react-loader-spinner": "^5.3.4",
     "react-paginate": "^8.2.0",
     "react-paypal-button-v2": "^2.6.3",
@@ -45,7 +49,9 @@
     "react-tooltip": "^4.5.0",
     "react-use-cookie": "^1.4.0",
     "styled-components": "^5.3.6",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "universal-analytics": "^0.5.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
@@ -55,6 +61,7 @@
     "@types/react": "18.0.21",
     "@types/react-canvas-draw": "^1.2.0",
     "@types/react-dom": "18.0.6",
+    "@types/react-lazyload": "^3.2.0",
     "@types/react-masonry-layout": "^0.4.2",
     "@types/react-redux": "^7.1.24",
     "@types/react-table": "^7.7.14",

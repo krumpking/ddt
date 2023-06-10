@@ -6,11 +6,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
 import Payment from '../app/utils/paymentUtil';
-import { decrypt } from '../app/utils/crypto';
+import { decrypt, encrypt } from '../app/utils/crypto';
 import { getCookie } from 'react-use-cookie';
 import { getForms } from '../app/api/adminApi';
 import { IForm } from '../app/types/types';
 import FormSummary from '../app/components/formSummary';
+import ReactGA from 'react-ga';
+import { searchStringInMembers } from '../app/utils/stringM';
+import { print } from '../app/utils/console';
 
 
 
@@ -21,13 +24,16 @@ const Forms = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [previousForms, setPreviousForms] = useState<IForm[]>([]);
+    const [formsSearch, setFormsSearch] = useState("");
+    const [temp, setTemp] = useState<IForm[]>([]);
 
 
 
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
         setPreviousForms([]);
 
         checkPayment();
@@ -43,6 +49,16 @@ const Forms = () => {
                     if (v !== null) {
                         v.data.forEach(element => {
                             setPreviousForms((prevForms) => [...prevForms, {
+                                id: element.id,
+                                title: element.data().title,
+                                description: element.data().description,
+                                elements: element.data().elements,
+                                dateCreated: element.data().dateCreated,
+                                creatorId: id,
+                                editorNumbers: element.data().editorNumbers
+                            }]);
+
+                            setTemp((prevForms) => [...prevForms, {
                                 id: element.id,
                                 title: element.data().title,
                                 description: element.data().description,
@@ -100,6 +116,46 @@ const Forms = () => {
         }
     }
 
+    const handleKeyDown = (event: { key: string; }) => {
+
+        if (event.key === 'Enter') {
+            setLoading(true);
+            if (formsSearch !== '') {
+
+
+                let res: IForm[] = searchStringInMembers(temp, formsSearch);
+                setTemp([]);
+                print(res);
+                if (res.length > 0) {
+
+                    setTimeout(() => {
+                        setTemp(res);
+                        setLoading(false);
+                    }, 1500);
+                } else {
+                    toast.info(`${formsSearch} not found`);
+                    setTimeout(() => {
+                        setTemp(previousForms);
+                        setLoading(false);
+                    }, 1500);
+                }
+
+
+
+            } else {
+                setTemp([]);
+                setTimeout(() => {
+                    setTemp(previousForms);
+                    setLoading(false);
+                }, 1500);
+
+            }
+
+
+
+        }
+    };
+
 
 
 
@@ -122,8 +178,36 @@ const Forms = () => {
                     </div>
 
                     :
-                    <div className='bg-white col-span-9 m-8 rounded-[30px]'>
-                        <div className=' grid grid-cols-1 smXS:grid-cols-2 md:grid-cols-3  2xl:grid-cols-5 gap-4 p-4 justify-items-center'>
+                    <div className='bg-white col-span-9 m-8 rounded-[30px] p-4 lg:p-16 overflow-y-scroll'>
+
+                        <div className='p-4'>
+                            <input
+                                type="text"
+                                value={formsSearch}
+                                placeholder={"Search for form"}
+                                onChange={(e) => {
+                                    setFormsSearch(e.target.value);
+
+                                }}
+                                className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+                                onKeyDown={handleKeyDown}
+                            />
+                        </div>
+
+                        <div className=' grid grid-cols-1 md:grid-cols-3  2xl:grid-cols-5 gap-4 p-4 justify-items-center'>
                             {/* Previous Forms  */}
                             <a href={'/createForm'}>
                                 <div className='flex flex-col items-center shadow-2xl rounded-[30px] h-32 w-48 border p-4 text-[#00947a]'>
@@ -134,8 +218,8 @@ const Forms = () => {
                                 </div>
 
                             </a>
-                            {previousForms.map((v) => (
-                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? v.id : null} />
+                            {temp.map((v) => (
+                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? `/myForm/${encrypt(v.id, COOKIE_ID)}` : null} />
                             ))}
 
                         </div>

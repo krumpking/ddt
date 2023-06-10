@@ -16,6 +16,14 @@
         "destination": "/display/[id].html"
       },
       {
+        "source": "/templates/**",
+        "destination": "/templates/[name].html"
+      },
+      {
+        "source": "/myForm/**",
+        "destination": "/myForm/[id].html"
+      },
+      {
         "source": "/terms",
         "destination": "/terms.html"
       },
@@ -28,7 +36,7 @@
         "destination": "/login.html"
       },
       {
-        "source": "/createform",
+        "source": "/createForm",
         "destination": "/createForm.html"
       },
       {
@@ -58,6 +66,14 @@
       {
         "source": "/support",
         "destination": "/support.html"
+      },
+      {
+        "source": "/affiliate",
+        "destination": "/affiliate.html"
+      },
+      {
+        "source": "/deleteAccount",
+        "destination": "/deleteAccount.html"
       },
       {
         "source": "/",

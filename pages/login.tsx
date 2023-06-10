@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
+import { COOKIE_AFFILIATE_NUMBER, COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
 import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
@@ -7,19 +7,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { getUser } from '../app/api/adminApi';
+import { getUser, getUserById } from '../app/api/adminApi';
 import { getCookie, setCookie } from 'react-use-cookie';
-
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { encrypt } from '../app/utils/crypto';
+import { decrypt, encrypt } from '../app/utils/crypto';
 import Payment from '../app/utils/paymentUtil';
-
+import ReactGA from 'react-ga';
 
 const Login = () => {
     const [phone, setPhone] = useState("");
     const [accessCode, setAccessCode] = useState("");
     const [sent, setSent] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
     const [userId, setUserId] = useState("");
 
@@ -29,6 +28,8 @@ const Login = () => {
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
         auth.languageCode = 'en';
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
             'size': 'visible',
             'callback': (response: any) => {
@@ -43,9 +44,34 @@ const Login = () => {
         }, auth);
 
 
-        return () => {
+        var infoFormCookie = getCookie(COOKIE_ID);
+        if (typeof infoFormCookie !== 'undefined') {
 
+            if (infoFormCookie.length > 0) {
+
+                const id = decrypt(infoFormCookie, COOKIE_ID);
+                getUserById(id).then((v) => {
+
+                    if (v !== null) {
+                        router.push({
+                            pathname: '/home'
+                        });
+                    }
+                    setLoading(false);
+                }).catch((e) => {
+                    setLoading(false);
+                    console.error(e);
+                });
+
+            } else {
+                setLoading(false);
+            }
+
+
+        } else {
+            setLoading(false);
         }
+
 
     }, []);
 
@@ -62,7 +88,7 @@ const Login = () => {
 
 
 
-                getUser(phone).then(async (v: QuerySnapshot<DocumentData> | null) => {
+                getUser(phone).then(async (v) => {
 
                     if (v == null) {
                         toast.warn('User not found, please Sign Up');
@@ -73,54 +99,61 @@ const Login = () => {
 
 
 
-                        v.forEach((doc) => {
+
+
+                        v.data.forEach((doc) => {
+
+                            toast.success('Your affiliate number is ' + doc.data().affiliateNo);
+
 
 
                             const key = userId.substring(0, 13);
                             setCookie(COOKIE_ID, encrypt(userId, COOKIE_ID), {
-                                days: 1,
+                                days: 7,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-                            setCookie(COOKIE_ORGANISATION, encrypt(doc.data().organizationName, key), {
-                                days: 1,
-                                SameSite: 'Strict',
-                                Secure: true,
-                            });
+
+                            if (v.userType == "admin") {
+                                setCookie(COOKIE_ORGANISATION, encrypt(doc.data().organizationName, key), {
+                                    days: 7,
+                                    SameSite: 'Strict',
+                                    Secure: true,
+                                });
+                            } else {
+                                setCookie(COOKIE_AFFILIATE_NUMBER, doc.data().affiliateNo, {
+                                    days: 7,
+                                    SameSite: 'Strict',
+                                    Secure: true,
+                                });
+                            }
+
                             setCookie(COOKIE_EMAIL, encrypt(doc.data().email, key), {
-                                days: 1,
+                                days: 7,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
                             setCookie(COOKIE_NAME, encrypt(doc.data().name, key), {
-                                days: 1,
+                                days: 7,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
                             setCookie(COOKIE_PHONE, encrypt(phone, key), {
-                                days: 1,
+                                days: 7,
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
                         });
 
-                        const paymentStatus = await Payment.checkPaymentStatus();
-                        if (paymentStatus) {
-
-                            router.push({
-                                pathname: '/home'
-                            });
 
 
+                        router.push({
+                            pathname: '/home'
+                        });
 
-                        } else {
 
 
-                            router.push({
-                                pathname: '/payments',
-                            });
 
-                        }
 
                         setLoading(false);
 
@@ -191,11 +224,11 @@ const Login = () => {
 
 
     return (
-        <div className='bg-[#00947a] w-full h-full p-16 '>
+        <div className='bg-[#00947a] w-full h-full p-4 md:p-8 2xl:p-16 '>
             <div className='bg-white h-full rounded-[25px] grid grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
 
 
-                <div className='hidden md:block'>
+                <div className='hidden lg:block'>
                     <Carousel children={shownSlides.map((v) => {
                         return (
                             slide(v.image)

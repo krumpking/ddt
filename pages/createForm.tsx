@@ -14,7 +14,9 @@ import { getCookie } from 'react-use-cookie';
 import { addForm } from '../app/api/adminApi';
 import Payment from '../app/utils/paymentUtil';
 import { decrypt } from '../app/utils/crypto';
-
+import { createId } from '../app/utils/stringM';
+import { print } from '../app/utils/console';
+import ReactGA from 'react-ga';
 
 
 
@@ -42,8 +44,9 @@ const CreateForm = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
 
-        checkPayment();
 
         if (elements.length < 1) {
             const defaultEl = {
@@ -64,6 +67,7 @@ const CreateForm = () => {
 
     const checkPayment = async () => {
         const paymentStatus = await Payment.checkPaymentStatus();
+
         if (!paymentStatus) {
             toast.warn('It appears your payment is due, please pay up to continue enjoying Digital Data Tree');
 
@@ -74,44 +78,51 @@ const CreateForm = () => {
             }, 5000);
 
         }
+        return paymentStatus;
     }
 
 
     const sendForm = () => {
 
         setLoading(true);
-
-        const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-
-        const newForm = {
-            id: createId(),
-            title: formTitle,
-            description: formDescr,
-            elements: elements,
-            creatorId: id,
-            editorNumbers: editors.split(","),
-            dateCreated: new Date().toString()
-        }
+        checkPayment().then((v) => {
 
 
+            if (v) {
+                const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
-        addForm(id, newForm).then((v) => {
-            toast.success('Form created successfully');
-            setLoading(false);
-            router.push({
-                pathname: '/forms',
-            });
-        }).catch((e) => {
-            setLoading(false);
-            toast.error(e.message);
-            console.error(e);
-        });
+                const newForm = {
+                    id: createId(),
+                    title: formTitle,
+                    description: formDescr,
+                    elements: elements,
+                    creatorId: id,
+                    editorNumbers: editors.split(","),
+                    dateCreated: new Date().toString()
+                }
 
 
-    }
 
-    const createId = () => {
-        return Random.randomString(13, "abcdefghijklmnopqrstuvwxyz");
+                addForm(id, newForm).then((v) => {
+                    toast.success('Form created successfully');
+                    setLoading(false);
+                    router.push({
+                        pathname: '/forms',
+                    });
+                }).catch((e) => {
+                    setLoading(false);
+                    toast.error(e.message);
+                    console.error(e);
+                });
+            }
+
+        }).catch
+
+
+
+
+
+
     }
 
 
@@ -238,7 +249,7 @@ const CreateForm = () => {
 
                             </div>
 
-                            <div className='col-span-2 rounded-[10px] bg-[#00947a] hidden smXS:flex flex-col text-white items-center justify-center text-center '
+                            <button className='col-span-2 rounded-[10px] bg-[#00947a] hidden smXS:flex flex-col text-white items-center justify-center text-center '
                                 onClick={() => {
                                     sendForm();
                                 }}>
@@ -246,7 +257,7 @@ const CreateForm = () => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
                                 Add Form
-                            </div>
+                            </button>
                         </div>
 
 

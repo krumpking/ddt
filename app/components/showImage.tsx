@@ -1,5 +1,11 @@
+import { ref, getDownloadURL } from 'firebase/storage';
 import React, { useEffect, useState } from 'react'
 import { FC } from 'react';
+
+import LazyLoad from 'react-lazyload';
+import { storage } from '../../firebase/clientApp';
+import { print } from '../utils/console';
+
 
 interface MyProps {
     src: string,
@@ -10,15 +16,30 @@ interface MyProps {
 
 
 const ShowImage: FC<MyProps> = ({ src, alt, style }) => {
+    const [url, setUrl] = useState("");
 
+    useEffect(() => {
 
+        const pathReference = ref(storage, src);
+        getDownloadURL(pathReference).then((url) => {
+            setUrl(url);
 
+        })
+            .catch((error) => {
+                // Handle any errors
+                console.error(error);
+            });
+
+    }, [url])
 
 
     return (
-        <div className="m-auto">
-            <img src={src} alt={alt} className={style} />
-        </div>
+        <LazyLoad>
+            <div className="m-auto">
+                <img src={url} alt={alt} className={style + ' object-cover'} />
+            </div>
+        </LazyLoad>
+
     )
 };
 

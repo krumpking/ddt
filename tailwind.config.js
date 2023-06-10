@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Comfortaa", ...defaultTheme.fontFamily.sans],
+        title: ["Rubik Gemstones", "cursive"],
       },
       backgroundImage: {
         "bg-swurl": "url('/images/bg-swurl.png')",

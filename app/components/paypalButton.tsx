@@ -1,22 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Random from "../utils/random";
 import { getCookie } from "react-use-cookie";
 import { COOKIE_ID, COOKIE_PHONE } from "../constants/constants";
-import { addPayment } from "../api/adminApi";
+import { addPayment, checkAffiliate } from "../api/adminApi";
 import { decrypt } from "../utils/crypto";
 
-const PaypalCheckoutButton = (props: { product: any; }) => {
-    const { product } = props;
 
-    const [paidFor, setPaidFor] = useState(false);
+
+const PaypalCheckoutButton = (props: { affNo: number; }) => {
+    const { affNo } = props;
+
+    const [isAff, setAff] = useState(false);
     const [error, setError] = useState<any>();
     const [iorder, setIorder] = useState<any>()
     const [refCode, setRefCode] = useState("");
 
-    const handleApprove = (order: any) => {
+
+
+    useEffect(() => {
+
+        checkAff();
+
+    }, [])
+
+    const checkAff = async () => {
+        var isAff = await checkAffiliate(affNo);
+        setAff(isAff);
+    }
+
+
+    const handleApprove = async (order: any) => {
         // Call backend function to fulfill order
 
         if (order.status == 'COMPLETED') {
@@ -27,19 +43,23 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
             if (getCookie(COOKIE_ID) !== "") {
                 id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
+
+
+
             }
+
+
             const key = id.substring(-13);
             const payment = {
                 id: order.id,
-                userId: getCookie(COOKIE_ID),
+                userId: id,
                 date: new Date().toString(),
-                amount: product.price,
-                refCode: refCode
+                amount: isAff ? 250 : 300,
+                refCode: affNo.toString()
             }
-            console.log(payment);
 
             addPayment(payment).then((v) => {
-                toast.success('Promo successfully added');
+                toast.success('Payment successful!');
             }).catch((e) => {
                 toast.error('There was an error adding your payment, please try again');
 
@@ -81,9 +101,9 @@ const PaypalCheckoutButton = (props: { product: any; }) => {
                     return actions.order.create({
                         purchase_units: [
                             {
-                                description: product.description,
+                                description: "Purchase DDT",
                                 amount: {
-                                    value: product.price
+                                    value: isAff ? '250' : '300'
                                 }
                             }
                         ]

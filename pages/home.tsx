@@ -11,9 +11,9 @@ import DataSummary from '../app/components/dataSummary';
 import { getForms } from '../app/api/adminApi';
 import { getCookie } from 'react-use-cookie';
 import Payment from '../app/utils/paymentUtil';
-import { decrypt } from '../app/utils/crypto';
+import { decrypt, encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
-
+import ReactGA from 'react-ga';
 
 
 const Home = () => {
@@ -34,6 +34,9 @@ const Home = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
+
         // setPreviousForms([
         //     {
         //         id: "element.id",
@@ -53,7 +56,7 @@ const Home = () => {
         //     }
         // ])
 
-        checkPayment()
+        // checkPayment()
 
 
 
@@ -130,6 +133,7 @@ const Home = () => {
 
 
 
+
     return (
         <div>
 
@@ -159,7 +163,7 @@ const Home = () => {
 
                             </a>
                             {previousForms.splice(0, 3).map((v) => (
-                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? v.id : null} />
+                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? `/myForm/${encrypt(v.id, COOKIE_ID)}` : null} />
                             ))}
 
                         </div>
@@ -178,7 +182,7 @@ const Home = () => {
                             {/* Templates */}
 
                             {TEMPLATES.map((v) => (
-                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? v.id : null} />
+                                <FormSummary key={v.id} title={v.title} description={v.description} url={typeof v.id !== 'undefined' ? `/templates/${v.id}` : null} />
                             ))}
                         </div>
                         <div className='grid grid-cols-2 p-4'>

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
+import ReactGA from 'react-ga';
 
 
 
@@ -20,7 +21,8 @@ const Support = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
 
         return () => {
 

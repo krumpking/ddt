@@ -3,6 +3,7 @@ import { getPayments } from "../api/adminApi";
 import { COOKIE_ID } from "../constants/constants";
 import DateMethods from "./date";
 import { decrypt } from "./crypto";
+import { print } from "./console";
 
 
 
@@ -21,17 +22,16 @@ export default class Payment {
 
                 const v = await getPayments(infoFromCookie);
 
-
                 var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+
                 if (v !== null) {
 
                     v.data.forEach(element => {
 
 
-                        const fromDb = element.data().userId;
-                        if (fromDb !== "") {
+                        const idFromDB = element.data().userId;
+                        if (idFromDB !== "") {
 
-                            const idFromDB = decrypt(fromDb, COOKIE_ID);
 
                             if (idFromDB === id) {
                                 const diff = DateMethods.diffDatesDays(element.data().date, new Date().toString());

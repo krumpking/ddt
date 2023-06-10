@@ -2,11 +2,13 @@ import type { NextPage } from 'next'
 import React, { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../app/store/hooks';
 import { selectPosition } from '../app/store/reducer';
-import { PRIMARY_COLOR, WHATSAPP_CONTACT } from '../app/constants/constants';
+import { NEXT_PUBLIC_GOOGLE_ANALYTICS, PRIMARY_COLOR, WHATSAPP_CONTACT } from '../app/constants/constants';
 import Nav from '../app/components/nav';
 import Header from '../app/components/header';
 import Carousel from '../app/components/carousel';
 import Link from 'next/link';
+import ReactGA from 'react-ga';
+
 
 
 
@@ -16,10 +18,11 @@ const Home: NextPage = () => {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [trackingId, settrackingId] = useState("AW-11208371394");
 
   useEffect(() => {
-    document.body.style.backgroundColor = PRIMARY_COLOR;
-
+    ReactGA.initialize(NEXT_PUBLIC_GOOGLE_ANALYTICS);
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
   }, []);
 
@@ -163,12 +166,10 @@ const Home: NextPage = () => {
   }
 
 
-  const sendQuotation = () => {
-
-  }
 
   return (
-    <div className='relative bg-[#00947a] w-full h-fit'>
+    <div className='relative bg-[#00947a] w-full h-full'>
+
 
       <div>
         <Nav />
@@ -178,8 +179,8 @@ const Home: NextPage = () => {
         <div id="discover">
           <img src='/images/start.png' className='mx-auto w-48 h-24' />
           <div className='p-16'>
-            <h1 className='text-white text-sm xs:text-xl xsMD:text-3xl font-bold'>Turn any data into any format/presentation of your choice</h1>
-            <p className='text-white font-bold mt-5 text-xs xs:text-sm xxsMD:text-base'>With our data management and visualization tool, you can easily transform your data into any presentation format of your choice, including tables, charts, graphs, maps, and text, all with just a click of a button.</p>
+            <h1 className='text-white text-sm xs:text-xl xsMD:text-3xl font-bold'>Transform Your Data into a Story with Stunning Presentations</h1>
+            <p className='text-white font-bold mt-5 text-xs xs:text-sm xxsMD:text-base'>Turning data into a format that is easy to understand and analyze can be a daunting task, but it doesn&apos;t have to be! With the right tools and software, you can transform your data into a beautiful and emotional presentation that tells a story. Imagine taking a bunch of numbers and turning them into a colorful chart or graph that not only looks stunning but also conveys important information. It&apos;s like creating a work of art that speaks to your audience&apos;s hearts and minds. So, don&apos;t be afraid to get creative and experiment with different formats and presentation styles to bring your data to life and make a lasting impact on your viewers.</p>
           </div>
 
           {/* <img src="/images/sample.png" className='h-full w-full' /> */}
@@ -199,7 +200,7 @@ const Home: NextPage = () => {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
-            <h1 className='text-xs md:text-sm font-bold text-[#7d5c00]'>End to End Encryption</h1>
+            <h1 className='text-xs md:text-sm font-bold text-[#7d5c00]'>Bank Level Encryption</h1>
           </div>
           <div className='flex flex-col m-4 items-center'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-12 h-12 md:w-32 md:h-32 text-[#7d5c00]">
@@ -235,13 +236,13 @@ const Home: NextPage = () => {
           <h1 className='text-white text-3xl font-bold m-4'>See it in action</h1>
           <p className='text-white m-4'>Elegent and intuitive interface makes Digital Data Tree, easy to use</p>
           <video className='w-full h-96 m-4' autoPlay={false} loop={true} controls>
-            <source src={"/videos/ex1.mkv"} type="video/mp4" />
+            <source src={"/videos/ex1.mp4"} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
         <div className='p-8' id="testimonials">
-          <h1 className='text-white text-3xl font-bold m-4'>Business Case for Digital Data Tree</h1>
-          <p className='text-white m-4'>Overall, digitization can offer a wide range of benefits for businesses of all sizes. By embracing digitization, businesses can improve their efficiency, productivity, customer service, and bottom line.
+          <h1 className='text-white text-3xl font-bold m-4'>Unlock the Power of Digitization: Transform Your Business for Success</h1>
+          <p className='text-white m-4'>Digitization can be a game-changer for businesses of all sizes, offering a multitude of benefits that can transform the way they operate. By embracing digitization, businesses can streamline their processes, boost their productivity, and enhance their customer service. This can lead to increased revenue, improved profitability, and a stronger bottom line. So, if you want to take your business to the next level and stay ahead of the competition, it&apos;s time to embrace digitization and unlock its full potential!
 
           </p>
           <Carousel children={testimonialSlidesData.map((v) => {
@@ -279,9 +280,13 @@ const Home: NextPage = () => {
               <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col items-center w-48 2xl:w-72'>
                 <h1 className='text-xl m-8'>Digital Data Tree</h1>
                 <p>Customer Relationship Management</p>
+                <h1 className='text-xl m-8 line-through lg:hidden'>500USD</h1>
                 <p>HR System</p>
+                <h1 className='text-xl m-8 line-through lg:hidden'>620USD</h1>
                 <p>Enteprise Resource Planning</p>
+                <h1 className='text-xl m-8 line-through lg:hidden'>1520USD</h1>
                 <p>Inventory Management</p>
+                <h1 className='text-xl m-8 line-through lg:hidden'>1220USD</h1>
                 <p>Compliance System</p>
                 <p>E-Receipting</p>
                 <p>Events Management</p>
@@ -290,8 +295,7 @@ const Home: NextPage = () => {
                 <h1 className='text-xl mt-8 line-through '>2740USD</h1>
                 <h1 className='text-xl '>300USD</h1>
                 <p className='text-sm line-through '>100USD pm hosting</p>
-
-                <p className='text-sm'>25USD pm</p>
+                <p className='text-sm'>25USD pm hosting</p>
                 <p className='text-sm'>hosting</p>
                 <p className='text-sm'>24/7 support</p>
               </div>
@@ -317,29 +321,52 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className='lg:hidden'>
-            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-full'>
+            <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col items-center w-full'>
               <h1 className='text-xl m-8'>Digital Data Tree</h1>
               <p>Customer Relationship Management</p>
+              <p className='text-xs line-through lg:hidden'>500USD</p>
               <p>HR System</p>
+              <p className='text-xs line-through lg:hidden'>620USD</p>
               <p>Enteprise Resource Planning</p>
+              <p className='text-xs line-through lg:hidden'>1520USD</p>
               <p>Inventory Management</p>
+              <p className='text-xs line-through lg:hidden'>1220USD</p>
               <p>Compliance System</p>
+              <p className='text-xs line-through lg:hidden'>820USD</p>
               <p>E-Receipting</p>
+              <p className='text-xs line-through lg:hidden'>520USD</p>
               <p>Events Management</p>
-              <p>....and many more </p>
-              <h1 className='text-xl mt-8 line-through '>2740USD</h1>
-              <h1 className='text-xl '>250USD</h1>
-              <p className='text-sm line-through '>100USD pm hosting</p>
+              <p className='text-xs line-through lg:hidden'>420USD</p>
+              <p>....and many more can be done on Digital Data Tree</p>
+              <h1 className='text-xs line-through lg:hidden'>2740USD</h1>
+              <h1 className='text-xl '>300USD</h1>
+              <p className='text-xs line-through lg:hidden'>100USD pm hosting</p>
 
-              <p className='text-sm'>25USD pm</p>
+              <p className='text-sm lg:hidden'>25USD pm</p>
               <p className='text-sm'>hosting</p>
               <p className='text-sm'>24/7 support</p>
             </div>
           </div>
-
           <button className={`bg-[#fdc92f] rounded-[30px] p-3 m-8 text-center`}>
             <Link className='text-xl text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>
           </button>
+
+          <div className='text-white my-8 shadow-xl p-8 rounded-2xl' id="affiliate">
+            <h1 className='text-5xl font-bold font-title tracking-wide text-[#fdc92f] m-4'>Join us to change the world </h1>
+            <p>Imagine a world where you can connect with anyone, anywhere in the world, at any time. A world where you have access to all the information you could ever need, at your fingertips. A world where you can learn new skills, start your own business, and make a difference in the world.
+
+              This is the new digitalised world. And it&#39;s not just a dream. It&#39;s happening right now.
+
+              Digitzation is changing the way we live, work, and learn. It&#39;s creating new opportunities and challenges. But it&#39;s also empowering people like you to make a difference in the world.
+
+              If you&#39;re looking for a way to make a difference, if you&#39;re looking for a new challenge, or if you&#39;re just looking for a way to connect with the world, then digitilization is for you.</p>
+            <button className={`bg-[#fdc92f] rounded-[30px] p-3 m-8 text-center`}>
+              <Link className='text-xl text-[#7d5c00] text-center ' href='/affiliate'>Become an affiliate</Link>
+            </button>
+          </div>
+
+
+
           <div className='flex flex-col items-center content-center h-fit'>
             <img src='/images/vipLogo.png' className='h-24 mt-8' />
             <p className='text-white text-xs'> a product of</p>
@@ -355,7 +382,6 @@ const Home: NextPage = () => {
       <Link href={WHATSAPP_CONTACT}>
         <img src='/images/whatsapp.png' className={'animate-bounce fixed bottom-20  right-10 h-16 w-16'} />
       </Link>
-
     </div >
   )
 }

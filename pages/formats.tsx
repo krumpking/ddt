@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
 import Payment from '../app/utils/paymentUtil';
+import ReactGA from 'react-ga';
+import { searchStringInMembers } from '../app/utils/stringM';
 
 
 
@@ -15,14 +17,18 @@ const Formats = () => {
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [formsSearch, setFormsSearch] = useState("");
+    const [temp, setTemp] = useState<any[]>([]);
+    const [templates, setTemplates] = useState<any[]>([]);
 
 
 
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-
-        checkPayment();
+        ReactGA.initialize('AW-11208371394');
+        ReactGA.pageview(window.location.pathname + window.location.search);
+        // checkPayment();
 
         return () => {
 
@@ -45,6 +51,47 @@ const Formats = () => {
         }
     }
 
+    const handleKeyDown = (event: { key: string; }) => {
+
+        if (event.key === 'Enter') {
+            setLoading(true);
+            if (formsSearch !== '') {
+
+
+                let res: any[] = searchStringInMembers(temp, formsSearch);
+                setTemp([]);
+
+                if (res.length > 0) {
+
+                    setTimeout(() => {
+                        setTemp(res);
+                        setLoading(false);
+                    }, 1500);
+                } else {
+                    toast.info(`${formsSearch} not found`);
+                    setTimeout(() => {
+                        setTemp(templates);
+                        setLoading(false);
+                    }, 1500);
+                }
+
+
+
+            } else {
+                setTemp([]);
+                setTimeout(() => {
+                    setTemp(templates);
+                    setLoading(false);
+                }, 1500);
+
+            }
+
+
+
+        }
+    };
+
+
 
 
 
@@ -58,7 +105,33 @@ const Formats = () => {
                 <div className='lg:col-span-3'>
                     <ClientNav organisationName={'Vision Is Primary'} url={'formats'} />
                 </div>
-                <div className='bg-white col-span-8 m-8 rounded-[30px] p-8'>
+                <div className='bg-white col-span-8 m-8 rounded-[30px] p-4 lg:p-16 overflow-y-scroll'>
+                    <div className='p-4'>
+                        <input
+                            type="text"
+                            value={formsSearch}
+                            placeholder={"Search for formats"}
+                            onChange={(e) => {
+                                setFormsSearch(e.target.value);
+
+                            }}
+                            className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+                            onKeyDown={handleKeyDown}
+                        />
+                    </div>
                     <h1>Coming Soon</h1>
                 </div>
 
