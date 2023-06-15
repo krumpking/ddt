@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_AFFILIATE_NUMBER, COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
+import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
 import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
@@ -13,6 +13,7 @@ import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { decrypt, encrypt } from '../app/utils/crypto';
 import Payment from '../app/utils/paymentUtil';
 import ReactGA from 'react-ga';
+import { COOKIE_AFFILIATE_NUMBER } from '../app/constants/affilliateConstants';
 
 const Login = () => {
     const [phone, setPhone] = useState("");

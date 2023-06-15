@@ -1,9 +1,9 @@
 import { getCookie } from "react-use-cookie";
-import { getPayments } from "../api/adminApi";
 import { COOKIE_ID } from "../constants/constants";
 import DateMethods from "./date";
 import { decrypt } from "./crypto";
 import { print } from "./console";
+import { getPayments } from "../api/paymentApi";
 
 
 
