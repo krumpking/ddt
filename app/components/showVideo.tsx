@@ -1,11 +1,9 @@
 import { ref, getDownloadURL } from 'firebase/storage';
 import React, { useEffect, useState } from 'react'
 import { FC } from 'react';
-
-import LazyLoad from 'react-lazyload';
 import { storage } from '../../firebase/clientApp';
 import { print } from '../utils/console';
-
+import ReactPlayer from 'react-player'
 
 interface MyProps {
     src: string,
@@ -15,7 +13,7 @@ interface MyProps {
 
 
 
-const ShowImage: FC<MyProps> = ({ src, alt, style }) => {
+const ShowVideo: FC<MyProps> = ({ src, alt, style }) => {
     const [url, setUrl] = useState("");
 
     useEffect(() => {
@@ -34,14 +32,15 @@ const ShowImage: FC<MyProps> = ({ src, alt, style }) => {
 
 
     return (
-        <LazyLoad>
-            <div className="m-auto">
-                <img src={url} alt={alt} className={style + ' object-cover w-full max-h-96 mb-10'} />
-            </div>
-        </LazyLoad>
+
+        <div className="m-auto">
+            {/* <img src={url} alt={alt} className={style + ' object-cover'} /> */}
+            <ReactPlayer url={url} controls className="w-full max-h-96" />
+        </div>
+
 
     )
 };
 
 
-export default ShowImage
+export default ShowVideo

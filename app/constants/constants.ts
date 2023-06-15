@@ -25,13 +25,12 @@ export const LIGHT_GRAY = '#ECECEC';
 
 
 export const ADMINS_DB_REF = collection(firestore, "admins");
-export const ADMINS_PAYMENTS_REF = collection(firestore, `payments`);
-export const AFF_DB_REF = collection(firestore, "affiliates");
-export const AFF_SALES_DB_REF = collection(firestore, "affiliates-sales");
+
+
 export const COOKIE_NAME = 'gMh88OSfz';
 export const COOKIE_PHONE = 'jZmDw9V3i';
 export const COOKIE_ORGANISATION = '6a7ZP6ZtJ';
-export const COOKIE_AFFILIATE_NUMBER = '7894236150jklasdfghjkl';
+
 export const COOKIE_EMAIL = '1OU2lbIQK';
 export const COOKIE_ID = 'y5Kgz3qY';
 export const URL_LOCK_ID = 'AaM2a1VHtTXZWjcVw7hjrsM7aR8SJ6L5OL00rYUdf';
@@ -430,6 +429,9 @@ export const PRODUCTION_CLIENT_ID = "AaM2a1VHtTXZWjcVw7hjrsM7aR8SJ6L5OL00rYUdf_3
 
 
 export const NEXT_PUBLIC_GOOGLE_ANALYTICS = 'G-EG2R1271VF'
+
+
+export const MAPS_KEY = 'AIzaSyB2h_YmVxQIVMQyiIhV2qPypa7YmoGoqlQ';
 
 
 

@@ -60,3 +60,47 @@ function containsObject(array: Array<any>, object: any): boolean {
         return Object.keys(object).every(key => element[key] === object[key]);
     });
 }
+
+
+export function getDate(dateString: string) {
+    const d = new Date(dateString);
+
+    return `${d.getDate()} ${showMonth(d.getMonth())} ${d.getFullYear()}`;
+}
+
+export function getMonth(dateString: string) {
+    const d = new Date(dateString);
+
+    return `${showMonth(d.getMonth())}`;
+}
+
+const showMonth = (no: number) => {
+    switch (no + 1) {
+        case 1:
+            return 'January'
+        case 2:
+            return 'February'
+        case 3:
+            return 'March'
+        case 4:
+            return 'April'
+        case 5:
+            return 'May'
+        case 6:
+            return 'June'
+        case 7:
+            return 'July'
+        case 8:
+            return 'August'
+        case 9:
+            return 'September'
+        case 10:
+            return 'October'
+        case 11:
+            return 'November'
+        case 12:
+            return 'December'
+        default:
+            break
+    }
+}

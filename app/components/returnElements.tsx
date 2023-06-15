@@ -1,9 +1,16 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import CanvasDraw from "react-canvas-draw";
 import { simpleDecrypt } from '../utils/crypto';
 import { print } from '../utils/console';
 import ShowImage from './showImage';
-
+import ShowVideo from './showVideo';
+import { getDate, getMonth } from '../utils/stringM';
+import { HexColorPicker } from 'react-colorful';
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { MAPS_KEY } from '../constants/constants';
+import Loader from './loader';
+import GoogleMapReact from 'google-map-react';
+import ShowMap from './maps';
 
 interface MyProps {
     num: number,
@@ -15,12 +22,15 @@ interface MyProps {
 }
 
 
+
 const ReturnElements: FC<MyProps> = ({ num, info, code, codeId }) => {
     const [elementNo, setElementNo] = useState(0);
-
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: MAPS_KEY,
+    });
     useEffect(() => {
 
-        if (num < 5 || num > 17) {
+        if (num < 8 || num > 17 || num == 15) {
             setElementNo(1);
         } else {
             setElementNo(num);
@@ -38,35 +48,24 @@ const ReturnElements: FC<MyProps> = ({ num, info, code, codeId }) => {
                 return (
                     <p>{simpleDecrypt(info, code)}</p>
                 );
-            case 5:
-                //Radio
-                return (
-                    <p>{ }</p>
-                );
-            case 6:
-                // Check Box
-                return (
-                    <p>{ }</p>
-                );
-            case 7:
-                // Time
-                return (
-                    <p>{ }</p>
-                );
             case 8:
+                var totalString = simpleDecrypt(info, code);
+                var firstString = totalString.substring(0, totalString.indexOf(" - "));
+                var secString = totalString.substring(totalString.indexOf(" - ") + 2, totalString.length);
+
                 // Week
                 return (
-                    <p>{ }</p>
+                    <p>{getDate(firstString)} - {getDate(secString)}</p>
                 );
             case 9:
                 // Month
                 return (
-                    <p>{ }</p>
+                    <p>{getMonth(simpleDecrypt(info, code))}</p>
                 );
             case 10:
                 // Date
                 return (
-                    <p>{ }</p>
+                    <p>{getDate(simpleDecrypt(info, code))}</p>
                 );
             case 11:
                 // Image
@@ -77,7 +76,8 @@ const ReturnElements: FC<MyProps> = ({ num, info, code, codeId }) => {
             case 12:
                 // Video
                 return (
-                    <p>{ }</p>
+                    <ShowVideo src={`/${codeId}/12/${simpleDecrypt(info, code
+                    )}`} alt={'video'} style={''} />
                 );
             case 13:
                 // File
@@ -85,31 +85,45 @@ const ReturnElements: FC<MyProps> = ({ num, info, code, codeId }) => {
                     <p>{ }</p>
                 );
             case 14:
+                var color = `#${simpleDecrypt(info, code)}`;
                 // Color
                 return (
-                    <p>{ }</p>
-                );
-            case 15:
-                // Range
-                return (
-                    <p>{ }</p>
+                    <HexColorPicker color={color} />
                 );
             case 16:
+
+                const loc = simpleDecrypt(info, code);
+
+                var lat = loc.substring(loc.indexOf('Lat') + 4, loc.indexOf('Lng'));
+
+                var lng = loc.substring(loc.indexOf(':') + 1, loc.length);
+
                 // Location
+                const defaultProps = {
+                    center: {
+                        lat: parseFloat(lat),
+                        lng: parseFloat(lng)
+                    },
+                    zoom: 11
+                };
+
+                print(parseFloat(lat) + " " + parseFloat(lng));
+
                 return (
-                    <p>{ }</p>
+                    <ShowMap lat={lat} lng={lng} />
                 );
             case 17:
                 // Signature
                 return (
-                    <p>{ }</p>
+                    <div className='rotate-90 w-full'>
+                        <img src={`data:image/jpeg;base64,${simpleDecrypt(info, code)}`} />
+                    </div>
                 );
 
             default:
                 return (
                     <p>{simpleDecrypt(info, code)}</p>
                 );
-                break;
         }
     }
 
@@ -123,3 +137,5 @@ const ReturnElements: FC<MyProps> = ({ num, info, code, codeId }) => {
 
 
 export default ReturnElements
+
+
