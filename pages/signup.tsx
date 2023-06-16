@@ -133,7 +133,7 @@ const SignUp = () => {
 
             addAdmin(admin).then((v: DocumentReference<DocumentData> | null) => {
                 if (v == null) {
-                    toast.warn("Phone number already exists, user another phone number");
+                    toast.warn("Phone number already exists, user another phone number or login");
                     setSent(false);
                 } else {
 
@@ -184,7 +184,7 @@ const SignUp = () => {
 
     return (
         <div className='bg-[#00947a] w-full h-full p-4 md:p-8 lg:p-16 '>
-            <div className='bg-white h-full rounded-[25px] grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
+            <div className='bg-white h-full rounded-[25px] grid grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
 
                 <div className='hidden lg:block'>
                     <Carousel children={shownSlides.map((v) => {

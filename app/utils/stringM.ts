@@ -1,5 +1,3 @@
-import { IForm } from "../types/types";
-import { print } from "./console";
 import Random from "./random";
 
 

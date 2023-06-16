@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
+import { ADMIN_ID, COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PERSON_ROLE, PRIMARY_COLOR } from '../app/constants/constants';
 import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
@@ -117,6 +117,35 @@ const Login = () => {
 
                             if (v.userType == "admin") {
                                 setCookie(COOKIE_ORGANISATION, encrypt(doc.data().organizationName, key), {
+                                    days: 7,
+                                    SameSite: 'Strict',
+                                    Secure: true,
+                                });
+
+                                setCookie(ADMIN_ID, "", {
+                                    days: 7,
+                                    SameSite: 'Strict',
+                                    Secure: true,
+                                });
+
+
+                                setCookie(PERSON_ROLE, encrypt("Admin", ADMIN_ID), {
+                                    days: 7,
+                                    SameSite: 'Strict',
+                                    Secure: true,
+                                });
+
+
+
+
+                            } else if (v.userType == "added") {
+                                setCookie(ADMIN_ID, encrypt(doc.data().adminId, ADMIN_ID), {
+                                    days: 7,
+                                    SameSite: 'Strict',
+                                    Secure: true,
+                                });
+
+                                setCookie(PERSON_ROLE, encrypt(doc.data().role, ADMIN_ID), {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,

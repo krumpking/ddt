@@ -3,8 +3,11 @@ import Link from 'next/link';
 import React, { FC, useEffect, useState } from 'react'
 import { Audio } from 'react-loader-spinner';
 import Drawer from './drawer';
-import { COOKIE_AFFILIATE_NUMBER, DOWNLOAD_APP, WHATSAPP_CONTACT } from '../constants/constants';
+import { ADMIN_ID, DOWNLOAD_APP, PERSON_ROLE, WHATSAPP_CONTACT } from '../constants/constants';
 import { getCookie } from 'react-use-cookie';
+import { decrypt } from '../utils/crypto';
+import { COOKIE_AFFILIATE_NUMBER } from '../constants/affilliateConstants';
+import { print } from '../utils/console';
 
 
 interface MyProps {
@@ -15,6 +18,7 @@ interface MyProps {
 const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [affiliateNo, setAffiliateNo] = useState(0);
+    const [role, setRole] = useState("");
 
     useEffect(() => {
         document.body.style.backgroundColor = '#00947a';
@@ -27,6 +31,16 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                 setAffiliateNo(parseInt(infoFormCookie));
             }
         }
+
+        var roleCookie = getCookie(PERSON_ROLE);
+        if (typeof roleCookie !== 'undefined') {
+
+            if (roleCookie.length > 0) {
+                setRole(decrypt(getCookie(PERSON_ROLE), ADMIN_ID))
+                setAffiliateNo(parseInt(infoFormCookie));
+            }
+        }
+
 
 
 
@@ -64,7 +78,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 <h1 className='col-span-3 text-white'>Home</h1>
                             </div>
                         </a>
-                        <a href={'/users'} className={url === 'users' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        <a href={'/users'} className={`${role !== 'Admin' ? 'hidden' : ''} ${url === 'users' ? 'bg-[#0fa991] p-2 rounded-[25px]' : 'p-2 rounded-[25px]'}`}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
@@ -91,7 +105,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 </svg>
 
 
-                                <h1 className='col-span-3 text-white'>Resource Planning</h1>
+                                <h1 className='col-span-3 text-white'>ERP</h1>
                             </div>
                         </a>
                         <a href={'/accounting'} className={url === 'accounting' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
@@ -137,7 +151,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                         </a>
 
 
-                        <a href={'/payments'} className={url === 'payments' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        <a href={'/payments'} className={`${role !== 'Admin' ? 'hidden' : ''} ${url === 'payments' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}`}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
@@ -200,7 +214,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 <h1 className='col-span-3 text-white'>Home</h1>
                             </div>
                         </a>
-                        <a href={'/users'} className={url === 'users' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        <a href={'/users'} className={`${role !== 'Admin' ? 'hidden' : ''} ${url === 'users' ? 'bg-[#0fa991] p-2 rounded-[25px]' : 'p-2 rounded-[25px]'}`}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
@@ -227,7 +241,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 </svg>
 
 
-                                <h1 className='col-span-3 text-white'>Resource Planning</h1>
+                                <h1 className='col-span-3 text-white'>ERP</h1>
                             </div>
                         </a>
                         <a href={'/accounting'} className={url === 'accounting' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
@@ -273,7 +287,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                         </a>
 
 
-                        <a href={'/payments'} className={url === 'payments' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        <a href={'/payments'} className={`${role !== 'Admin' ? 'hidden' : ''} ${url === 'payments' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}`}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />

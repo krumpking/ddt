@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_ID, COOKIE_PHONE, LIGHT_GRAY, PRIMARY_COLOR, PRODUCTION_CLIENT_ID } from '../app/constants/constants';
+import { ADMIN_ID, COOKIE_ID, COOKIE_PHONE, LIGHT_GRAY, PERSON_ROLE, PRIMARY_COLOR, PRODUCTION_CLIENT_ID } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,14 +7,14 @@ import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
 import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import PaypalCheckoutButton from '../app/components/paypalButton';
-import { IPayments } from '../app/types/types';
 import ReactPaginate from 'react-paginate';
-import { addPayment, getPayments, getPromo } from '../app/api/adminApi';
 import { getCookie } from 'react-use-cookie';
 import DateMethods from '../app/utils/date';
 import Random from '../app/utils/random';
 import { decrypt } from '../app/utils/crypto';
 import ReactGA from 'react-ga';
+import { IPayments } from '../app/types/paymentTypes';
+import { addPayment, getPayments, getPromo } from '../app/api/paymentApi';
 
 
 
@@ -37,6 +37,7 @@ const Payments = () => {
     const [nextPaymentDate, setNextPaymentDate] = useState("");
     const [promoCode, setPromoCode] = useState("");
     const [userId, setUserId] = useState("");
+
 
 
     useEffect(() => {
@@ -124,6 +125,21 @@ const Payments = () => {
                 pathname: '/login',
             });
         }
+
+        var roleCookie = getCookie(PERSON_ROLE);
+        if (typeof roleCookie !== 'undefined') {
+
+            if (roleCookie.length > 0) {
+                let role = decrypt(getCookie(PERSON_ROLE), ADMIN_ID);
+                if (role !== 'Admin') {
+                    toast.error('Only Admin can make payments');
+                    toast.error('Kindly contact Admin to make payment');
+                    router.push('/login');
+                }
+
+            }
+        }
+
 
 
 
@@ -398,3 +414,7 @@ const Payments = () => {
 
 
 export default Payments
+function setRole(arg0: string) {
+    throw new Error('Function not implemented.');
+}
+

@@ -6,7 +6,7 @@ import { LIGHT_GRAY, URL_LOCK_ID } from '../../app/constants/constants';
 import Payment from '../../app/utils/paymentUtil';
 import ClientNav from '../../app/components/clientNav';
 import ReactTable from "react-table";
-import { getSpecificData } from '../../app/api/adminApi';
+
 import { IData, IDynamicObject } from '../../app/types/types';
 import { forEach } from 'lodash';
 import { decrypt, simpleDecrypt } from '../../app/utils/crypto';
@@ -24,6 +24,7 @@ import fs from 'fs';
 import { saveAs } from 'file-saver';
 import { getUrl } from '../../app/utils/getImageUrl';
 import { HexColorPicker } from "react-colorful";
+import { getSpecificData } from '../../app/api/formApi';
 
 
 const DataDisplay = () => {

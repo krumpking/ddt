@@ -5,15 +5,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
-import { IForm } from '../app/types/types';
 import FormSummary from '../app/components/formSummary';
 import DataSummary from '../app/components/dataSummary';
-import { getForms } from '../app/api/adminApi';
 import { getCookie } from 'react-use-cookie';
 import Payment from '../app/utils/paymentUtil';
 import { decrypt, encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
 import ReactGA from 'react-ga';
+import { getForms } from '../app/api/formApi';
+import { IForm } from '../app/types/formTypes';
 
 
 const Home = () => {
@@ -56,7 +56,7 @@ const Home = () => {
         //     }
         // ])
 
-        // checkPayment()
+        checkPayment()
 
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_AFFILIATE_NUMBER, COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
+import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
 import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
@@ -7,12 +7,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { addAdmin, addAffiliate } from '../app/api/adminApi';
+import { addAdmin } from '../app/api/adminApi';
 import { setCookie } from 'react-use-cookie';
 import { DocumentData, DocumentReference } from 'firebase/firestore';
 import { encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
 import ReactGA from 'react-ga';
+import { addAffiliate } from '../app/api/affiliateApi';
 
 
 const Affiliate = () => {
@@ -154,7 +155,7 @@ const Affiliate = () => {
 
     return (
         <div className='bg-[#00947a] w-full h-full p-4 md:p-8 lg:p-16 '>
-            <div className='bg-white h-full rounded-[25px] grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
+            <div className='bg-white h-full rounded-[25px] grid grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
 
                 <div className=''>
                     <h1 className='text-2xl'>Join the #DigitalRevolution</h1>

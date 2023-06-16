@@ -1,5 +1,5 @@
 import { getCookie } from "react-use-cookie";
-import { COOKIE_ID } from "../constants/constants";
+import { ADMIN_ID, COOKIE_ID } from "../constants/constants";
 import DateMethods from "./date";
 import { decrypt } from "./crypto";
 import { print } from "./console";
@@ -14,7 +14,13 @@ export default class Payment {
 
         var result = false;
 
-        var infoFromCookie = getCookie(COOKIE_ID);
+
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
         if (typeof infoFromCookie !== 'undefined') {
 
 

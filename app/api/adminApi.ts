@@ -17,8 +17,16 @@ export const addAdmin = async (admin: IAdmin) => {
     const snapshot = await getCountFromServer(q);
     if (snapshot.data().count > 0) {
         return null;
+
     } else {
-        return addDoc(ADMINS_DB_REF, admin);
+        const q = query(collection(firestore, "users"), where("phoneNumber", "==", admin.phoneNumber));
+        const snapshot = await getCountFromServer(q);
+        if (snapshot.data().count > 0) {
+            return null;
+        } else {
+            return addDoc(ADMINS_DB_REF, admin);
+        }
+
     }
 
 
@@ -35,20 +43,33 @@ export const getUser = async (phone: string) => {
             userType: 'admin'
         };
     } else {
-        const q = query(collection(firestore, "affiliates"), where("phoneNumber", "==", phone));
+        const q = query(collection(firestore, "users"), where("phoneNumber", "==", phone));
         const snapshot = await getCountFromServer(q);
         if (snapshot.data().count > 0) {
             const querySnapshot = await getDocs(q);
             return {
                 data: querySnapshot,
-                userType: 'affiliate'
-            };;
+                userType: 'added'
+            };
+
         } else {
-            return null;
+
+            const q = query(collection(firestore, "affiliates"), where("phoneNumber", "==", phone));
+            const snapshot = await getCountFromServer(q);
+            if (snapshot.data().count > 0) {
+                const querySnapshot = await getDocs(q);
+                return {
+                    data: querySnapshot,
+                    userType: 'affiliate'
+                };
+
+            } else {
+                return null;
+            }
         }
+
+
     }
-
-
 }
 
 
@@ -78,10 +99,6 @@ export const getUserById = async (id: string) => {
 
 
 }
-
-
-
-
 
 
 
