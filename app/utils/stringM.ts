@@ -1,3 +1,4 @@
+import { print } from "./console";
 import Random from "./random";
 
 
@@ -11,7 +12,7 @@ export function isBase64(str: string) {
 }
 
 export function createId(): string {
-    return Random.randomString(13, "abcdefghijklmnopqrstuvwxyz");
+    return Random.randomString(26, "abcdefghijklmnopqrstuvwxyz");
 }
 
 
@@ -37,6 +38,7 @@ export function searchStringInMembers(forms: any[], searchString: string): any[]
                     if (!containsObject(matches, member)) {
                         matches.push(member);
                     }
+                    print(matches)
 
                 }
             }

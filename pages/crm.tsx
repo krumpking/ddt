@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
 import ReactGA from 'react-ga';
 import { Tab } from '@headlessui/react';
+import AddClient from '../app/components/addClients';
+import ClientProfile from '../app/components/clientProfiles';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -72,6 +74,7 @@ const CRM = () => {
         "Add Profile",
         "Profiles",
         "Tasks",
+        "Client Journey",
         "Reports",
         "Custom Data Collection"
     ])
@@ -102,7 +105,7 @@ const CRM = () => {
                     <ClientNav organisationName={'Vision Is Primary'} url={'crm'} />
                 </div>
 
-                <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9">
+                <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9 ">
                     <Tab.Group>
                         <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1">
                             {tabs.map((category) => (
@@ -122,31 +125,31 @@ const CRM = () => {
                                 </Tab>
                             ))}
                         </Tab.List>
-                        <Tab.Panels className="mt-2">
+                        <Tab.Panels className="mt-2 ">
 
                             <Tab.Panel
 
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                <p>Add Profile</p>
+                                <AddClient />
                             </Tab.Panel>
                             <Tab.Panel
 
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                <p>Profile</p>
+                                <ClientProfile />
                             </Tab.Panel>
                             <Tab.Panel
 
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
                                 <p>Tasks</p>
@@ -155,7 +158,16 @@ const CRM = () => {
 
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                                    'ring-white ring-opacity-60 ring-offset-2  focus:outline-none focus:ring-2'
+                                )}
+                            >
+                                <p>Journey</p>
+                            </Tab.Panel>
+                            <Tab.Panel
+
+                                className={classNames(
+                                    'rounded-xl bg-white p-3',
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
                                 <p>Reports</p>

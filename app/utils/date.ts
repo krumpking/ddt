@@ -41,4 +41,23 @@ export default class DateMethods {
 
         return Math.floor(diffTime / (1000 * 60 * 60 * 24));
     }
+
+
+
+
+    static sortObjectsByDate(objects: any, up: boolean): any {
+        const sortedObjects = objects.sort((a: any, b: any) => {
+            const date1: any = new Date(a.date);
+            const date2: any = new Date(b.date);
+            if (up) {
+                return date1 - date2;
+            } else {
+                return date2 - date1;
+            }
+
+        });
+        return sortedObjects;
+    }
+
+
 }

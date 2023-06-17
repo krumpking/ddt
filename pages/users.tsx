@@ -230,11 +230,6 @@ const Users = () => {
 
                                                 if (infoFromCookie.length > 0) {
 
-
-
-
-
-
                                                     var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
                                                     var user = {
                                                         name: fullName,

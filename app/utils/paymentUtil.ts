@@ -16,10 +16,13 @@ export default class Payment {
 
 
         var infoFromCookie = "";
+        let key = ""
         if (getCookie(ADMIN_ID) == "") {
             infoFromCookie = getCookie(COOKIE_ID);
+            key = COOKIE_ID;
         } else {
             infoFromCookie = getCookie(ADMIN_ID);
+            key = ADMIN_ID;
         }
         if (typeof infoFromCookie !== 'undefined') {
 
@@ -28,7 +31,7 @@ export default class Payment {
 
                 const v = await getPayments(infoFromCookie);
 
-                var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+                var id = decrypt(infoFromCookie, COOKIE_ID);
 
                 if (v !== null) {
 

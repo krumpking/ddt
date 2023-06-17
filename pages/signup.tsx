@@ -253,7 +253,7 @@ const SignUp = () => {
                                             px-5
                                             bg-[#fdc92f]
                                             text-base 
-                                            text-white
+                                            text-[#7d5c00]
                                             cursor-pointer
                                             hover:bg-opacity-90
                                             transition
@@ -390,7 +390,7 @@ const SignUp = () => {
                                                 px-5
                                                 bg-[#fdc92f]
                                                 text-base 
-                                                text-white
+                                                text-[#7d5c00]
                                                 cursor-pointer
                                                 hover:bg-opacity-90
                                                 transition

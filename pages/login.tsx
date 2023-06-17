@@ -129,7 +129,7 @@ const Login = () => {
                                 });
 
 
-                                setCookie(PERSON_ROLE, encrypt("Admin", ADMIN_ID), {
+                                setCookie(PERSON_ROLE, encrypt("Admin", COOKIE_ID), {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,
@@ -139,13 +139,13 @@ const Login = () => {
 
 
                             } else if (v.userType == "added") {
-                                setCookie(ADMIN_ID, encrypt(doc.data().adminId, ADMIN_ID), {
+                                setCookie(ADMIN_ID, encrypt(doc.data().adminId, COOKIE_ID), {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,
                                 });
 
-                                setCookie(PERSON_ROLE, encrypt(doc.data().role, ADMIN_ID), {
+                                setCookie(PERSON_ROLE, encrypt(doc.data().role, COOKIE_ID), {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,
@@ -313,20 +313,20 @@ const Login = () => {
                                     type="submit"
                                     value={sent ? "Login" : "Send One Time Password"}
                                     className="
-                                font-bold
-                                    w-full
-                                    rounded-[25px]
-                                border-2
-                                border-[#fdc92f]
-                                    border-primary
-                                    py-3
-                                    px-5
-                                    bg-[#fdc92f]
-                                    text-base 
-                                    text-white
-                                    cursor-pointer
-                                    hover:bg-opacity-90
-                                    transition
+                                        font-bold
+                                        w-full
+                                        rounded-[25px]
+                                        border-2
+                                        border-[#fdc92f]
+                                        border-primary
+                                        py-3
+                                        px-5
+                                        bg-[#fdc92f]
+                                        text-base 
+                                        text-[#7d5c00]
+                                        cursor-pointer
+                                        hover:bg-opacity-90
+                                        transition
                                     "
                                 />
                             </div>
