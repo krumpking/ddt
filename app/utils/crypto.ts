@@ -8,23 +8,37 @@ import * as crypto from 'crypto';
 
 
 export function encrypt(str: string, code: string): string {
-    const cipherAlgorithm = 'aes-256-gcm';
-
-    const key = crypto
-        .createHash('sha256')
-        .update(code)
-        .digest('base64')
-        .substring(0, 32);
 
 
-    const initVector = crypto.randomBytes(16);
-    const initVectorHex = initVector.toString('hex');
-    const cipher = crypto.createCipheriv(cipherAlgorithm, key, initVector);
-    const encoded = cipher.update(str, 'utf-8', 'hex') + cipher.final('hex');
-    const authTag = cipher.getAuthTag().toString('hex');
-    const metaAndEncoded = [authTag, initVectorHex, encoded].join('|');
+    if (typeof str == "string") {
+        if (str.length > 0) {
+            const cipherAlgorithm = 'aes-256-gcm';
 
-    return metaAndEncoded;
+            const key = crypto
+                .createHash('sha256')
+                .update(code)
+                .digest('base64')
+                .substring(0, 32);
+
+
+            const initVector = crypto.randomBytes(16);
+            const initVectorHex = initVector.toString('hex');
+            const cipher = crypto.createCipheriv(cipherAlgorithm, key, initVector);
+            const encoded = cipher.update(str, 'utf-8', 'hex') + cipher.final('hex');
+            const authTag = cipher.getAuthTag().toString('hex');
+            const metaAndEncoded = [authTag, initVectorHex, encoded].join('|');
+
+            return metaAndEncoded;
+        } else {
+            return "";
+        }
+    } else {
+        return "";
+    }
+
+
+
+
 }
 
 export function decrypt(str: string, code: string): string {

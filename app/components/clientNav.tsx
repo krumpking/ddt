@@ -105,7 +105,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 </svg>
 
 
-                                <h1 className='col-span-3 text-white'>ERP</h1>
+                                <h1 className='col-span-3 text-white'>Production Tracking</h1>
                             </div>
                         </a>
                         <a href={'/accounting'} className={url === 'accounting' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
@@ -116,7 +116,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
 
 
 
-                                <h1 className='col-span-3 text-white'>Accounting</h1>
+                                <h1 className='col-span-3 text-white'>Sales</h1>
                             </div>
                         </a>
                         <a href={'/inventory'} className={url === 'inventory' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
@@ -241,7 +241,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 </svg>
 
 
-                                <h1 className='col-span-3 text-white'>ERP</h1>
+                                <h1 className='col-span-3 text-white'>Production Tracking</h1>
                             </div>
                         </a>
                         <a href={'/accounting'} className={url === 'accounting' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
@@ -252,7 +252,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
 
 
 
-                                <h1 className='col-span-3 text-white'>Accounting</h1>
+                                <h1 className='col-span-3 text-white'>Sales</h1>
                             </div>
                         </a>
                         <a href={'/inventory'} className={url === 'inventory' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>

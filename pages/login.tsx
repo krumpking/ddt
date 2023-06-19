@@ -291,19 +291,19 @@ const Login = () => {
 
                                     }}
                                     className="
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
+                                        w-full
+                                        rounded-[25px]
+                                        border-2
+                                        border-[#fdc92f]
+                                        py-3
+                                        px-5
+                                        bg-white
+                                        text-base text-body-color
+                                        placeholder-[#ACB6BE]
+                                        outline-none
+                                        focus-visible:shadow-none
+                                        focus:border-primary
+                                        "
                                     required
                                 />
                             </div>

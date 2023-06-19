@@ -9,6 +9,8 @@ import ReactGA from 'react-ga';
 import { Tab } from '@headlessui/react';
 import AddClient from '../app/components/addClients';
 import ClientProfile from '../app/components/clientProfiles';
+import CRMTasks from '../app/components/crmTasks';
+import ClientJourney from '../app/components/clientJourney';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -113,7 +115,7 @@ const CRM = () => {
                                     key={category}
                                     className={({ selected }) =>
                                         classNames(
-                                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-[#00947a] rounded-[25px]',
+                                            'w-full  py-2.5 text-sm font-medium leading-5 text-[#00947a] rounded-[25px]',
                                             'ring-white ring-opacity-60 ring-offset-2 ring-offset-[#00947a] focus:outline-none focus:ring-2',
                                             selected
                                                 ? 'bg-white shadow'
@@ -152,7 +154,7 @@ const CRM = () => {
                                     'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                <p>Tasks</p>
+                                <CRMTasks />
                             </Tab.Panel>
                             <Tab.Panel
 
@@ -161,7 +163,7 @@ const CRM = () => {
                                     'ring-white ring-opacity-60 ring-offset-2  focus:outline-none focus:ring-2'
                                 )}
                             >
-                                <p>Journey</p>
+                                <ClientJourney />
                             </Tab.Panel>
                             <Tab.Panel
 

@@ -6,13 +6,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
 import Payment from '../app/utils/paymentUtil';
-import { getAllData } from '../app/api/adminApi';
 import { decrypt, encrypt } from '../app/utils/crypto';
 import { getCookie } from 'react-use-cookie';
 import { IData } from '../app/types/types';
 import FormSummary from '../app/components/formSummary';
 import ReactGA from 'react-ga';
 import { searchStringInMembers } from '../app/utils/stringM';
+import { getAllData } from '../app/api/formApi';
 
 
 const Data = () => {

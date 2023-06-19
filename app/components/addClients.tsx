@@ -21,6 +21,7 @@ const AddClient = () => {
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState("");
     const [totalAmount, setTotalAmount] = useState("");
+    const [salesPerson, setSalesPerson] = useState("");
 
 
     const addClient = () => {
@@ -58,7 +59,8 @@ const AddClient = () => {
             refSource: encrypt(refSource, id),
             enquired: prodA,
             value: encrypt(totalAmount, id),
-            encryption: 2
+            encryption: 2,
+            salesPerson: encrypt(salesPerson, id),
         }
 
         addAClientToDB(client).then((r) => {
@@ -170,31 +172,31 @@ const AddClient = () => {
                                 <option value="Contact" hidden>
                                     Stage of communication
                                 </option>
-                                <option value="Contact">
+                                <option value="Contact Made">
                                     Contact Made
                                 </option>
-                                <option value="Appointment" >
+                                <option value="Appointment Set" >
                                     Appointment Set
                                 </option>
-                                <option value="Presentation" >
+                                <option value="Presentation Made" >
                                     Presentation Made
                                 </option>
-                                <option value="Decision" >
+                                <option value="Decision Maker brought in" >
                                     Decision Maker brought in
                                 </option>
-                                <option value="Contract" >
+                                <option value="Contract Sent" >
                                     Contract Sent
                                 </option>
-                                <option value="Signed" >
+                                <option value="Contract Signed" >
                                     Contract Signed
                                 </option>
-                                <option value="Started" >
+                                <option value="Project Started" >
                                     Project Started
                                 </option>
-                                <option value="Progressed" >
+                                <option value="Project In Progress" >
                                     Project In Progress
                                 </option>
-                                <option value="Finished" >
+                                <option value="Project Finished" >
                                     Project Finished
                                 </option>
                             </select>
@@ -295,7 +297,30 @@ const AddClient = () => {
                                     outline-none
                                     focus-visible:shadow-none
                                     focus:border-primary
-                                    h-48
+                                    h-24
+                                    "
+
+                        />
+                        <textarea
+                            value={salesPerson}
+                            placeholder={"Sales Person"}
+                            onChange={(e) => {
+                                setSalesPerson(e.target.value);
+                            }}
+                            className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    h-24
                                     "
 
                         />
