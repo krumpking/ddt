@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
 import Payment from '../app/utils/paymentUtil';
-import ReactGA from 'react-ga';
 import { searchStringInMembers } from '../app/utils/stringM';
 
 
@@ -26,8 +25,7 @@ const Formats = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
         // checkPayment();
 
         return () => {

@@ -16,5 +16,16 @@
       }
     ],
     "react/no-children-prop": 1
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

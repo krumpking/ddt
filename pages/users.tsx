@@ -5,8 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
-import ReactGA from 'react-ga';
-import { MultiSelect } from "react-multi-select-component";
 import { IUser } from '../app/types/userTypes';
 import { createId, getDate } from '../app/utils/stringM';
 import { getCookie } from 'react-use-cookie';
@@ -43,8 +41,7 @@ const Users = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
         getUsersFromDB();
 

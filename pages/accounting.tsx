@@ -5,23 +5,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
-import ReactGA from 'react-ga';
 import { Tab } from '@headlessui/react';
 import GenerateQuotation from '../app/components/generateQuotation';
+import GenerateInvoice from '../app/components/generateInvoice.';
+import GenerateReceipt from '../app/components/generateReceipt';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Accounting = () => {
-    const [phone, setPhone] = useState("");
-    const [accessCode, setAccessCode] = useState("");
-    const [sent, setSent] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
     const [tabs, setTabs] = useState([
         "Add Quotation",
         "Add Invoice",
+        "Receipt",
         // "Add Expenses",
         // "Client Journey",
         "Reports",
@@ -33,8 +30,7 @@ const Accounting = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
         return () => {
 
@@ -85,6 +81,7 @@ const Accounting = () => {
                                 )}
                             >
                                 <GenerateQuotation />
+
                             </Tab.Panel>
                             <Tab.Panel
 
@@ -93,7 +90,7 @@ const Accounting = () => {
                                     'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                {/* <ClientProfile /> */}
+                                <GenerateInvoice />
                             </Tab.Panel>
                             <Tab.Panel
 
@@ -102,7 +99,16 @@ const Accounting = () => {
                                     'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                {/* <CRMTasks /> */}
+                                <GenerateReceipt />
+                            </Tab.Panel>
+                            <Tab.Panel
+
+                                className={classNames(
+                                    'rounded-xl bg-white p-3',
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                                )}
+                            >
+                                <p>Report</p>
                             </Tab.Panel>
                             <Tab.Panel
 

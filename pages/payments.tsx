@@ -12,7 +12,6 @@ import { getCookie } from 'react-use-cookie';
 import DateMethods from '../app/utils/date';
 import Random from '../app/utils/random';
 import { decrypt } from '../app/utils/crypto';
-import ReactGA from 'react-ga';
 import { IPayments } from '../app/types/paymentTypes';
 import { addPayment, getPayments, getPromo } from '../app/api/paymentApi';
 
@@ -42,8 +41,7 @@ const Payments = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
         var infoFormCookie = getCookie(COOKIE_ID);
         if (typeof infoFormCookie !== 'undefined') {

@@ -5,13 +5,13 @@ module.exports = {
     remotePatterns: [
       {
         // SET PATTERN FOR YOUR FIREBASE IMAGE HOST
-        protocol: 'https',
-        hostname: '**.**.**'
-      }
-    ]
+        protocol: "https",
+        hostname: "**.**.**",
+      },
+    ],
   },
   nextConfig: {
     reactStrictMode: true,
-    swcMinify: true
-  }
-}
+    swcMinify: false,
+  },
+};

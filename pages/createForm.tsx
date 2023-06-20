@@ -5,18 +5,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
-import FormElement from '../app/components/formElement';
-import { IFormElement } from '../app/types/types';
 import { Menu, Transition } from '@headlessui/react';
 import Elem, { iElements } from '../app/components/elements';
 import Random from '../app/utils/random';
 import { getCookie } from 'react-use-cookie';
-import { addForm } from '../app/api/adminApi';
 import Payment from '../app/utils/paymentUtil';
 import { decrypt } from '../app/utils/crypto';
 import { createId } from '../app/utils/stringM';
-import { print } from '../app/utils/console';
-import ReactGA from 'react-ga';
+import { IFormElement } from '../app/types/formTypes';
+import { addForm } from '../app/api/formApi';
 
 
 
@@ -44,8 +41,7 @@ const CreateForm = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
 
         if (elements.length < 1) {

@@ -25,7 +25,7 @@ const Header = () => {
 
                 <div className='mt-8 ml-8 mr-8 flex flex-row justify-start text-center'>
                     <button className={`bg-[#fdc92f] rounded-[30px] p-2 text-center`}>
-                        <a className='text-xl  text-[#7d5c00] text-center ' href='/signup'>Get Started</a>
+                        <Link className='text-xl  text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>
                     </button>
                     <Link href="#benefits"><p className="m-2 text-white p-2 text-xl">See more</p></Link>
 

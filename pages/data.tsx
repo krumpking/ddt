@@ -10,7 +10,6 @@ import { decrypt, encrypt } from '../app/utils/crypto';
 import { getCookie } from 'react-use-cookie';
 import { IData } from '../app/types/types';
 import FormSummary from '../app/components/formSummary';
-import ReactGA from 'react-ga';
 import { searchStringInMembers } from '../app/utils/stringM';
 import { getAllData } from '../app/api/formApi';
 
@@ -29,8 +28,7 @@ const Data = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
         checkPayment();
 
         var infoFormCookie = getCookie(COOKIE_ID);

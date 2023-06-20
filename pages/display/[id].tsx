@@ -13,8 +13,6 @@ import { decrypt, simpleDecrypt } from '../../app/utils/crypto';
 import Loader from '../../app/components/loader';
 import { getDate, getMonth, isBase64 } from '../../app/utils/stringM';
 import { downloadExcel } from '../../app/utils/excel';
-import { print } from '../../app/utils/console';
-import ReactGA from 'react-ga';
 import { Dialog, Transition } from '@headlessui/react';
 import ReturnElements from '../../app/components/returnElements';
 import html2canvas from 'html2canvas';
@@ -45,9 +43,6 @@ const DataDisplay = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
 
 
         checkPayment();

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
-import ReactGA from 'react-ga';
 import { getCookie } from 'react-use-cookie';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { IClient } from '../types/userTypes';
@@ -62,8 +61,7 @@ const ClientProfile = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
         setClients([]);
         getClientsFromDB();
 
@@ -438,7 +436,6 @@ const ClientProfile = () => {
 
         switch (view) {
             case 0:
-                print(editMember);
                 return (
                     <div className='flex flex-col'>
                         <Pill title={`${editMember?.name}`} description={'Name'} />
@@ -994,7 +991,6 @@ const ClientProfile = () => {
                         <Pill title={`${editMember?.notes}`} description={'Notes'} />
                     </div>
                 );
-                break;
         }
     }
 
@@ -1175,7 +1171,7 @@ const ClientProfile = () => {
                                                                             <Menu.Item>
                                                                                 {({ active }) => (
                                                                                     <button
-                                                                                        onClick={() => { if (typeof value.id !== 'undefined') { setOpenDialog(true); setEditMember(value); setView(2); }; }}
+                                                                                        onClick={() => { if (typeof value.id !== 'undefined') { setOpenDialog(true); setEditMember(value); setView(2); } }}
                                                                                         className={`${active
                                                                                             ? "bg-gray-100 text-gray-900"
                                                                                             : "text-gray-700"

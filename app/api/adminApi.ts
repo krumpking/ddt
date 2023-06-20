@@ -91,7 +91,7 @@ export const getUserById = async (id: string) => {
             return {
                 data: querySnapshot,
                 userType: 'affiliate'
-            };;
+            };
         } else {
             return null;
         }

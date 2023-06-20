@@ -12,7 +12,6 @@ import { setCookie } from 'react-use-cookie';
 import { DocumentData, DocumentReference } from 'firebase/firestore';
 import { encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
-import ReactGA from 'react-ga';
 
 
 const SignUp = () => {
@@ -33,8 +32,6 @@ const SignUp = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
         auth.languageCode = 'en';
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
             'size': 'visible',

@@ -3,12 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../app/store/hooks';
 import { selectPosition } from '../app/store/reducer';
 import { PRIMARY_COLOR, WHATSAPP_CONTACT } from '../app/constants/constants';
-import Nav from '../app/components/nav';
-import Header from '../app/components/header';
-import Carousel from '../app/components/carousel';
-import Link from 'next/link';
-import ClientNav from '../app/components/clientNav';
-import ReactGA from 'react-ga';
+
 
 
 
@@ -21,8 +16,7 @@ const Terms: NextPage = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
     }, []);
 

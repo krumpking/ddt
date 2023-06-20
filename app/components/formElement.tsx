@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { FC } from 'react';
 import Elem, { iElements } from './elements';
 import { Menu, Transition } from '@headlessui/react'
-import { IForm, IFormElement } from '../types/types';
 import Random from '../utils/random';
 import Loader from './loader';
+import { IFormElement } from '../types/formTypes';
 
 interface MyProps {
     addElement: (elemt: IFormElement) => void,
@@ -104,6 +104,7 @@ const FormElement: FC<MyProps> = ({ addElement, duplicateElement, deleteElement,
                                                 <div className="px-1 py-1 flex flex-col space-y-2 w-full">
                                                     {iElements.map((v, index) => (
                                                         <Menu.Button
+                                                            key={index}
                                                             onClick={() => {
                                                                 setNum(index);
                                                             }}>

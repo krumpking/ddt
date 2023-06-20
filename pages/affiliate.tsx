@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { COOKIE_EMAIL, COOKIE_ID, COOKIE_NAME, COOKIE_ORGANISATION, COOKIE_PHONE, PRIMARY_COLOR } from '../app/constants/constants';
-import Carousel from '../app/components/carousel';
 import { auth } from '../firebase/clientApp';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { addAdmin } from '../app/api/adminApi';
 import { setCookie } from 'react-use-cookie';
-import { DocumentData, DocumentReference } from 'firebase/firestore';
 import { encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
-import ReactGA from 'react-ga';
 import { addAffiliate } from '../app/api/affiliateApi';
 
 
@@ -34,8 +30,7 @@ const Affiliate = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
         auth.languageCode = 'en';
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
             'size': 'visible',

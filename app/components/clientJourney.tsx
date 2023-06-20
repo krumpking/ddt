@@ -1,22 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from 'next/router'
-import ReactGA from 'react-ga';
 import { getCookie } from 'react-use-cookie';
-import { Dialog, Menu, Transition } from '@headlessui/react';
 import { IClient } from '../types/userTypes';
-import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
-import ClientNav from './clientNav';
+import { COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
 import Loader from './loader';
-import { addTasksToDB, getAllClientsToDB, updateClientToDB } from '../api/crmApi';
-import { print } from '../utils/console';
-import { searchStringInMembers } from '../utils/stringM';
-import DateMethods from '../utils/date';
-import { decrypt, encrypt } from '../utils/crypto';
-import DataSummary from './dataSummary';
-import Pill from './pill';
-import e from 'express';
+import { getAllClientsToDB } from '../api/crmApi';
+import { decrypt } from '../utils/crypto';
 import Accordion from './accordion';
 
 
@@ -47,8 +37,6 @@ const ClientJourney = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
         setContactMade([]);
         setAppointment([]);
         setPresentationMade([]);
@@ -179,7 +167,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -189,7 +177,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -199,7 +187,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -209,7 +197,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -219,7 +207,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -229,7 +217,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -239,7 +227,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -249,7 +237,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>
@@ -259,7 +247,7 @@ const ClientJourney = () => {
 
 
                                     return (
-                                        <Accordion title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
                                     )
                                 })}
                             </div>

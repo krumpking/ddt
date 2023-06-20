@@ -3,9 +3,7 @@ import { LIGHT_GRAY, PRIMARY_COLOR } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from 'next/router'
 import ClientNav from '../app/components/clientNav';
-import ReactGA from 'react-ga';
 import { Tab } from '@headlessui/react';
 import AddClient from '../app/components/addClients';
 import ClientProfile from '../app/components/clientProfiles';
@@ -17,61 +15,6 @@ function classNames(...classes: string[]) {
 }
 
 const CRM = () => {
-    const [phone, setPhone] = useState("");
-    const [accessCode, setAccessCode] = useState("");
-    const [sent, setSent] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
-    let [categories] = useState({
-        Recent: [
-            {
-                id: 1,
-                title: 'Does drinking coffee make you smarter?',
-                date: '5h ago',
-                commentCount: 5,
-                shareCount: 2,
-            },
-            {
-                id: 2,
-                title: "So you've bought coffee... now what?",
-                date: '2h ago',
-                commentCount: 3,
-                shareCount: 2,
-            },
-        ],
-        Popular: [
-            {
-                id: 1,
-                title: 'Is tech making coffee better or worse?',
-                date: 'Jan 7',
-                commentCount: 29,
-                shareCount: 16,
-            },
-            {
-                id: 2,
-                title: 'The most innovative things happening in coffee',
-                date: 'Mar 19',
-                commentCount: 24,
-                shareCount: 12,
-            },
-        ],
-        Trending: [
-            {
-                id: 1,
-                title: 'Ask Me Anything: 10 answers to your questions about coffee',
-                date: '2d ago',
-                commentCount: 9,
-                shareCount: 5,
-            },
-            {
-                id: 2,
-                title: "The worst advice we've ever heard about coffee",
-                date: '4d ago',
-                commentCount: 1,
-                shareCount: 2,
-            },
-        ],
-    });
     const [tabs, setTabs] = useState([
         "Add Profile",
         "Profiles",
@@ -85,8 +28,7 @@ const CRM = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
         return () => {
 

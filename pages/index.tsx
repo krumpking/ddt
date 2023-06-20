@@ -1,13 +1,10 @@
 import type { NextPage } from 'next'
 import React, { useState, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../app/store/hooks';
-import { selectPosition } from '../app/store/reducer';
-import { NEXT_PUBLIC_GOOGLE_ANALYTICS, PRIMARY_COLOR, WHATSAPP_CONTACT } from '../app/constants/constants';
+import { WHATSAPP_CONTACT } from '../app/constants/constants';
 import Nav from '../app/components/nav';
 import Header from '../app/components/header';
 import Carousel from '../app/components/carousel';
 import Link from 'next/link';
-import ReactGA from 'react-ga';
 
 
 
@@ -21,8 +18,6 @@ const Home: NextPage = () => {
   const [trackingId, settrackingId] = useState("AW-11208371394");
 
   useEffect(() => {
-    ReactGA.initialize(NEXT_PUBLIC_GOOGLE_ANALYTICS);
-    ReactGA.pageview(window.location.pathname + window.location.search);
 
   }, []);
 

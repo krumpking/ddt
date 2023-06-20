@@ -5,8 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Random from "../utils/random";
 import { getCookie } from "react-use-cookie";
 import { COOKIE_ID, COOKIE_PHONE } from "../constants/constants";
-import { addPayment, checkAffiliate } from "../api/adminApi";
 import { decrypt } from "../utils/crypto";
+import { checkAffiliate } from "../api/affiliateApi";
+import { addPayment } from "../api/paymentApi";
 
 
 
@@ -64,10 +65,7 @@ const PaypalCheckoutButton = (props: { affNo: number; }) => {
                 toast.error('There was an error adding your payment, please try again');
 
             });
-        } else {
-
         }
-
         // if response is success
 
         // Refresh user's account or subscription status

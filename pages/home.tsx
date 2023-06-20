@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_ID, LIGHT_GRAY, PRIMARY_COLOR, TEMPLATES } from '../app/constants/constants';
+import { COOKIE_ID, LIGHT_GRAY, TEMPLATES } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,6 @@ import { getCookie } from 'react-use-cookie';
 import Payment from '../app/utils/paymentUtil';
 import { decrypt, encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
-import ReactGA from 'react-ga';
 import { getForms } from '../app/api/formApi';
 import { IForm } from '../app/types/formTypes';
 
@@ -34,8 +33,7 @@ const Home = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
         // setPreviousForms([
         //     {

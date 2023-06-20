@@ -90,28 +90,17 @@ const ReturnElements: FC<MyProps> = ({ num, info, code, codeId }) => {
                 return (
                     <HexColorPicker color={color} />
                 );
-            case 16:
+            case 16: {
 
-                const loc = simpleDecrypt(info, code);
+                let loc = simpleDecrypt(info, code);
+                let lat = loc.substring(loc.indexOf('Lat') + 4, loc.indexOf('Lng'));
+                let lng = loc.substring(loc.indexOf(':') + 1, loc.length);
 
-                var lat = loc.substring(loc.indexOf('Lat') + 4, loc.indexOf('Lng'));
-
-                var lng = loc.substring(loc.indexOf(':') + 1, loc.length);
-
-                // Location
-                const defaultProps = {
-                    center: {
-                        lat: parseFloat(lat),
-                        lng: parseFloat(lng)
-                    },
-                    zoom: 11
-                };
-
-                print(parseFloat(lat) + " " + parseFloat(lng));
 
                 return (
                     <ShowMap lat={lat} lng={lng} />
                 );
+            }
             case 17:
                 // Signature
                 return (

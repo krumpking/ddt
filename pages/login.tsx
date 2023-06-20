@@ -9,10 +9,8 @@ import { useRouter } from 'next/router'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { getUser, getUserById } from '../app/api/adminApi';
 import { getCookie, setCookie } from 'react-use-cookie';
-import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { decrypt, encrypt } from '../app/utils/crypto';
-import Payment from '../app/utils/paymentUtil';
-import ReactGA from 'react-ga';
+
 import { COOKIE_AFFILIATE_NUMBER } from '../app/constants/affilliateConstants';
 
 const Login = () => {
@@ -29,8 +27,6 @@ const Login = () => {
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
         auth.languageCode = 'en';
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
             'size': 'visible',
             'callback': (response: any) => {

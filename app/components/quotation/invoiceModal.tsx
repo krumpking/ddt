@@ -75,8 +75,6 @@ const InvoiceModal: FC<MyProps> = ({
 
 
     }).catch((e) => {
-      ;
-
       console.error(e);
     })
 
@@ -90,11 +88,7 @@ const InvoiceModal: FC<MyProps> = ({
           img.src = dataUrl;
           img.onload = () => {
             // Initialize the PDF.
-            const pdf = new jsPDF({
-              orientation: "portrait",
-              unit: "in",
-              format: [5.5, 8.5],
-            });
+            const pdf = new jsPDF("p", "mm", "a4");
 
             // Define reused data
             const imgProps = pdf.getImageProperties(img);
@@ -117,10 +111,10 @@ const InvoiceModal: FC<MyProps> = ({
 
             for (let page = 0; page < nPages; page++) {
               // Trim the final page to reduce file size.
-              if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
-                pageCanvas.height = pxFullHeight % pxPageHeight;
-                pageHeight = (pageCanvas.height * pdfWidth) / pageCanvas.width;
-              }
+              // if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
+              //   pageCanvas.height = pxFullHeight % pxPageHeight;
+              //   pageHeight = (pageCanvas.height * pdfWidth) / pageCanvas.width;
+              // }
               // Display the page.
               const w = pageCanvas.width;
               const h = pageCanvas.height;
@@ -132,9 +126,11 @@ const InvoiceModal: FC<MyProps> = ({
                 // Add the page to the PDF.
                 if (page) pdf.addPage();
 
-                const imgData = pageCanvas.toDataURL(`image/${imageType}`, 1);
-                pdf.addImage(imgData, imageType, 0, 0, pdfWidth, pageHeight);
+
               }
+
+              const imgData = pageCanvas.toDataURL(`image/${imageType}`, 1);
+              pdf.addImage(imgData, imageType, 0, 0, pdfWidth, pageHeight);
 
             }
             // Output / Save
@@ -185,7 +181,7 @@ const InvoiceModal: FC<MyProps> = ({
             leaveTo="opacity-0 scale-95"
           >
             <div className="my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
-              <div className="p-16 border-2 border-black m-4" id="print">
+              <div className="p-16 border-2 border-black m-8" id="print">
                 <h1 className="text-center text-lg font-bold text-gray-900 border-black border-2 text-bold">
                   Quotation
                 </h1>
@@ -226,7 +222,7 @@ const InvoiceModal: FC<MyProps> = ({
 
                   </div>
                   <div className="grid grid-cols-2">
-                    <div className="p-4">
+                    <div className="p-4 mt-72">
                       <p className="font-bold">Please Note</p>
                       <ol className="list-decimal ">
                         <li>We take utmost care to give correct estimation on quantities but we shall not be held responsible for any shortfall or surplus</li>
@@ -240,7 +236,7 @@ const InvoiceModal: FC<MyProps> = ({
                     </div>
                     <div>
 
-                      <table className="w-full text-left ">
+                      <table className="w-full text-left">
                         <thead>
                           <tr className=" text-sm md:text-base p-4">
                             <th>ITEM</th>
@@ -249,7 +245,7 @@ const InvoiceModal: FC<MyProps> = ({
                             <th className="text-right">AMOUNT</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                           {items.map((item: any) => (
                             <tr key={item.id}>
                               <td className="w-full">{item.name}</td>
@@ -267,7 +263,7 @@ const InvoiceModal: FC<MyProps> = ({
                         </tbody>
                       </table>
 
-                      <div className="mt-4 flex flex-col items-end space-y-2">
+                      <div className="flex flex-col items-end space-y-2 mt-72">
                         <div className="flex w-full justify-between border-t border-black/10 pt-2">
                           <span className="font-bold">Subtotal:</span>
                           <span>${invoiceInfo.subtotal.toFixed(2)}</span>

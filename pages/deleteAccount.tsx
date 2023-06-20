@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import React, { useState, useEffect } from 'react'
 import { PRIMARY_COLOR } from '../app/constants/constants';
-import ReactGA from 'react-ga';
+
 
 
 
@@ -13,8 +13,7 @@ const DeleteAccount: NextPage = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = PRIMARY_COLOR;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
+
 
     }, []);
 

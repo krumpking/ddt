@@ -64,7 +64,7 @@ const Carousel = ({ children }: IProps) => {
     ));
 
     const activeDot = children.map((slide, index) => (
-        <div className={currentSlide === index ? "bg-yellow-500 w-2 h-2 rounded-lg mx-2" : "bg-gray-600 w-2 h-2 rounded-lg mx-2"}>
+        <div className={currentSlide === index ? "bg-yellow-500 w-2 h-2 rounded-lg mx-2" : "bg-gray-600 w-2 h-2 rounded-lg mx-2"} key={index}>
         </div>
     ))
 

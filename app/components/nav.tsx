@@ -68,11 +68,11 @@ const Nav = () => {
                         <div className="flex items-baseline flex-row justify-end space-x-4 ">
                             {navItems.map((v, index) => {
                                 if (index === 5 || index === 6 || index == 7) {
-                                    return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
-                                        <a className='md:text-xs 2xl:text-xl text-[#7d5c00] text-center  p-1 lg:p-4' href={v.url}>{v.name}</a>
+                                    return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`} key={index}>
+                                        <a className='md:text-xs 2xl:text-xl text-[#7d5c00] text-center  p-1 lg:p-4' href={v.url} >{v.name}</a>
                                     </div>)
                                 } else {
-                                    return (<a className=' text-white space-x-1 md:text-xs 2xl:text-xl  p-2' href={v.url}>{v.name}</a>)
+                                    return (<a className=' text-white space-x-1 md:text-xs 2xl:text-xl  p-2' href={v.url} key={index}>{v.name}</a>)
                                 }
                             })}
                         </div>
@@ -150,11 +150,11 @@ const Nav = () => {
                         <div ref={ref} className="flex flex-col px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg rounded-lg p-4">
                             {navItems.map((v, index) => {
                                 if (index === 5 || index === 6 || index === 7) {
-                                    return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`}>
-                                        <a className='smXS:text-xs md:text-sm afterMini:text-xs xl:text-xl text-[#7d5c00] text-center p-4' href={v.url}>{v.name}</a>
+                                    return (<div className={`bg-[#fdc92f] rounded-[20px] p-2`} key={index}>
+                                        <a className='smXS:text-xs md:text-sm afterMini:text-xs xl:text-xl text-[#7d5c00] text-center p-4' href={v.url} >{v.name}</a>
                                     </div>)
                                 } else {
-                                    return (<a className='text-white space-x-1 smXS:text-xs md:text-sm afterMini:text-xs   xl:text-xl  p-2' href={v.url}>{v.name}</a>)
+                                    return (<a className='text-white space-x-1 smXS:text-xs md:text-sm afterMini:text-xs   xl:text-xl  p-2' href={v.url} key={index}>{v.name}</a>)
                                 }
                             })}
                         </div>

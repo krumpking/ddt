@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { uid } from "uid";
 import incrementString from "./helpers/incrementString";
 import InvoiceItem from "./invoiceItem";
 import InvoiceModal from "./invoiceModal";
 import { print } from "../../utils/console";
+import { createId } from "../../utils/stringM";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB", {
@@ -23,7 +23,7 @@ const InvoiceForm = () => {
   const [customerOrganisation, setCustomerOrganisation] = useState("");
   const [items, setItems] = useState([
     {
-      id: uid(6),
+      id: createId(),
       name: "",
       qty: 1,
       price: "1.00",
@@ -46,7 +46,7 @@ const InvoiceForm = () => {
     setInvoiceNumber((prevNumber) => incrementString(prevNumber));
     setItems([
       {
-        id: uid(6),
+        id: createId(),
         name: "",
         qty: 1,
         price: "1.00",
@@ -55,7 +55,7 @@ const InvoiceForm = () => {
   };
 
   const addItemHandler = () => {
-    const id = uid(6);
+    const id = createId();
     setItems((prevItem) => [
       ...prevItem,
       {

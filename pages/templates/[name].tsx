@@ -4,20 +4,18 @@ import React, { Fragment, useEffect, useMemo, useReducer, useState } from 'react
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
-import { IFormElement } from '../../app/types/types';
 import { COOKIE_ID, LIGHT_GRAY, TEMPLATES } from '../../app/constants/constants';
 import Payment from '../../app/utils/paymentUtil';
 import { getCookie } from 'react-use-cookie';
 import { decrypt } from '../../app/utils/crypto';
-import { addForm } from '../../app/api/adminApi';
-import Random from '../../app/utils/random';
 import ClientNav from '../../app/components/clientNav';
 import Loader from '../../app/components/loader';
 import { Menu, Transition } from '@headlessui/react';
 import Elem, { iElements } from '../../app/components/elements';
 import { createId } from '../../app/utils/stringM';
 import { print } from '../../app/utils/console';
-import ReactGA from 'react-ga';
+import { IFormElement } from '../../app/types/formTypes';
+import { addForm } from '../../app/api/formApi';
 
 
 
@@ -46,8 +44,6 @@ const Template = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-        ReactGA.initialize('AW-11208371394');
-        ReactGA.pageview(window.location.pathname + window.location.search);
         setLoading(true);
         // checkPayment();
         setElements([]);

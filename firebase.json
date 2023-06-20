@@ -23,6 +23,30 @@
     ],
     "rewrites": [
       {
+        "source": "/users",
+        "destination": "/users.html"
+      },
+      {
+        "source": "/accounting",
+        "destination": "/accounting.html"
+      },
+      {
+        "source": "/crm",
+        "destination": "/crm.html"
+      },
+      {
+        "source": "/erp",
+        "destination": "/erp.html"
+      },
+      {
+        "source": "/events",
+        "destination": "/events.html"
+      },
+      {
+        "source": "/inventory",
+        "destination": "/inventory.html"
+      },
+      {
         "source": "/display/**",
         "destination": "/display/[id].html"
       },
