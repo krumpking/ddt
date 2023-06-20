@@ -48,7 +48,7 @@ const ReceiptForm = () => {
             {
                 id: createId(),
                 name: "",
-                qty: 1,
+                qty: 1.00,
                 price: "1.00",
             },
         ]);
@@ -61,7 +61,7 @@ const ReceiptForm = () => {
             {
                 id: id,
                 name: "",
-                qty: 1,
+                qty: 1.00,
                 price: "1.00",
             },
         ]);
@@ -98,11 +98,11 @@ const ReceiptForm = () => {
 
     const subtotal = items.reduce((prev, curr) => {
         if (curr.name.trim().length > 0)
-            return prev + Number(parseInt(curr.price) * Math.floor(curr.qty));
+            return prev + Number(parseFloat(curr.price) * curr.qty);
         else return prev;
     }, 0);
-    const taxRate = (parseInt(tax) * subtotal) / 100;
-    const discountRate = (parseInt(discount) * subtotal) / 100;
+    const taxRate = (parseFloat(tax) * subtotal) / 100;
+    const discountRate = (parseFloat(discount) * subtotal) / 100;
     useEffect(() => {
 
         if (discountRate > 0) {
@@ -375,28 +375,29 @@ const ReceiptForm = () => {
                 <div className="sticky top-0 z-10 space-y-4 divide-y divide-gray-900/10 pb-8 md:pt-6 md:pl-4">
                     <button
                         className="
-                font-bold
-                w-full
-                rounded-[25px]
-                border-2
-                border-[#fdc92f]
-                border-primary
-                py-3
-                px-5
-                bg-[#fdc92f]
-                text-base 
-                text-[#7d5c00]
-                cursor-pointer
-                hover:bg-opacity-90
-                transition
-            "
+                            font-bold
+                            w-full
+                            rounded-[25px]
+                            border-2
+                            border-[#fdc92f]
+                            border-primary
+                            py-3
+                            px-5
+                            bg-[#fdc92f]
+                            text-base 
+                            text-[#7d5c00]
+                            cursor-pointer
+                            hover:bg-opacity-90
+                            transition
+                        "
                         type="submit"
                     >
-                        Review Invoice
+                        Review Receipt
                     </button>
                     <InvoiceModal
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
+                        type={'Receipt'}
                         invoiceInfo={{
                             invoiceNumber,
                             cashierName,

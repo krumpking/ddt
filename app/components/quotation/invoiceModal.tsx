@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
@@ -6,9 +6,11 @@ import { addAClientToDB } from "../../api/crmApi";
 import { getCookie } from "react-use-cookie";
 import { ADMIN_ID, COOKIE_ID } from "../../constants/constants";
 import { decrypt, encrypt } from "../../utils/crypto";
+import { getOrgInfoFromDB } from "../../api/orgApi";
 
 
 interface MyProps {
+  type: string,
   isOpen: any,
   setIsOpen: any,
   invoiceInfo: any,
@@ -20,20 +22,77 @@ interface MyProps {
 
 
 const InvoiceModal: FC<MyProps> = ({
+  type,
   isOpen,
   setIsOpen,
   invoiceInfo,
   items,
   onAddNextInvoice,
 }) => {
+  const [organizationName, setOrganizationName] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [call, setCall] = useState("");
+  const [landline, setLandline] = useState("");
+  const [vat, setVat] = useState(0);
+  const [image, setImage] = useState<any>();
+  const [quotation, setQuotation] = useState("");
+
+  useEffect(() => {
+
+    getOrgInfo();
+
+
+
+  }, [])
+
+
+
+
+  const getOrgInfo = () => {
+
+    getOrgInfoFromDB().then((r) => {
+
+      var infoFromCookie = "";
+      if (getCookie(ADMIN_ID) == "") {
+        infoFromCookie = getCookie(COOKIE_ID);
+      } else {
+        infoFromCookie = getCookie(ADMIN_ID);
+      }
+      var id = decrypt(infoFromCookie, COOKIE_ID);
+
+
+      if (r !== null) {
+
+        r.data.forEach(element => {
+
+          setOrganizationName(decrypt(element.data().organizationName, id));
+          setAddress(decrypt(element.data().address, id));
+          setEmail(decrypt(element.data().email, id));
+          setCall(decrypt(element.data().call, id));
+          setLandline(decrypt(element.data().landline, id));
+          setVat(parseInt(decrypt(element.data().vat, id)));
+          setImage(element.data().image);
+          setQuotation(decrypt(element.data().quotation, id));
+        });
+
+      }
+
+
+    }).catch((e) => {
+      console.error(e);
+
+    });
+  }
+
+
+
+
   function closeModal() {
     setIsOpen(false);
   }
 
-  const addNextInvoiceHandler = () => {
-    setIsOpen(false);
-    onAddNextInvoice();
-  };
+
 
   const SaveAsPDFHandler = () => {
 
@@ -183,20 +242,18 @@ const InvoiceModal: FC<MyProps> = ({
             <div className="my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
               <div className="p-16 border-2 border-black m-8" id="print">
                 <h1 className="text-center text-lg font-bold text-gray-900 border-black border-2 text-bold">
-                  Quotation
+                  {type}
                 </h1>
                 <div className="grid grid-cols-2 border-y-2 border-black p-4">
                   <div className="flex flex-col border-r-2 border-black">
-                    <h1 className="text-red-500 font-bold text-2xl"> DURAROOF </h1>
-                    <h1>ZIMBABWE (PVT) LTD</h1>
-                    <p>56 Edison Crescent, Graniteside Harare</p>
-                    <p>ZIMBABWE</p>
-                    <p>E-Mail: sales@duraroofcom.co.zw</p>
-                    <p>TEL: +263 779 748 897/ +242 787 794</p>
-                    <p>Vat No 10057846</p>
+                    <h1 className="font-bold text-2xl"> {organizationName} </h1>
+                    <p>{address}</p>
+                    <p>E-Mail: {email}</p>
+                    <p>TEL: {call}/{landline}</p>
+                    <p>Tax No {vat}</p>
                   </div>
                   <div>
-                    <img src="/images/logo.png" className="max-h-24 border-b-2 border-black w-full" />
+                    <img src={image} className="max-h-24 border-b-2 border-black w-full" />
                     <p className="border-black border-l-2 mx-4">Date </p>
                     <div className="mt-5 flex flex-row justify-between">
                       <p>{invoiceInfo.today}</p>
@@ -211,7 +268,7 @@ const InvoiceModal: FC<MyProps> = ({
 
                     <div>
                       <p>{invoiceInfo.customerName}</p>
-                      <p>{invoiceInfo.organisation}</p>
+                      <p>{invoiceInfo.customerOrganisation}</p>
                       <p>{invoiceInfo.customerContact}</p>
                     </div>
                     <div className="border-l-2 border-black px-2">
@@ -222,17 +279,14 @@ const InvoiceModal: FC<MyProps> = ({
 
                   </div>
                   <div className="grid grid-cols-2">
-                    <div className="p-4 mt-72">
+                    <div className="p-4 mt-72 max-w-72">
                       <p className="font-bold">Please Note</p>
-                      <ol className="list-decimal ">
-                        <li>We take utmost care to give correct estimation on quantities but we shall not be held responsible for any shortfall or surplus</li>
+                      <ul className="list-decimal">
+                        {quotation.includes(",") ? quotation.split(",").map((v) => (
+                          <li>{v}</li>
+                        )) : <li>{quotation}</li>}
+                      </ul>
 
-                        <li>We do not offer flishing and guttering servivces</li>
-                        <li>Our prices are inclusive of VAT</li>
-                        <li>PRICES ARE SUBJECT TO CHANGE</li>
-                        <li className="font-bold">This quotation is for ORIGINAL CHROMADEK</li>
-                        <li className="text-red-500">We need 72 hours after payment for manufacturing</li>
-                      </ol>
                     </div>
                     <div>
 
@@ -292,7 +346,7 @@ const InvoiceModal: FC<MyProps> = ({
 
                   </div>
                   <div className="w-full text-center border-t-2 border-black">
-                    <p className="text-red-500">WE VALUE YOUR BUSINESS</p>
+                    <p className="text-2xl font-bold">WE VALUE YOUR BUSINESS</p>
                   </div>
 
                 </div>

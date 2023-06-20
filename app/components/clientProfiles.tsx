@@ -95,7 +95,13 @@ const ClientProfile = () => {
 
         getAllClientsToDB().then((v) => {
 
-            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+            var infoFromCookie = "";
+            if (getCookie(ADMIN_ID) == "") {
+                infoFromCookie = getCookie(COOKIE_ID);
+            } else {
+                infoFromCookie = getCookie(ADMIN_ID);
+            }
+            var id = decrypt(infoFromCookie, COOKIE_ID)
             if (v !== null) {
                 var clnts: any[] = [];
                 v.data.forEach(element => {
@@ -184,7 +190,7 @@ const ClientProfile = () => {
                 infoFromCookie = getCookie(ADMIN_ID);
             }
 
-            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+            var id = decrypt(infoFromCookie, COOKIE_ID);
 
             var notesA = [];
             notesA.push(encrypt(notes, id));

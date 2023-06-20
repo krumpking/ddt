@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getCookie } from 'react-use-cookie';
 import { IClient } from '../types/userTypes';
-import { COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
 import Loader from './loader';
 import { getAllClientsToDB } from '../api/crmApi';
 import { decrypt } from '../utils/crypto';
@@ -78,7 +78,16 @@ const ClientJourney = () => {
 
         getAllClientsToDB().then((v) => {
 
-            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+
+            var infoFromCookie = "";
+            if (getCookie(ADMIN_ID) == "") {
+                infoFromCookie = getCookie(COOKIE_ID);
+            } else {
+                infoFromCookie = getCookie(ADMIN_ID);
+            }
+            var id = decrypt(infoFromCookie, COOKIE_ID)
+
+
             if (v !== null) {
                 var sortedData = new Map();
 

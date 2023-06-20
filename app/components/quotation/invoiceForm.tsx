@@ -395,6 +395,7 @@ const InvoiceForm = () => {
             Review Invoice
           </button>
           <InvoiceModal
+            type={'Invoice'}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             invoiceInfo={{

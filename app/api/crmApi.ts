@@ -1,4 +1,4 @@
-import { CRM_DB_REF, CRM_TASK_DB_REF } from "../constants/crmContacts";
+import { CRM_DB_REF, CRM_TASK_DB_REF } from "../constants/crmConstants";
 import { addDoc, doc, getCountFromServer, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { IClient } from "../types/userTypes";
 import { getCookie } from "react-use-cookie";

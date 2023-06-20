@@ -33,7 +33,8 @@ const AddClient = () => {
             infoFromCookie = getCookie(ADMIN_ID);
         }
 
-        var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        var id = decrypt(infoFromCookie, COOKIE_ID)
 
         var notesA = [];
         notesA.push(encrypt(notes, id));
@@ -48,8 +49,8 @@ const AddClient = () => {
             prodA.push(products);
         }
         var client = {
-            id: id,
-            adminId: decrypt(infoFromCookie, COOKIE_ID),
+            id: myId,
+            adminId: id,
             date: new Date().toDateString(),
             name: encrypt(fullName, id),
             contact: encrypt(contact, id),
