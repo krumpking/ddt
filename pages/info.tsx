@@ -50,7 +50,7 @@ const Support = () => {
 
 
     useEffect(() => {
-
+        document.body.style.backgroundColor = LIGHT_GRAY;
         getOrgInfo();
 
 
@@ -82,6 +82,7 @@ const Support = () => {
                     setLandline(decrypt(element.data().landline, id));
                     setVat(parseInt(decrypt(element.data().vat, id)));
                     setImage(element.data().image);
+                    setQuotation(decrypt(element.data().quotation, id))
                 });
 
             }
@@ -163,9 +164,14 @@ const Support = () => {
                                 <h1>
                                     VAT No {vat}
                                 </h1>
-                                <p>
-                                    {quotation}
-                                </p>
+                                {quotation.includes(",") ?
+                                    <ul className="list-decimal">
+                                        {quotation.split(",").map((v) => (
+                                            <li key={v}>{v}</li>
+                                        ))}
+                                    </ul>
+                                    : <p>{quotation}</p>
+                                }
                             </div>
                             <div className='flex flex-col items-center space-y-2 w-full'>
                                 <p className='text-center text-xs text-gray-300 mb-4 font-bold'>Update Organization Info</p>
@@ -178,7 +184,7 @@ const Support = () => {
                                                 {
                                                     isDragActive ?
                                                         <p>Drop the logo here ...</p> :
-                                                        <p>Drag 'n' drop some logo here, or click to select image</p>
+                                                        <p> Drag &lsquo;n&lsquo; drop some logo here, or click to select image</p>
                                                 }
                                             </>
                                         }

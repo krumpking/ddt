@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { COOKIE_ID, LIGHT_GRAY, PRIMARY_COLOR } from '../app/constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PRIMARY_COLOR } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,16 +8,16 @@ import ClientNav from '../app/components/clientNav';
 import { IUser } from '../app/types/userTypes';
 import { createId, getDate } from '../app/utils/stringM';
 import { getCookie } from 'react-use-cookie';
-import { decrypt } from '../app/utils/crypto';
-import { Menu, Transition } from '@headlessui/react';
+import { decrypt, encrypt } from '../app/utils/crypto';
+import { Menu, Tab, Transition } from '@headlessui/react';
 import { addUser, deleteById, getUsers } from '../app/api/usersApi';
 
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
+
+
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
 
 
 const Users = () => {
@@ -31,18 +31,22 @@ const Users = () => {
     const [fullName, setFullName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [users, setUsers] = useState<IUser[]>([]);
-    const [labels, setLabels] = useState(['Created', 'Name', 'Contact', 'Role']);
+    const [labels, setLabels] = useState(['Created', 'Name', 'Contact', 'Email', 'Role']);
     const [open, setOpen] = useState(false);
     const [edit, setEdit] = useState(false);
     const [editMember, setEditMember] = useState<IUser>();
-
+    const [tabs, setTabs] = useState([
+        "Add Users",
+        "See Users"
+    ]);
+    const [email, setEmail] = useState("");
 
 
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
-
+        setUsers([]);
         getUsersFromDB();
 
 
@@ -57,7 +61,7 @@ const Users = () => {
     const deleteMemb = (id: string) => {
         setLoading(true);
         deleteById(id).then((v) => {
-            setUsers([]);
+
             getUsersFromDB();
         }).catch((e) => {
             console.error(e);
@@ -70,7 +74,8 @@ const Users = () => {
         setLoading(true);
 
         addUser(user).then((r) => {
-            setUsers([...users, user]);
+            toast.success("User added successfully");
+            getUsersFromDB();
             setLoading(false);
         }).catch((e) => {
             console.error(e);
@@ -95,10 +100,11 @@ const Users = () => {
                             var newUser = {
                                 id: element.data().id,
                                 adminId: element.data().adminId,
-                                date: element.data().date,
-                                name: element.data().name,
-                                contact: element.data().contact,
-                                role: element.data().role,
+                                date: decrypt(element.data().date, id),
+                                name: decrypt(element.data().name, id),
+                                contact: decrypt(element.data().contact, id),
+                                role: decrypt(element.data().role, id),
+                                email: decrypt(element.data().email, id)
                             }
                             setUsers([...users, newUser]);
 
@@ -130,121 +136,183 @@ const Users = () => {
                     <ClientNav organisationName={'Vision Is Primary'} url={'users'} />
                 </div>
 
-                <div className='bg-white col-span-9 m-8 rounded-[30px] flex flex-col p-4'>
+                <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9 ">
+                    <Tab.Group>
+                        <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1">
+                            {tabs.map((category) => (
+                                <Tab
+                                    key={category}
+                                    className={({ selected }) =>
+                                        classNames(
+                                            'w-full  py-2.5 text-sm font-medium leading-5 text-[#00947a] rounded-[25px]',
+                                            'ring-white ring-opacity-60 ring-offset-2 ring-offset-[#00947a] focus:outline-none focus:ring-2',
+                                            selected
+                                                ? 'bg-white shadow'
+                                                : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                                        )
+                                    }
+                                >
+                                    {category}
+                                </Tab>
+                            ))}
+                        </Tab.List>
+                        <Tab.Panels className="mt-2 ">
+
+                            <Tab.Panel
+
+                                className={classNames(
+                                    'rounded-xl bg-white p-3',
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                                )}
+                            >
+                                {loading ?
+                                    <div className='flex flex-col items-center'>
+                                        <Loader />
+                                    </div>
+                                    : <div className='flex flex-col'>
+                                        <div className='grid grid-cols-2'>
+                                            <div className='py-4 px-1'>
+                                                <input
+                                                    type="text"
+                                                    value={fullName}
+                                                    placeholder={"User Full Name"}
+                                                    onChange={(e) => {
+                                                        setFullName(e.target.value);
+                                                    }}
+                                                    className="
+                                                w-full
+                                                rounded-[25px]
+                                                border-2
+                                                border-[#fdc92f]
+                                                py-3
+                                                px-5
+                                                bg-white
+                                                text-base text-body-color
+                                                placeholder-[#ACB6BE]
+                                                outline-none
+                                                focus-visible:shadow-none
+                                                focus:border-primary
+                                                "
+
+                                                />
+                                            </div>
+                                            <div className='py-4 px-1'>
+                                                <input
+                                                    type="text"
+                                                    value={phoneNumber}
+                                                    placeholder={"Phone number including country code"}
+                                                    onChange={(e) => {
+                                                        // setFormsSearch(e.target.value);
+                                                        setPhoneNumber(e.target.value);
+
+                                                    }}
+                                                    className="
+                                                w-full
+                                                rounded-[25px]
+                                                border-2
+                                                border-[#fdc92f]
+                                                py-3
+                                                px-5
+                                                bg-white
+                                                text-base text-body-color
+                                                placeholder-[#ACB6BE]
+                                                outline-none
+                                                focus-visible:shadow-none
+                                                focus:border-primary
+                                                "
+
+                                                />
+                                            </div>
+                                            <div className='py-4 px-1'>
+                                                <input
+                                                    type="text"
+                                                    value={email}
+                                                    placeholder={"Email"}
+                                                    onChange={(e) => {
+                                                        // setFormsSearch(e.target.value);
+                                                        setEmail(e.target.value);
+
+                                                    }}
+                                                    className="
+                                                w-full
+                                                rounded-[25px]
+                                                border-2
+                                                border-[#fdc92f]
+                                                py-3
+                                                px-5
+                                                bg-white
+                                                text-base text-body-color
+                                                placeholder-[#ACB6BE]
+                                                outline-none
+                                                focus-visible:shadow-none
+                                                focus:border-primary
+                                                "
+
+                                                />
+                                            </div>
+                                            <div className='py-4 px-1'>
+                                                <button className='font-bold rounded-[25px] border-2  bg-white px-4 py-3 w-full' >
+                                                    <select
+                                                        value={role}
+                                                        onChange={(e) => {
+                                                            setRole(e.target.value);
+                                                        }}
+                                                        className='bg-white w-full'
+                                                        data-required="1"
+                                                        required>
+                                                        <option value="Admin">
+                                                            Admin(Full Access, Can Add remove users)
+                                                        </option>
+                                                        <option value="Viewer" >
+                                                            View(Can only view but can not add input)
+                                                        </option>
+                                                        <option value="Editor" >
+                                                            Editor(Can input data but can not view)
+                                                        </option>
+                                                    </select>
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+                                        <div className='py-4 px-1'>
+                                            <button
+                                                onClick={() => {
 
 
-                    {loading ?
-                        <div className='flex flex-col items-center content-center'>
-                            <Loader />
-                        </div> :
-                        <>
-
-                            <div className='grid grid-cols-4'>
-                                <div className='py-4 px-1'>
-                                    <input
-                                        type="text"
-                                        value={fullName}
-                                        placeholder={"User Full Name"}
-                                        onChange={(e) => {
-                                            setFullName(e.target.value);
-
-                                        }}
-                                        className="
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
-
-                                    />
-                                </div>
-                                <div className='py-4 px-1'>
-                                    <input
-                                        type="text"
-                                        value={phoneNumber}
-                                        placeholder={"Phone number including country code"}
-                                        onChange={(e) => {
-                                            // setFormsSearch(e.target.value);
-                                            setPhoneNumber(e.target.value);
-
-                                        }}
-                                        className="
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
-
-                                    />
-                                </div>
-                                <div className='py-4 px-1'>
-                                    <button className='font-bold rounded-[25px] border-2  bg-white px-4 py-3 w-full' >
-                                        <select
-                                            value={role}
-                                            onChange={(e) => {
-                                                setRole(e.target.value);
-                                            }}
-                                            className='bg-white w-full'
-                                            data-required="1"
-                                            required>
-                                            <option value="Admin">
-                                                Admin(Full Access, Can Add remove users)
-                                            </option>
-                                            <option value="Viewer" >
-                                                View(Can only view but can not add input)
-                                            </option>
-                                            <option value="Editor" >
-                                                Editor(Can input data but can not view)
-                                            </option>
-                                        </select>
-                                    </button>
-
-                                </div>
-                                <div className='py-4 px-1'>
-                                    <button
-                                        onClick={() => {
-
-
-                                            var infoFromCookie = getCookie(COOKIE_ID);
-                                            if (typeof infoFromCookie !== 'undefined') {
-
-
-                                                if (infoFromCookie.length > 0) {
-
-                                                    var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-                                                    var user = {
-                                                        name: fullName,
-                                                        contact: phoneNumber,
-                                                        role: role,
-                                                        date: new Date().toString(),
-                                                        adminId: id,
-                                                        id: createId()
+                                                    var infoFromCookie = "";
+                                                    if (getCookie(ADMIN_ID) == "") {
+                                                        infoFromCookie = getCookie(COOKIE_ID);
+                                                    } else {
+                                                        infoFromCookie = getCookie(ADMIN_ID);
                                                     }
 
-                                                    addUserToDB(user);
+                                                    var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+                                                    var id = decrypt(infoFromCookie, COOKIE_ID)
+                                                    if (typeof infoFromCookie !== 'undefined') {
 
 
-                                                }
-                                            }
+                                                        if (infoFromCookie.length > 0) {
 
-                                        }}
-                                        className="
+
+                                                            var user = {
+                                                                name: encrypt(fullName, id),
+                                                                contact: encrypt(phoneNumber, id),
+                                                                role: encrypt(role, id),
+                                                                date: encrypt(new Date().toDateString(), id),
+                                                                adminId: id,
+                                                                id: myId,
+                                                                email: encrypt(email, id)
+                                                            }
+
+                                                            addUserToDB(user);
+
+
+                                                        }
+                                                    }
+
+                                                }}
+                                                className="
                                     font-bold
                                     w-full
                                     rounded-[25px]
@@ -259,62 +327,71 @@ const Users = () => {
                                     hover:bg-opacity-90
                                     transition
                                     "
-                                    >Add User</button>
-                                </div>
-                            </div>
-
-                            <div className='w-full'>
-                                <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
-                                    <thead className='bg-[#00947a] text-white font-bold w-full '>
-                                        <tr className='grid grid-cols-5'>
-                                            {labels.map((v: any) => (
-                                                <th key={v.label} className='text-left'>{v}</th>
-                                            ))}
-                                        </tr>
+                                            >Add User</button>
+                                        </div>
+                                    </div>}
 
 
-                                    </thead>
-                                    <tbody>
+                            </Tab.Panel>
+                            <Tab.Panel
+                                className={classNames(
+                                    'rounded-xl bg-white p-3',
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                                )}
+                            >
+                                <div className='w-full'>
+                                    <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
+                                        <thead className='bg-[#00947a] text-white font-bold w-full '>
+                                            <tr className='grid grid-cols-6'>
+                                                {labels.map((v: any) => (
+                                                    <th key={v.label} className='text-left'>{v}</th>
+                                                ))}
+                                            </tr>
 
-                                        {
-                                            users.map((value, index) => {
-                                                return (
-                                                    <tr key={index}
-                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-5'}
-                                                        onClick={() => { }}>
-                                                        <td className='text-left' >{getDate(value.date)}</td>
-                                                        <td className='text-left' >{value.name}</td>
-                                                        <td className='text-left' >{value.contact}</td>
-                                                        <td className='text-left' >{value.role}</td>
-                                                        <td className=" whitespace-nowrap text-right">
+
+                                        </thead>
+                                        <tbody>
+
+                                            {
+                                                users.map((value, index) => {
+                                                    return (
+                                                        <tr key={index}
+                                                            className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-6'}
+                                                            onClick={() => { }}>
+                                                            <td className='text-left' >{getDate(value.date)}</td>
+                                                            <td className='text-left' >{value.name}</td>
+                                                            <td className='text-left' >{value.contact}</td>
+                                                            <td className='text-left' >{value.email}</td>
+                                                            <td className='text-left' >{value.role}</td>
+                                                            <td className=" whitespace-nowrap text-right">
 
 
-                                                            <Menu>
-                                                                {({ open }) => (
-                                                                    <>
-                                                                        <span className="rounded-md shadow-sm">
-                                                                            <Menu.Button className="inline-flex justify-center text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 ">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-                                                                                </svg>
+                                                                <Menu>
+                                                                    {({ open }) => (
+                                                                        <>
+                                                                            <span className="rounded-md shadow-sm">
+                                                                                <Menu.Button className="inline-flex justify-center text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 ">
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                                                                                    </svg>
 
-                                                                            </Menu.Button>
-                                                                        </span>
+                                                                                </Menu.Button>
+                                                                            </span>
 
-                                                                        <Transition
-                                                                            show={open}
-                                                                            enter="transition ease-out duration-100"
-                                                                            enterFrom="transform opacity-0 scale-95"
-                                                                            enterTo="transform opacity-100 scale-100"
-                                                                            leave="transition ease-in duration-75"
-                                                                            leaveFrom="transform opacity-100 scale-100"
-                                                                            leaveTo="transform opacity-0 scale-95"
-                                                                        >
-                                                                            <Menu.Items
-                                                                                static
-                                                                                className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+                                                                            <Transition
+                                                                                show={open}
+                                                                                enter="transition ease-out duration-100"
+                                                                                enterFrom="transform opacity-0 scale-95"
+                                                                                enterTo="transform opacity-100 scale-100"
+                                                                                leave="transition ease-in duration-75"
+                                                                                leaveFrom="transform opacity-100 scale-100"
+                                                                                leaveTo="transform opacity-0 scale-95"
                                                                             >
-                                                                                {/* <div className="py-1">
+                                                                                <Menu.Items
+                                                                                    static
+                                                                                    className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+                                                                                >
+                                                                                    {/* <div className="py-1">
 
                                                                             <Menu.Item>
                                                                                 {({ active }) => (
@@ -330,55 +407,54 @@ const Users = () => {
                                                                                 )}
                                                                             </Menu.Item>
                                                                         </div> */}
-                                                                                <div className="py-1">
+                                                                                    <div className="py-1">
 
-                                                                                    <Menu.Item>
-                                                                                        {({ active }) => (
-                                                                                            <button
-                                                                                                onClick={() => { if (typeof value.id !== 'undefined') deleteMemb(value.id); }}
-                                                                                                className={`${active
-                                                                                                    ? "bg-gray-100 text-gray-900"
-                                                                                                    : "text-gray-700"
-                                                                                                    } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
-                                                                                            >
-                                                                                                Delete
-                                                                                            </button>
-                                                                                        )}
-                                                                                    </Menu.Item>
-                                                                                </div>
-
-
-
-
-                                                                            </Menu.Items>
-                                                                        </Transition>
-                                                                    </>
-                                                                )}
-                                                            </Menu>
+                                                                                        <Menu.Item>
+                                                                                            {({ active }) => (
+                                                                                                <button
+                                                                                                    onClick={() => { if (typeof value.id !== 'undefined') deleteMemb(value.id); }}
+                                                                                                    className={`${active
+                                                                                                        ? "bg-gray-100 text-gray-900"
+                                                                                                        : "text-gray-700"
+                                                                                                        } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                                                                                >
+                                                                                                    Delete
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </Menu.Item>
+                                                                                    </div>
 
 
 
 
-                                                        </td>
-
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-
-                        </>}
+                                                                                </Menu.Items>
+                                                                            </Transition>
+                                                                        </>
+                                                                    )}
+                                                                </Menu>
 
 
 
 
+                                                            </td>
+
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </Tab.Panel>
+
+
+                        </Tab.Panels>
+                    </Tab.Group>
                 </div>
+
+
 
 
 

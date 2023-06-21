@@ -36,7 +36,8 @@ const InvoiceItem: FC<MyProps> = ({ id, name, qty, price, onDeleteItem, onEdtiIt
           onEditItem={(event) => onEdtiItem(event)}
           cellData={{
             type: "number",
-            min: "1",
+            step: "0.001",
+            min: "1.00",
             name: "qty",
             id: id,
             value: qty,

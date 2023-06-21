@@ -4,6 +4,7 @@ import InvoiceItem from "./invoiceItem";
 import InvoiceModal from "./invoiceModal";
 import { print } from "../../utils/console";
 import { createId } from "../../utils/stringM";
+import { getCount } from "../../api/eReceiptingApi";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB", {
@@ -25,13 +26,15 @@ const QuotationForm = () => {
         {
             id: createId(),
             name: "",
-            qty: 1.00,
+            qty: "1.00",
             price: "1.00",
         },
     ]);
     const [total, setTotal] = useState(0);
     const [spContact, setSPContact] = useState("");
     const [email, setEmail] = useState("");
+    const [stage, setStage] = useState("Quotation Sent");
+    const [invoiceNo, setInvoiceNo] = useState(0);
 
 
 
@@ -51,7 +54,7 @@ const QuotationForm = () => {
             {
                 id: id,
                 name: "",
-                qty: 1.00,
+                qty: "1.00",
                 price: "1.00",
             },
         ]);
@@ -88,7 +91,7 @@ const QuotationForm = () => {
 
     const subtotal = items.reduce((prev, curr) => {
         if (curr.name.trim().length > 0)
-            return prev + Number(parseFloat(curr.price) * curr.qty);
+            return prev + Number(parseFloat(curr.price) * parseFloat(curr.qty));
         else return prev;
     }, 0);
     const taxRate = (parseFloat(tax) * subtotal) / 100;
@@ -100,7 +103,20 @@ const QuotationForm = () => {
         } else {
             setTotal(subtotal - taxRate);
         }
-    }, [subtotal])
+
+        if (total < 1) {
+            getCount(stage).then((v) => {
+                print("Here");
+                print(v);
+                if (v !== null) {
+                    var r = v.count;
+                    setInvoiceNo(r);
+                }
+            }).catch((e) => {
+                console.error(e);
+            })
+        }
+    }, [subtotal]);
 
     return (
         <form
@@ -112,6 +128,12 @@ const QuotationForm = () => {
                     <div className="flex space-x-2">
                         <span className="font-bold">Current Date: </span>
                         <span>{today}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <label className="font-bold" htmlFor="invoiceNumber">
+                            Quotation Number: {invoiceNo}
+                        </label>
+
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-4 pb-8">
@@ -300,21 +322,21 @@ const QuotationForm = () => {
                 </table>
                 <button
                     className="
-              font-bold
-              w-full
-              rounded-[25px]
-              border-2
-              border-[#fdc92f]
-              border-primary
-              py-3
-              px-5
-              bg-[#fdc92f]
-              text-base 
-              text-[#7d5c00]
-              cursor-pointer
-              hover:bg-opacity-90
-              transition
-          "
+                        font-bold
+                        w-full
+                        rounded-[25px]
+                        border-2
+                        border-[#fdc92f]
+                        border-primary
+                        py-3
+                        px-5
+                        bg-[#fdc92f]
+                        text-base 
+                        text-[#7d5c00]
+                        cursor-pointer
+                        hover:bg-opacity-90
+                        transition
+                    "
                     type="button"
                     onClick={addItemHandler}
                 >
@@ -373,6 +395,7 @@ const QuotationForm = () => {
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         invoiceInfo={{
+                            stage,
                             invoiceNumber,
                             cashierName,
                             customerName,

@@ -65,7 +65,6 @@ const InvoiceModal: FC<MyProps> = ({
       if (r !== null) {
 
         r.data.forEach(element => {
-
           setOrganizationName(decrypt(element.data().organizationName, id));
           setAddress(decrypt(element.data().address, id));
           setEmail(decrypt(element.data().email, id));
@@ -103,7 +102,7 @@ const InvoiceModal: FC<MyProps> = ({
       infoFromCookie = getCookie(ADMIN_ID);
     }
 
-    var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+    var id = decrypt(infoFromCookie, COOKIE_ID);
 
 
     var prodA: any = [];
@@ -114,25 +113,24 @@ const InvoiceModal: FC<MyProps> = ({
 
 
     var client = {
-      id: id,
-      adminId: decrypt(infoFromCookie, COOKIE_ID),
+      id: decrypt(getCookie(COOKIE_ID), COOKIE_ID),
+      adminId: id,
       date: new Date().toDateString(),
       name: encrypt(invoiceInfo.customerName, id),
       contact: encrypt(invoiceInfo.customerContact, id),
       organisation: encrypt(invoiceInfo.customerOrgainsation, id),
-      stage: "",
+      stage: encrypt(invoiceInfo.stage, id),
       notes: [],
       refSource: "",
       enquired: prodA,
-      value: "",
+      value: encrypt(invoiceInfo.total.toString(), id),
       encryption: 2,
       salesPerson: encrypt(invoiceInfo.cashierName, id),
     }
 
+
     addAClientToDB(client).then((r) => {
-      alert('Client Added')
-
-
+      alert('Client Added');
     }).catch((e) => {
       console.error(e);
     })
@@ -239,119 +237,122 @@ const InvoiceModal: FC<MyProps> = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
-              <div className="p-16 border-2 border-black m-8" id="print">
-                <h1 className="text-center text-lg font-bold text-gray-900 border-black border-2 text-bold">
-                  {type}
-                </h1>
-                <div className="grid grid-cols-2 border-y-2 border-black p-4">
-                  <div className="flex flex-col border-r-2 border-black">
-                    <h1 className="font-bold text-2xl"> {organizationName} </h1>
-                    <p>{address}</p>
-                    <p>E-Mail: {email}</p>
-                    <p>TEL: {call}/{landline}</p>
-                    <p>Tax No {vat}</p>
-                  </div>
-                  <div>
-                    <img src={image} className="max-h-24 border-b-2 border-black w-full" />
-                    <p className="border-black border-l-2 mx-4">Date </p>
-                    <div className="mt-5 flex flex-row justify-between">
-                      <p>{invoiceInfo.today}</p>
-                      <p>Our refference</p>
-                      <p>{invoiceInfo.cashierName}</p>
+            <div>
+              <div id="print" className="my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
+                <div className="p-16 border-2 border-black m-8" >
+                  <h1 className="text-center text-2xl font-bold text-gray-900 border-black border-4 text-bold h-12">
+                    {type}
+                  </h1>
+                  <div className="grid grid-cols-2 p-4 my-12">
+                    <div className="flex flex-col border-r-2 border-black">
+                      <h1 className="font-bold text-2xl"> {organizationName} </h1>
+                      <p>{address}</p>
+                      <p>Email: {email}</p>
+                      <p>Tel: {call}/{landline}</p>
+                      <p>Tax No {vat}</p>
                     </div>
-
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <div className="mb-4 grid grid-cols-2 border-y-2 p-4 border-black">
-
-                    <div>
-                      <p>{invoiceInfo.customerName}</p>
-                      <p>{invoiceInfo.customerOrganisation}</p>
-                      <p>{invoiceInfo.customerContact}</p>
-                    </div>
-                    <div className="border-l-2 border-black px-2">
-                      <p>REF:{invoiceInfo.cashierName}</p>
-                      <p>CELL:{invoiceInfo.spContact}</p>
-                      <p>EMAIL:{invoiceInfo.email}</p>
-                    </div>
-
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="p-4 mt-72 max-w-72">
-                      <p className="font-bold">Please Note</p>
-                      <ul className="list-decimal">
-                        {quotation.includes(",") ? quotation.split(",").map((v) => (
-                          <li>{v}</li>
-                        )) : <li>{quotation}</li>}
-                      </ul>
-
-                    </div>
-                    <div>
-
-                      <table className="w-full text-left">
-                        <thead>
-                          <tr className=" text-sm md:text-base p-4">
-                            <th>ITEM</th>
-                            <th className="text-center">QTY</th>
-                            <th className="text-right">PRICE</th>
-                            <th className="text-right">AMOUNT</th>
-                          </tr>
-                        </thead>
-                        <tbody >
-                          {items.map((item: any) => (
-                            <tr key={item.id}>
-                              <td className="w-full">{item.name}</td>
-                              <td className="min-w-[50px] text-center">
-                                {item.qty}
-                              </td>
-                              <td className="min-w-[80px] text-right">
-                                ${Number(item.price).toFixed(2)}
-                              </td>
-                              <td className="min-w-[90px] text-right">
-                                ${Number(item.price * item.qty).toFixed(2)}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-
-                      <div className="flex flex-col items-end space-y-2 mt-72">
-                        <div className="flex w-full justify-between border-t border-black/10 pt-2">
-                          <span className="font-bold">Subtotal:</span>
-                          <span>${invoiceInfo.subtotal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex w-full justify-between">
-                          {/* TO BE CORRECTED */}
-                          <span className="font-bold">Discount:</span>
-                          <span>${typeof invoiceInfo.discountRate === "number" ? 0 : invoiceInfo.discountRate.toFixed(2)}</span>
-                        </div>
-                        <div className="flex w-full justify-between">
-                          <span className="font-bold">Tax:</span>
-                          <span>${invoiceInfo.taxRate.toFixed(2)}</span>
-                        </div>
-                        <div className="flex w-full justify-between border-t border-black/10 py-2">
-                          <span className="font-bold">Total:</span>
-                          <span className="font-bold">
-                            $
-                            {invoiceInfo.total % 1 === 0
-                              ? invoiceInfo.total
-                              : invoiceInfo.total.toFixed(2)}
-                          </span>
-                        </div>
+                    <div className="">
+                      <img src={image} className="max-h-48 border-b-2 border-black w-full ml-2" />
+                      <p className="mx-2">Date </p>
+                      <div className="mt-5 flex flex-row justify-between mx-2">
+                        <p>{invoiceInfo.today}</p>
+                        <p>Our refference</p>
+                        <p>{invoiceInfo.cashierName}</p>
                       </div>
 
                     </div>
+                  </div>
+                  <div className="my-12">
+                    <div className="mb-4 grid grid-cols-2 border-y-2 p-4 border-black">
+
+                      <div>
+                        <p>{invoiceInfo.customerName}</p>
+                        <p>{invoiceInfo.customerOrganisation}</p>
+                        <p>{invoiceInfo.customerContact}</p>
+                      </div>
+                      <div className="border-l-2 border-black px-2">
+                        <p>REF: {invoiceInfo.cashierName}</p>
+                        <p>CELL: {invoiceInfo.spContact}</p>
+                        <p>EMAIL: {invoiceInfo.email}</p>
+                      </div>
+
+                    </div>
+                    <div className="grid grid-cols-2">
+                      <div className="p-4 mt-72 max-w-72">
+                        <p className="font-bold">Please Note</p>
+                        <ul className="list-decimal">
+                          {quotation.includes(",") ? quotation.split(",").map((v) => (
+                            <li key={v}>{v}</li>
+                          )) : <li>{quotation}</li>}
+                        </ul>
+
+                      </div>
+                      <div>
+
+                        <table className="w-full text-left">
+                          <thead>
+                            <tr className=" text-sm md:text-base p-4">
+                              <th>ITEM</th>
+                              <th className="text-center">QTY</th>
+                              <th className="text-right">PRICE</th>
+                              <th className="text-right">AMOUNT</th>
+                            </tr>
+                          </thead>
+                          <tbody >
+                            {items.map((item: any) => (
+                              <tr key={item.id}>
+                                <td className="w-full">{item.name}</td>
+                                <td className="min-w-[50px] text-center">
+                                  {item.qty}
+                                </td>
+                                <td className="min-w-[80px] text-right">
+                                  ${Number(item.price).toFixed(2)}
+                                </td>
+                                <td className="min-w-[90px] text-right">
+                                  ${Number(item.price * item.qty).toFixed(2)}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+
+                        <div className="flex flex-col items-end space-y-2 mt-72">
+                          <div className="flex w-full justify-between border-t border-black/10 pt-2">
+                            <span className="font-bold">Subtotal:</span>
+                            <span>${invoiceInfo.subtotal.toFixed(2)}</span>
+                          </div>
+                          <div className="flex w-full justify-between">
+                            {/* TO BE CORRECTED */}
+                            <span className="font-bold">Discount:</span>
+                            <span>${typeof invoiceInfo.discountRate === "number" ? 0 : invoiceInfo.discountRate.toFixed(2)}</span>
+                          </div>
+                          <div className="flex w-full justify-between">
+                            <span className="font-bold">Tax:</span>
+                            <span>${invoiceInfo.taxRate.toFixed(2)}</span>
+                          </div>
+                          <div className="flex w-full justify-between border-t border-black/10 py-2">
+                            <span className="font-bold">Total:</span>
+                            <span className="font-bold">
+                              $
+                              {invoiceInfo.total % 1 === 0
+                                ? invoiceInfo.total
+                                : invoiceInfo.total.toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                    <div className="w-full text-center border-t-2 border-black">
+                      <p className="text-2xl font-bold">WE VALUE YOUR BUSINESS</p>
+                    </div>
 
                   </div>
-                  <div className="w-full text-center border-t-2 border-black">
-                    <p className="text-2xl font-bold">WE VALUE YOUR BUSINESS</p>
-                  </div>
-
                 </div>
+
               </div>
-              <div className="mt-4 flex space-x-2 px-4 pb-6">
+              <div className="w-full mb-6">
                 <button
                   className="
                     font-bold
@@ -377,6 +378,7 @@ const InvoiceModal: FC<MyProps> = ({
 
               </div>
             </div>
+
           </Transition.Child>
         </div>
       </Dialog >

@@ -18,11 +18,9 @@ const ClientJourney = () => {
     const [loading, setLoading] = useState(false);
     const [clients, setClients] = useState<Map<any, any>>();
     const [contactMade, setContactMade] = useState([]);
-    const [appointment, setAppointment] = useState([]);
-    const [presentationMade, setPresentationMade] = useState([]);
-    const [decisionMaker, setDecisionMaker] = useState([]);
-    const [contractSent, setContractSent] = useState([]);
-    const [contractSigned, setContractSigned] = useState([]);
+    const [quotation, setQuotationSent] = useState([]);
+    const [invoiceSent, setInvoiceSent] = useState([]);
+    const [receiptSent, setReceiptSent] = useState([]);
     const [projectSigned, setProjectSigned] = useState([]);
     const [projectInProgress, setProjectInProgress] = useState([]);
     const [projectFinished, setProjectFinished] = useState([]);
@@ -38,11 +36,9 @@ const ClientJourney = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
         setContactMade([]);
-        setAppointment([]);
-        setPresentationMade([]);
-        setDecisionMaker([]);
-        setContractSent([]);
-        setContractSigned([]);
+        setQuotationSent([]);
+        setInvoiceSent([]);
+        setReceiptSent([]);
         setProjectSigned([]);
         setProjectInProgress([]);
         setProjectFinished([]);
@@ -136,11 +132,9 @@ const ClientJourney = () => {
 
                 setClients(sortedData);
                 setContactMade(sortedData.has("Contact Made") ? sortedData.get("Contact Made") : []);
-                setAppointment(sortedData.has("Appointment Set") ? sortedData.get("Appointment Set") : []);
-                setPresentationMade(sortedData.has("Presentation Made") ? sortedData.get("Presentation Made") : []);
-                setDecisionMaker(sortedData.has("Decision Maker brought in") ? sortedData.get("Decision Maker brought in") : []);
-                setContractSent(sortedData.has("Contract Sent") ? sortedData.get("Contract Sent") : []);
-                setContractSigned(sortedData.has("Contract Signed") ? sortedData.get("Contract Signed") : []);
+                setQuotationSent(sortedData.has("Quotation Sent") ? sortedData.get("Quotation Sent") : []);
+                setInvoiceSent(sortedData.has("Invoice Sent") ? sortedData.get("Invoice Sent") : []);
+                setReceiptSent(sortedData.has("Receipt Sent") ? sortedData.get("Receipt Sent") : []);
                 setProjectSigned(sortedData.has("Project Started") ? sortedData.get("Project Started") : []);
                 setProjectInProgress(sortedData.has("Project In Progress") ? sortedData.get("Project In Progress") : []);
                 setProjectFinished(sortedData.has("Project Finished") ? sortedData.get("Project Finished") : []);
@@ -172,95 +166,61 @@ const ClientJourney = () => {
                         <div className='flex flex-nowrap overflow-x-auto space-x-8 whitespace-nowrap'>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
                                 <p>{contactMade.length} Contact Made </p>
-                                {contactMade.map((v: { name: string; organisation: any; }) => {
-
-
+                                {contactMade.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
-                                <p>{appointment.length} Appointment Set</p>
-                                {appointment.map((v: { name: string; organisation: any; }) => {
-
-
+                                <p>{quotation.length} Quotation Sent</p>
+                                {quotation.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
-                                <p>{presentationMade.length} Presentation Made</p>
-                                {presentationMade.map((v: { name: string; organisation: any; }) => {
-
-
+                                <p>{invoiceSent.length} Invoice Sent</p>
+                                {invoiceSent.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
-                                <p> {decisionMaker.length} Decision Maker brought in</p>
-                                {decisionMaker.map((v: { name: string; organisation: any; }) => {
-
-
+                                <p> {receiptSent.length} Receipt Sent</p>
+                                {receiptSent.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
-                                    )
-                                })}
-                            </div>
-                            <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
-                                <p>{contractSent.length} Contract Sent</p>
-                                {contractSent.map((v: { name: string; organisation: any; }) => {
-
-
-                                    return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
-                                    )
-                                })}
-                            </div>
-                            <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
-                                <p>{contractSigned.length} Contract Signed</p>
-                                {contractSigned.map((v: { name: string; organisation: any; }) => {
-
-
-                                    return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
                                 <p>{projectSigned.length} Project Started</p>
-                                {projectSigned.map((v: { name: string; organisation: any; }) => {
-
-
+                                {projectSigned.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
                                 <p>{projectInProgress.length} Project In Progress</p>
-                                {projectInProgress.map((v: { name: string; organisation: any; }) => {
-
-
+                                {projectInProgress.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
                                 <p>{projectFinished.length} Project Finished</p>
-                                {projectFinished.map((v: { name: string; organisation: any; }) => {
-
-
+                                {projectFinished.map((v: any) => {
                                     return (
-                                        <Accordion key={v.name} title={v.name} description={v.organisation} />
+                                        <Accordion key={v.name} title={v.name} description={v.value} />
                                     )
                                 })}
                             </div>
-                        </div> : <p>Error generating data please refresg</p>
+                        </div> : <p>No information to show at this moment</p>
                     }
 
                 </div>}

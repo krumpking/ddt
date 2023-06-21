@@ -4,6 +4,7 @@ import InvoiceItem from "./invoiceItem";
 import InvoiceModal from "./invoiceModal";
 import { print } from "../../utils/console";
 import { createId } from "../../utils/stringM";
+import { getCount } from "../../api/eReceiptingApi";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB", {
@@ -25,13 +26,20 @@ const InvoiceForm = () => {
     {
       id: createId(),
       name: "",
-      qty: 1,
+      qty: "1.00",
       price: "1.00",
     },
   ]);
   const [total, setTotal] = useState(0);
   const [spContact, setSPContact] = useState("");
   const [email, setEmail] = useState("");
+  const [stage, setStage] = useState("Invoice Sent");
+  const [invoiceNo, setInvoiceNo] = useState(0);
+
+
+
+
+
 
 
 
@@ -48,7 +56,7 @@ const InvoiceForm = () => {
       {
         id: createId(),
         name: "",
-        qty: 1,
+        qty: "1.00",
         price: "1.00",
       },
     ]);
@@ -61,7 +69,7 @@ const InvoiceForm = () => {
       {
         id: id,
         name: "",
-        qty: 1,
+        qty: "1.00",
         price: "1.00",
       },
     ]);
@@ -98,12 +106,24 @@ const InvoiceForm = () => {
 
   const subtotal = items.reduce((prev, curr) => {
     if (curr.name.trim().length > 0)
-      return prev + Number(parseInt(curr.price) * Math.floor(curr.qty));
+      return prev + Number(parseFloat(curr.price) * parseFloat(curr.qty));
     else return prev;
   }, 0);
-  const taxRate = (parseInt(tax) * subtotal) / 100;
-  const discountRate = (parseInt(discount) * subtotal) / 100;
+  const taxRate = (parseFloat(tax) * subtotal) / 100;
+  const discountRate = (parseFloat(discount) * subtotal) / 100;
   useEffect(() => {
+
+
+    if (total < 1) {
+      getCount(stage).then((v) => {
+        if (v !== null) {
+          var r = v.count;
+          setInvoiceNo(r);
+        }
+      }).catch((e) => {
+        console.error(e);
+      })
+    }
 
     if (discountRate > 0) {
       setTotal(subtotal - discountRate + taxRate);
@@ -125,19 +145,9 @@ const InvoiceForm = () => {
           </div>
           <div className="flex items-center space-x-2">
             <label className="font-bold" htmlFor="invoiceNumber">
-              Invoice Number:
+              Invoice Number: {invoiceNo}
             </label>
-            <input
-              required
-              className="max-w-[130px]"
-              type="number"
-              name="invoiceNumber"
-              id="invoiceNumber"
-              min="1"
-              step="1"
-              value={invoiceNumber}
-              onChange={(event) => setInvoiceNumber(parseInt(event.target.value))}
-            />
+
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2 pt-4 pb-8">
@@ -146,84 +156,6 @@ const InvoiceForm = () => {
             className="text-sm font-bold sm:text-base"
           >
             Sales Person:
-          </label>
-          <div>
-            <input
-              required
-              className="
-              mb-2
-              w-full
-              rounded-[25px]
-              border-2
-              border-[#fdc92f]
-              py-3
-              px-5
-              bg-white
-              text-base text-body-color
-              placeholder-[#ACB6BE]
-              outline-none
-              focus-visible:shadow-none
-              focus:border-primary
-              "
-              placeholder="Sales person"
-              name="cashierName"
-              id="cashierName"
-              value={cashierName}
-              onChange={(event) => setCashierName(event.target.value)}
-            />
-            <input
-              required
-              className="
-              mb-2
-              w-full
-              rounded-[25px]
-              border-2
-              border-[#fdc92f]
-              py-3
-              px-5
-              bg-white
-              text-base text-body-color
-              placeholder-[#ACB6BE]
-              outline-none
-              focus-visible:shadow-none
-              focus:border-primary
-              "
-              placeholder="Sales person contact"
-              name="spContact"
-              id="spContact"
-              value={spContact}
-              onChange={(event) => setSPContact(event.target.value)}
-            />
-            <input
-              required
-              className="
-              mb-2
-              w-full
-              rounded-[25px]
-              border-2
-              border-[#fdc92f]
-              py-3
-              px-5
-              bg-white
-              text-base text-body-color
-              placeholder-[#ACB6BE]
-              outline-none
-              focus-visible:shadow-none
-              focus:border-primary
-              "
-              placeholder="Sales Person Email"
-              name="email"
-              id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
-
-          <label
-            htmlFor="customerName"
-            className="col-start-2 row-start-1 text-sm font-bold md:text-base"
-          >
-            Customer:
           </label>
           <div>
             <input
@@ -243,6 +175,84 @@ const InvoiceForm = () => {
                 focus-visible:shadow-none
                 focus:border-primary
               "
+              placeholder="Sales person"
+              name="cashierName"
+              id="cashierName"
+              value={cashierName}
+              onChange={(event) => setCashierName(event.target.value)}
+            />
+            <input
+              required
+              className="
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
+              placeholder="Sales person contact"
+              name="spContact"
+              id="spContact"
+              value={spContact}
+              onChange={(event) => setSPContact(event.target.value)}
+            />
+            <input
+              required
+              className="
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
+              placeholder="Sales Person Email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+
+          <label
+            htmlFor="customerName"
+            className="col-start-2 row-start-1 text-sm font-bold md:text-base"
+          >
+            Customer:
+          </label>
+          <div>
+            <input
+              required
+              className="
+                  mb-2
+                  w-full
+                  rounded-[25px]
+                  border-2
+                  border-[#fdc92f]
+                  py-3
+                  px-5
+                  bg-white
+                  text-base text-body-color
+                  placeholder-[#ACB6BE]
+                  outline-none
+                  focus-visible:shadow-none
+                  focus:border-primary
+                "
               placeholder="Customer name"
               type="text"
               name="customerName"
@@ -399,6 +409,7 @@ const InvoiceForm = () => {
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             invoiceInfo={{
+              stage,
               invoiceNumber,
               cashierName,
               customerName,

@@ -1017,7 +1017,7 @@ const ClientProfile = () => {
                         </div>
                     </div>
 
-                    <div className='w-full overscroll-contain'>
+                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen '>
                         <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
                             <thead className=' text-white font-bold w-full p-4'>
                                 <tr className='grid grid-cols-6'>
