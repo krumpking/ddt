@@ -33,7 +33,8 @@ const AddClient = () => {
             infoFromCookie = getCookie(ADMIN_ID);
         }
 
-        var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        var id = decrypt(infoFromCookie, COOKIE_ID)
 
         var notesA = [];
         notesA.push(encrypt(notes, id));
@@ -48,8 +49,8 @@ const AddClient = () => {
             prodA.push(products);
         }
         var client = {
-            id: id,
-            adminId: decrypt(infoFromCookie, COOKIE_ID),
+            id: myId,
+            adminId: id,
             date: new Date().toDateString(),
             name: encrypt(fullName, id),
             contact: encrypt(contact, id),
@@ -170,25 +171,16 @@ const AddClient = () => {
                                 data-required="1"
                                 required>
                                 <option value="Contact" hidden>
-                                    Stage of communication
+                                    Stage of Deal
                                 </option>
-                                <option value="Contact Made">
-                                    Contact Made
+                                <option value="Quotation Sent" >
+                                    Quotation Sent
                                 </option>
-                                <option value="Appointment Set" >
-                                    Appointment Set
+                                <option value="Invoice Sent" >
+                                    Invoice Sent
                                 </option>
-                                <option value="Presentation Made" >
-                                    Presentation Made
-                                </option>
-                                <option value="Decision Maker brought in" >
-                                    Decision Maker brought in
-                                </option>
-                                <option value="Contract Sent" >
-                                    Contract Sent
-                                </option>
-                                <option value="Contract Signed" >
-                                    Contract Signed
+                                <option value="Receipt Sent" >
+                                    Receipt Sent
                                 </option>
                                 <option value="Project Started" >
                                     Project Started

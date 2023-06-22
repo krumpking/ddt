@@ -95,7 +95,13 @@ const ClientProfile = () => {
 
         getAllClientsToDB().then((v) => {
 
-            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+            var infoFromCookie = "";
+            if (getCookie(ADMIN_ID) == "") {
+                infoFromCookie = getCookie(COOKIE_ID);
+            } else {
+                infoFromCookie = getCookie(ADMIN_ID);
+            }
+            var id = decrypt(infoFromCookie, COOKIE_ID)
             if (v !== null) {
                 var clnts: any[] = [];
                 v.data.forEach(element => {
@@ -184,7 +190,7 @@ const ClientProfile = () => {
                 infoFromCookie = getCookie(ADMIN_ID);
             }
 
-            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+            var id = decrypt(infoFromCookie, COOKIE_ID);
 
             var notesA = [];
             notesA.push(encrypt(notes, id));
@@ -1011,7 +1017,7 @@ const ClientProfile = () => {
                         </div>
                     </div>
 
-                    <div className='w-full overscroll-contain'>
+                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen '>
                         <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
                             <thead className=' text-white font-bold w-full p-4'>
                                 <tr className='grid grid-cols-6'>

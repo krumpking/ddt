@@ -21,8 +21,8 @@ const Accounting = () => {
         "Receipt",
         // "Add Expenses",
         // "Client Journey",
-        "Reports",
-        "Custom Data Collection"
+        // "Reports",
+        // "Custom Data Collection"
     ])
 
 
@@ -101,24 +101,7 @@ const Accounting = () => {
                             >
                                 <GenerateReceipt />
                             </Tab.Panel>
-                            <Tab.Panel
 
-                                className={classNames(
-                                    'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
-                                )}
-                            >
-                                <p>Report</p>
-                            </Tab.Panel>
-                            <Tab.Panel
-
-                                className={classNames(
-                                    'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
-                                )}
-                            >
-                                <p>Custom Data Collection</p>
-                            </Tab.Panel>
 
                         </Tab.Panels>
                     </Tab.Group>
