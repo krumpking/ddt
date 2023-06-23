@@ -110,7 +110,7 @@ const Login = () => {
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-
+                            //  
                             if (v.userType == "admin") {
                                 setCookie(COOKIE_ORGANISATION, encrypt(doc.data().organizationName, key), {
                                     days: 7,

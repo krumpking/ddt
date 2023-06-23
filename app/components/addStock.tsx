@@ -7,6 +7,7 @@ import { decrypt, encrypt } from '../utils/crypto';
 import { addAClientToDB } from '../api/crmApi';
 import Loader from './loader';
 import { ToastContainer, toast } from 'react-toastify';
+import { print } from '../utils/console';
 
 const AddStock = () => {
   const [category, setCategory] = useState('');
@@ -21,54 +22,7 @@ const AddStock = () => {
   const [salesPerson, setSalesPerson] = useState('');
 
   const addClient = () => {
-    setLoading(true);
-    var infoFromCookie = '';
-    if (getCookie(ADMIN_ID) == '') {
-      infoFromCookie = getCookie(COOKIE_ID);
-    } else {
-      infoFromCookie = getCookie(ADMIN_ID);
-    }
-
-    var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-
-    var notesA = [];
-    notesA.push(encrypt(notes, id));
-    var prodA: any = [];
-    if (products.includes(',')) {
-      var prodAr = products.split(',');
-      prodAr.forEach((el) => {
-        prodA.push(encrypt(el, id));
-      });
-    } else {
-      prodA.push(products);
-    }
-    var stock = {
-      id: id,
-      adminId: decrypt(infoFromCookie, COOKIE_ID),
-      date: new Date().toDateString(),
-      category: encrypt(category, id),
-      name: encrypt(name, id),
-      organisation: encrypt(number, id),
-      stage: encrypt(stage, id),
-      notes: notesA,
-      refSource: encrypt(refSource, id),
-      enquired: prodA,
-      price: encrypt(price, id),
-      encryption: 2,
-      salesPerson: encrypt(salesPerson, id),
-    };
-
-    addStockToDB(stock)
-      .then((r) => {
-        toast.success('Stock added!');
-
-        setLoading(false);
-      })
-      .catch((e) => {
-        toast.error('There was an error adding stock please try again');
-        setLoading(false);
-        console.error(e);
-      });
+    print("hello");
   };
 
   return (
@@ -151,8 +105,8 @@ const AddStock = () => {
                                     "
             />
           </div>
-          
-         
+
+
           <div className="mb-6">
             <input
               value={Price}
@@ -176,9 +130,9 @@ const AddStock = () => {
                                     "
             />
           </div>
-          
 
-         
+
+
           <div className="mb-6">
             <button
               onClick={() => {
