@@ -5,6 +5,7 @@ import Nav from '../app/components/nav';
 import Header from '../app/components/header';
 import Carousel from '../app/components/carousel';
 import Link from 'next/link';
+import Script from 'next/script';
 
 
 
@@ -164,7 +165,20 @@ const Home: NextPage = () => {
 
   return (
     <div className='relative bg-[#00947a] w-full h-full'>
+      {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=AW-11208371394"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
 
+          gtag('config', 'AW-11208371394');
+        `}
+      </Script>
 
       <div>
         <Nav />

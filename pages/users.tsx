@@ -313,20 +313,20 @@ const Users = () => {
 
                                                 }}
                                                 className="
-                                    font-bold
-                                    w-full
-                                    rounded-[25px]
-                                 text-[#7d5c00]
-                                  border-2
-                                border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-[#fdc92f]
-                                    text-base 
-                                    cursor-pointer
-                                    hover:bg-opacity-90
-                                    transition
-                                    "
+                                                font-bold
+                                                w-full
+                                                rounded-[25px]
+                                                text-[#7d5c00]
+                                                border-2
+                                                border-[#fdc92f]
+                                                py-3
+                                                px-5
+                                                bg-[#fdc92f]
+                                                text-base 
+                                                cursor-pointer
+                                                hover:bg-opacity-90
+                                                transition
+                                                "
                                             >Add User</button>
                                         </div>
                                     </div>}
