@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FC } from 'react';
 import { createId } from '../utils/stringM';
 import { getCookie } from 'react-use-cookie';
-import { ADMIN_ID, COOKIE_ID } from '../constants/constants';
+import { ADMIN_ID, COOKIE_ID, PERSON_ROLE } from '../constants/constants';
 import { decrypt, encrypt } from '../utils/crypto';
 import { addAClientToDB } from '../api/crmApi';
 import Loader from './loader';
 import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 
 
@@ -22,6 +23,33 @@ const AddClient = () => {
     const [products, setProducts] = useState("");
     const [totalAmount, setTotalAmount] = useState("");
     const [salesPerson, setSalesPerson] = useState("");
+    const router = useRouter();
+
+    useEffect(() => {
+        let role = getCookie(PERSON_ROLE);
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
+
+        if (typeof role !== 'undefined') {
+            if (role !== "") {
+                var id = decrypt(infoFromCookie, COOKIE_ID);
+                var roleTitle = decrypt(role, id);
+                if (roleTitle !== "Admin") { // "Viewer" //"Editor"
+                    router.push('/home');
+                    toast.info("You do not have permission to access this page");
+                }
+
+            }
+        }
+
+
+
+    }, [])
+
 
 
     const addClient = () => {

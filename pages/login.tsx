@@ -141,7 +141,7 @@ const Login = () => {
                                     Secure: true,
                                 });
 
-                                setCookie(PERSON_ROLE, encrypt(doc.data().role, COOKIE_ID), {
+                                setCookie(PERSON_ROLE, doc.data().role, {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,
