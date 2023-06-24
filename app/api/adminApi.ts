@@ -43,7 +43,7 @@ export const getUser = async (phone: string) => {
             userType: 'admin'
         };
     } else {
-        const q = query(collection(firestore, "users"), where("phoneNumber", "==", phone));
+        const q = query(collection(firestore, "users"), where("contact", "==", phone));
         const snapshot = await getCountFromServer(q);
         if (snapshot.data().count > 0) {
             const querySnapshot = await getDocs(q);

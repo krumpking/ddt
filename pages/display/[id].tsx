@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
-import { LIGHT_GRAY, URL_LOCK_ID } from '../../app/constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE, URL_LOCK_ID } from '../../app/constants/constants';
 import Payment from '../../app/utils/paymentUtil';
 import ClientNav from '../../app/components/clientNav';
 import ReactTable from "react-table";
@@ -23,6 +23,7 @@ import { saveAs } from 'file-saver';
 import { getUrl } from '../../app/utils/getImageUrl';
 import { HexColorPicker } from "react-colorful";
 import { getSpecificData } from '../../app/api/formApi';
+import { getCookie } from 'react-use-cookie';
 
 
 const DataDisplay = () => {
@@ -90,6 +91,27 @@ const DataDisplay = () => {
                     router.push({
                         pathname: '/login',
                     });
+                }
+
+            }
+        }
+
+
+        let role = getCookie(PERSON_ROLE);
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
+
+        if (typeof role !== 'undefined') {
+            if (role !== "") {
+                var id = decrypt(infoFromCookie, COOKIE_ID);
+                var roleTitle = decrypt(role, id);
+                if (roleTitle == "Editor") { // "Viewer" //"Editor"
+                    router.push('/home');
+                    toast.info("You do not have permission to access this page");
                 }
 
             }

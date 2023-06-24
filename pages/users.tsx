@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PRIMARY_COLOR } from '../app/constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE, PRIMARY_COLOR } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +11,7 @@ import { getCookie } from 'react-use-cookie';
 import { decrypt, encrypt } from '../app/utils/crypto';
 import { Menu, Tab, Transition } from '@headlessui/react';
 import { addUser, deleteById, getUsers } from '../app/api/usersApi';
+import { print } from '../app/utils/console';
 
 
 
@@ -48,6 +49,28 @@ const Users = () => {
 
         setUsers([]);
         getUsersFromDB();
+
+        let role = getCookie(PERSON_ROLE);
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
+
+        if (typeof role !== 'undefined') {
+            if (role !== "") {
+                var id = decrypt(infoFromCookie, COOKIE_ID);
+                var roleTitle = decrypt(role, id);
+                if (roleTitle !== "Admin") { // "Viewer" //"Editor"
+                    router.push('/home');
+                    toast.info("You do not have permission to access this page");
+                }
+
+            }
+        }
+
+
 
 
 
@@ -264,7 +287,7 @@ const Users = () => {
                                                             Admin(Full Access, Can Add remove users)
                                                         </option>
                                                         <option value="Viewer" >
-                                                            View(Can only view but can not add input)
+                                                            Viewer(Can only view but can not add input)
                                                         </option>
                                                         <option value="Editor" >
                                                             Editor(Can input data but can not view)
@@ -297,7 +320,7 @@ const Users = () => {
 
                                                             var user = {
                                                                 name: encrypt(fullName, id),
-                                                                contact: encrypt(phoneNumber, id),
+                                                                contact: phoneNumber,
                                                                 role: encrypt(role, id),
                                                                 date: encrypt(new Date().toDateString(), id),
                                                                 adminId: id,

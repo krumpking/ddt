@@ -106,8 +106,7 @@ const QuotationForm = () => {
 
         if (total < 1) {
             getCount(stage).then((v) => {
-                print("Here");
-                print(v);
+
                 if (v !== null) {
                     var r = v.count;
                     setInvoiceNo(r);

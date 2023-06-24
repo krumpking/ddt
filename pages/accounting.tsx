@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { LIGHT_GRAY, PRIMARY_COLOR } from '../app/constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE, PRIMARY_COLOR } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,12 +9,15 @@ import { Tab } from '@headlessui/react';
 import GenerateQuotation from '../app/components/generateQuotation';
 import GenerateInvoice from '../app/components/generateInvoice.';
 import GenerateReceipt from '../app/components/generateReceipt';
+import { getCookie } from 'react-use-cookie';
+import { decrypt } from '../app/utils/crypto';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Accounting = () => {
+    const router = useRouter();
     const [tabs, setTabs] = useState([
         "Add Quotation",
         "Add Invoice",
@@ -23,7 +26,7 @@ const Accounting = () => {
         // "Client Journey",
         // "Reports",
         // "Custom Data Collection"
-    ])
+    ]);
 
 
 
@@ -31,9 +34,24 @@ const Accounting = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
+        let role = getCookie(PERSON_ROLE);
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
 
-        return () => {
+        if (typeof role !== 'undefined') {
+            if (role !== "") {
+                var id = decrypt(infoFromCookie, COOKIE_ID);
+                var roleTitle = decrypt(role, id);
+                if (roleTitle == "Viewer") { // "Viewer" //"Editor"
+                    router.push('/home');
+                    toast.info("You do not have permission to access this page");
+                }
 
+            }
         }
 
     }, []);

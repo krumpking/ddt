@@ -3,11 +3,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getCookie } from 'react-use-cookie';
 import { IClient } from '../types/userTypes';
-import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE } from '../constants/constants';
 import Loader from './loader';
 import { getAllClientsToDB } from '../api/crmApi';
 import { decrypt } from '../utils/crypto';
 import Accordion from './accordion';
+import { useRouter } from 'next/router';
 
 
 
@@ -24,7 +25,7 @@ const ClientJourney = () => {
     const [projectSigned, setProjectSigned] = useState([]);
     const [projectInProgress, setProjectInProgress] = useState([]);
     const [projectFinished, setProjectFinished] = useState([]);
-
+    const router = useRouter();
 
 
 
@@ -43,6 +44,27 @@ const ClientJourney = () => {
         setProjectInProgress([]);
         setProjectFinished([]);
         getClientsFromDB();
+
+
+        let role = getCookie(PERSON_ROLE);
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
+
+        if (typeof role !== 'undefined') {
+            if (role !== "") {
+                var id = decrypt(infoFromCookie, COOKIE_ID);
+                var roleTitle = decrypt(role, id);
+                if (roleTitle == "Editor") { // "Viewer" //"Editor"
+                    router.push('/home');
+                    toast.info("You do not have permission to access this page");
+                }
+
+            }
+        }
 
 
 

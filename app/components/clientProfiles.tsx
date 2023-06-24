@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { getCookie } from 'react-use-cookie';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { IClient } from '../types/userTypes';
-import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE } from '../constants/constants';
 import ClientNav from './clientNav';
 import Loader from './loader';
 import { addTasksToDB, getAllClientsToDB, updateClientToDB } from '../api/crmApi';
@@ -61,6 +61,27 @@ const ClientProfile = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
+
+        let role = getCookie(PERSON_ROLE);
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
+
+        if (typeof role !== 'undefined') {
+            if (role !== "") {
+                var id = decrypt(infoFromCookie, COOKIE_ID);
+                var roleTitle = decrypt(role, id);
+                if (roleTitle == "Editor") { // "Viewer" //"Editor"
+                    router.push('/home');
+                    toast.info("You do not have permission to access this page");
+                }
+
+            }
+        }
+
 
         setClients([]);
         getClientsFromDB();
