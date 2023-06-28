@@ -77,7 +77,7 @@ const InvoiceForm = () => {
     if (discountRate > 0) {
       setTotal(subtotal - discountRate + taxRate);
     } else {
-      setTotal(subtotal - taxRate);
+      setTotal(subtotal + taxRate);
     }
   };
 
@@ -126,9 +126,9 @@ const InvoiceForm = () => {
     }
 
     if (discountRate > 0) {
-      setTotal(subtotal - discountRate + taxRate);
+      setTotal((subtotal + taxRate) - discountRate);
     } else {
-      setTotal(subtotal - taxRate);
+      setTotal(subtotal + taxRate);
     }
   }, [subtotal])
 

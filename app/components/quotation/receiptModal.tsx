@@ -107,14 +107,21 @@ const ReceiptModal: FC<MyProps> = ({
         var prodA: any = [];
 
         items.forEach((el: any) => {
-            prodA.push(encrypt(el.name, id))
+            prodA.push(
+                {
+                    product: encrypt(el.name, id),
+                    value: encrypt(el.price, id),
+                    totalNumber: encrypt(el.qty, id)
+                }
+            )
         })
 
 
         var client = {
             id: decrypt(getCookie(COOKIE_ID), COOKIE_ID),
             adminId: id,
-            date: new Date().toDateString(),
+            date: new Date(),
+            dateString: new Date().toDateString(),
             name: encrypt(invoiceInfo.receivedForm, id),
             contact: encrypt(invoiceInfo.customerContact, id),
             organisation: encrypt(invoiceInfo.customerOrgainsation, id),
@@ -236,7 +243,7 @@ const ReceiptModal: FC<MyProps> = ({
                         leaveTo="opacity-0 scale-95"
                     >
                         <div>
-                            <div id="print" className="my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all ">
+                            <div id="print" className="my-8 text-lg font-open inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all ">
                                 <div className="grid grid-cols-3 justify-items-center content-center place-content-center p-4">
                                     <div>
                                         <img src={image} className="max-h-48 w-full ml-2" />

@@ -108,14 +108,21 @@ const InvoiceModal: FC<MyProps> = ({
     var prodA: any = [];
 
     items.forEach((el: any) => {
-      prodA.push(encrypt(el.name, id))
+      prodA.push(
+        {
+          product: encrypt(el.name, id),
+          value: encrypt(el.price, id),
+          totalNumber: encrypt(el.qty, id)
+        }
+      )
     })
 
 
     var client = {
       id: decrypt(getCookie(COOKIE_ID), COOKIE_ID),
       adminId: id,
-      date: new Date().toDateString(),
+      date: new Date(),
+      dateString: new Date().toDateString(),
       name: encrypt(invoiceInfo.customerName, id),
       contact: encrypt(invoiceInfo.customerContact, id),
       organisation: encrypt(invoiceInfo.customerOrgainsation, id),
@@ -238,9 +245,9 @@ const InvoiceModal: FC<MyProps> = ({
             leaveTo="opacity-0 scale-95"
           >
             <div>
-              <div id="print" className="my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
-                <div className="p-16 border-2 border-black m-8" >
-                  <h1 className="text-center text-2xl font-bold text-gray-900 border-black border-4 text-bold h-12">
+              <div id="print" className="font-open text-lg my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
+                <div className="p-16 border-2 border-black m-8 " >
+                  <h1 className="text-center text-2xl font-bold text-gray-900 border-black border-4 text-bold">
                     {type}
                   </h1>
                   <div className="grid grid-cols-2 p-4 my-12">
@@ -262,8 +269,8 @@ const InvoiceModal: FC<MyProps> = ({
 
                     </div>
                   </div>
-                  <div className="my-12">
-                    <div className="mb-4 grid grid-cols-2 border-y-2 p-4 border-black">
+                  <div className="my-12 ">
+                    <div className="mb-4 grid grid-cols-2 border-y-2 p-4 border-black ">
 
                       <div>
                         <p>{invoiceInfo.customerName}</p>
@@ -277,8 +284,37 @@ const InvoiceModal: FC<MyProps> = ({
                       </div>
 
                     </div>
-                    <div className="grid grid-cols-2">
-                      <div className="p-4 mt-72 max-w-72">
+                    <div className="min-h-[1000px]">
+                      <table className="w-full text-left">
+                        <thead>
+                          <tr className="text-sm md:text-base p-4">
+                            <th>ITEM</th>
+                            <th className="text-center">QTY</th>
+                            <th className="text-right">PRICE</th>
+                            <th className="text-right">AMOUNT</th>
+                          </tr>
+                        </thead>
+                        <tbody >
+                          {items.map((item: any) => (
+                            <tr key={item.id}>
+                              <td className="w-full">{item.name}</td>
+                              <td className="min-w-[50px] text-center">
+                                {item.qty}
+                              </td>
+                              <td className="min-w-[80px] text-right">
+                                ${Number(item.price).toFixed(2)}
+                              </td>
+                              <td className="min-w-[90px] text-right">
+                                ${Number(item.price * item.qty).toFixed(2)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="grid grid-cols-2 content-end">
+                      <div className="p-4 max-w-72">
                         <p className="font-bold">Please Note</p>
                         <ul className="list-decimal">
                           {quotation.includes(",") ? quotation.split(",").map((v) => (
@@ -288,35 +324,7 @@ const InvoiceModal: FC<MyProps> = ({
 
                       </div>
                       <div>
-
-                        <table className="w-full text-left">
-                          <thead>
-                            <tr className=" text-sm md:text-base p-4">
-                              <th>ITEM</th>
-                              <th className="text-center">QTY</th>
-                              <th className="text-right">PRICE</th>
-                              <th className="text-right">AMOUNT</th>
-                            </tr>
-                          </thead>
-                          <tbody >
-                            {items.map((item: any) => (
-                              <tr key={item.id}>
-                                <td className="w-full">{item.name}</td>
-                                <td className="min-w-[50px] text-center">
-                                  {item.qty}
-                                </td>
-                                <td className="min-w-[80px] text-right">
-                                  ${Number(item.price).toFixed(2)}
-                                </td>
-                                <td className="min-w-[90px] text-right">
-                                  ${Number(item.price * item.qty).toFixed(2)}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-
-                        <div className="flex flex-col items-end space-y-2 mt-72">
+                        <div className="flex flex-col items-end space-y-2">
                           <div className="flex w-full justify-between border-t border-black/10 pt-2">
                             <span className="font-bold">Subtotal:</span>
                             <span>${invoiceInfo.subtotal.toFixed(2)}</span>

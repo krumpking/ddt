@@ -60,9 +60,9 @@ const QuotationForm = () => {
         ]);
 
         if (discountRate > 0) {
-            setTotal(subtotal - discountRate + taxRate);
+            setTotal(subtotal + taxRate - discountRate);
         } else {
-            setTotal(subtotal - taxRate);
+            setTotal(subtotal + taxRate);
         }
     };
 
@@ -97,11 +97,12 @@ const QuotationForm = () => {
     const taxRate = (parseFloat(tax) * subtotal) / 100;
     const discountRate = (parseFloat(discount) * subtotal) / 100;
     useEffect(() => {
-
+        print(total + taxRate);
         if (discountRate > 0) {
-            setTotal(subtotal - discountRate + taxRate);
+
+            setTotal((subtotal + taxRate) - discountRate);
         } else {
-            setTotal(subtotal - taxRate);
+            setTotal(subtotal + taxRate);
         }
 
         if (total < 1) {

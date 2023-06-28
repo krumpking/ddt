@@ -13,6 +13,7 @@ export type IClient = {
     id: any,
     adminId: any,
     date: any,
+    dateString: any,
     name: any,
     contact: any,
     organisation: any,
