@@ -71,61 +71,14 @@ const ConfirmSotck = () => {
                                 <tbody>
 
                                     {
-                                        data.map((value: any, index: number) => {
+                                        label.map((value: any, index: number) => {
                                             return (
                                                 <tr key={index}
-                                                    className={'odd:bg-white even:bg-slate-50 hover:bg-[#0ead96] hover:text-white hover:cursor-pointer'}
-                                                    onClick={() => { setIsOpen(true); setRowInfo(data.info[index].data) }}>
-                                                    {data.map((v: any) => {
-                                                        var resInfo = simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId);
-
-
-                                                        if (v.element == 17) {
-                                                            return (
-                                                                <td className='text-left' key={v.info}>Signature</td>
-                                                            )
-
-                                                        } else if (v.element == 8) {
-                                                            var totalString = simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId);
-                                                            var firstString = totalString.substring(0, totalString.indexOf(" - "));
-                                                            var secString = totalString.substring(totalString.indexOf(" - ") + 2, totalString.length);
-                                                            return (
-                                                                <td key={v.info}>{getDate(firstString)} - {getDate(secString)} </td>
-                                                            )
-
-                                                        } else if (v.element == 9) {
-
-                                                            return (
-                                                                <td key={v.info}>{getMonth(simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId))}</td>
-                                                            )
-                                                        } else if (v.element == 10) {
-
-                                                            return (
-                                                                <td key={v.info}>{getDate(simpleDecrypt(v.info, data.infoId + data.infoId + data.infoId))}</td>
-                                                            )
-
-                                                        } else if (v.element == 16) {
-                                                            return (
-                                                                <td key={v.info}>
-                                                                    <p>Location</p>
-                                                                </td>
-                                                            )
-                                                        } else {
-                                                            return (
-                                                                <td className='text-left' key={v.info}>{resInfo}</td>
-                                                            )
-                                                        }
-
-
-
-
-                                                    })
-
-                                                    }
-
+                                                    className={'odd:bg-white even:bg-slate-50 hover:bg-[#0ead96] hover:text-white hover:cursor-pointer'}>
+                                                    {data.map((v: any) => 
                                                 </tr>
-                                            )
-                                        })
+                                                    )
+                                        }
                                     }
 
 
@@ -138,19 +91,7 @@ const ConfirmSotck = () => {
                                     setLoading(true);
 
                                     var exlD: any[] = [];
-                                    // data?.info.forEach(element => {
-                                    //     const object: IDynamicObject = {};
-                                    //     element.data.forEach((el: any) => {
-                                    //         var resInfo = simpleDecrypt(el.info, data.infoId + data.infoId + data.infoId);
-                                    //         object[el.label] = resInfo;
-                                    //     });
-                                    //     exlD.push(object);
-
-
-                                    // });
-
-                                    downloadExcel(exlD, typeof data?.title === 'undefined' ? 'info' : data?.title);
-                                    setLoading(false);
+                                   
                                 }}
                                 className="
                                 font-bold
