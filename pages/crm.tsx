@@ -9,6 +9,7 @@ import AddClient from '../app/components/addClients';
 import ClientProfile from '../app/components/clientProfiles';
 import CRMTasks from '../app/components/crmTasks';
 import ClientJourney from '../app/components/clientJourney';
+import CRMReport from '../app/components/crmReport';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -20,8 +21,7 @@ const CRM = () => {
         "Profiles",
         "Tasks",
         "Client Journey",
-        "Reports",
-        "Custom Data Collection"
+        "Reports"
     ])
 
 
@@ -114,16 +114,7 @@ const CRM = () => {
                                     'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                <p>Reports</p>
-                            </Tab.Panel>
-                            <Tab.Panel
-
-                                className={classNames(
-                                    'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
-                                )}
-                            >
-                                <p>Custom Data Collection</p>
+                                <CRMReport />
                             </Tab.Panel>
 
                         </Tab.Panels>

@@ -5,7 +5,7 @@ import { createId } from "../utils/stringM";
 // Main
 export const API_ROUTE = 'API_ROUTE'
 
-export const WHATSAPP_CONTACT = 'https://wa.me/263713020524?text=Hello%I%want%to%know%more%about%Digital%Data%Tree%I%got%your%number%from%whatsapp';
+export const WHATSAPP_CONTACT = 'https://wa.me/263713020524?text=Hello%20I%2020want%20to%20know%20more%20about%20Digital%20Data%20Tree%20I%20got%20your%20number%20from%20whatsapp';
 
 export const DOWNLOAD_APP = 'https://play.google.com/store/apps/details?id=com.visionisprimary.digitaldatatree';
 

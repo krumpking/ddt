@@ -401,7 +401,7 @@ const SignUp = () => {
                                             id="terms"
                                             name="terms"
                                             value="terms"
-                                            className='accent-green-700 text-white bg-whites'></input>
+                                            className='accent-green-700 text-white bg-whites' />
                                         <label htmlFor="terms"> I understand the Terms and Conditions</label><br></br>
                                     </div>
                                     <Link href={'/terms'}>

@@ -23,6 +23,10 @@
     ],
     "rewrites": [
       {
+        "source": "/info",
+        "destination": "/info.html"
+      },
+      {
         "source": "/users",
         "destination": "/users.html"
       },
