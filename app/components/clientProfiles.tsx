@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { getCookie } from 'react-use-cookie';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { IClient } from '../types/userTypes';
-import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE } from '../constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY } from '../constants/constants';
 import ClientNav from './clientNav';
 import Loader from './loader';
 import { addTasksToDB, getAllClientsToDB, updateClientToDB } from '../api/crmApi';
@@ -15,7 +15,7 @@ import DateMethods from '../utils/date';
 import { decrypt, encrypt } from '../utils/crypto';
 import DataSummary from './dataSummary';
 import Pill from './pill';
-import { addDays } from 'date-fns';
+import e from 'express';
 
 
 
@@ -62,27 +62,6 @@ const ClientProfile = () => {
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
 
-        let role = getCookie(PERSON_ROLE);
-        var infoFromCookie = "";
-        if (getCookie(ADMIN_ID) == "") {
-            infoFromCookie = getCookie(COOKIE_ID);
-        } else {
-            infoFromCookie = getCookie(ADMIN_ID);
-        }
-
-        if (typeof role !== 'undefined') {
-            if (role !== "") {
-                var id = decrypt(infoFromCookie, COOKIE_ID);
-                var roleTitle = decrypt(role, id);
-                if (roleTitle == "Editor") { // "Viewer" //"Editor"
-                    router.push('/home');
-                    toast.info("You do not have permission to access this page");
-                }
-
-            }
-        }
-
-
         setClients([]);
         getClientsFromDB();
 
@@ -116,13 +95,7 @@ const ClientProfile = () => {
 
         getAllClientsToDB().then((v) => {
 
-            var infoFromCookie = "";
-            if (getCookie(ADMIN_ID) == "") {
-                infoFromCookie = getCookie(COOKIE_ID);
-            } else {
-                infoFromCookie = getCookie(ADMIN_ID);
-            }
-            var id = decrypt(infoFromCookie, COOKIE_ID)
+            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
             if (v !== null) {
                 var clnts: any[] = [];
                 v.data.forEach(element => {
@@ -142,7 +115,6 @@ const ClientProfile = () => {
                         docId: element.id,
                         id: element.data().id,
                         adminId: element.data().adminId,
-                        dateString: element.data().dateString,
                         date: element.data().date,
                         name: decrypt(element.data().name, id),
                         contact: decrypt(element.data().contact, id),
@@ -154,13 +126,12 @@ const ClientProfile = () => {
                         value: decrypt(element.data().value, id),
                         salesPerson: decrypt(element.data().salesPerson, id),
                     }
-                    print(client);
+
                     clnts.push(client);
 
                 });
-                let res = DateMethods.sortObjectsByDate(clnts, false);
-                setClients(res);
-                setTempClients(res);
+                setClients(clnts);
+                setTempClients(clnts);
 
             }
 
@@ -213,7 +184,7 @@ const ClientProfile = () => {
                 infoFromCookie = getCookie(ADMIN_ID);
             }
 
-            var id = decrypt(infoFromCookie, COOKIE_ID);
+            var id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
             var notesA = [];
             notesA.push(encrypt(notes, id));
@@ -232,7 +203,6 @@ const ClientProfile = () => {
                 id: editMember.id,
                 adminId: editMember.adminId,
                 date: editMember.date,
-                dateString: editMember.dateString,
                 name: encrypt(fullName, id),
                 contact: encrypt(contact, id),
                 organisation: encrypt(organisation, id),
@@ -298,7 +268,6 @@ const ClientProfile = () => {
                 organisation: encrypt(editMember.organisation, id),
                 stage: encrypt(stage, id),
                 notes: notesA,
-                dateString: editMember.dateString,
                 refSource: encrypt(editMember.refSource, id),
                 enquired: prodA,
                 value: encrypt(editMember.value, id),
@@ -360,7 +329,6 @@ const ClientProfile = () => {
                 notes: notesA,
                 refSource: encrypt(editMember.refSource, id),
                 enquired: prodA,
-                dateString: editMember.dateString,
                 value: encrypt(editMember.value, id),
                 encryption: 2
             }
@@ -387,7 +355,7 @@ const ClientProfile = () => {
     }
 
     const addTasks = () => {
-        setOpenDialog(false);
+
         setLoading(true);
 
 
@@ -434,15 +402,12 @@ const ClientProfile = () => {
                 refSource: encrypt(editMember.refSource, id),
                 enquired: prodA,
                 value: encrypt(editMember.value, id),
-                encryption: 2,
-                dateString: editMember.dateString
-
+                encryption: 2
             }
 
 
 
             var task = {
-                docId: "",
                 client: client,
                 title: encrypt(title, id),
                 email: encrypt(email, id),
@@ -450,12 +415,9 @@ const ClientProfile = () => {
                 reminder: encrypt(reminder.toString(), id),
                 description: encrypt(description, id),
                 encryption: 2,
-                date: new Date(),
-                dateString: new Date().toDateString(),
+                date: new Date().toDateString(),
                 adminId: id,
-                id: decrypt(getCookie(COOKIE_ID), COOKIE_ID),
-                taskDate: addDays(new Date(), reminder).toDateString(),
-                active: true
+                id: decrypt(getCookie(COOKIE_ID), COOKIE_ID)
             }
 
             addTasksToDB(task).then((e) => {
@@ -1049,7 +1011,7 @@ const ClientProfile = () => {
                         </div>
                     </div>
 
-                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen '>
+                    <div className='w-full overscroll-contain'>
                         <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
                             <thead className=' text-white font-bold w-full p-4'>
                                 <tr className='grid grid-cols-6'>
@@ -1138,7 +1100,7 @@ const ClientProfile = () => {
                                                 className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-6'}
                                             >
 
-                                                <td className='text-left' >{value.dateString}</td>
+                                                <td className='text-left' >{value.date}</td>
                                                 <td className='text-left' >{value.name}</td>
                                                 <td className='text-left' >{value.contact}</td>
                                                 <td className='text-left' >{value.stage}</td>

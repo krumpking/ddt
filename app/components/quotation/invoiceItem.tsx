@@ -31,13 +31,12 @@ const InvoiceItem: FC<MyProps> = ({ id, name, qty, price, onDeleteItem, onEdtiIt
           }}
         />
       </td>
-      <td className="min-w-[100px] md:min-w-[150px]">
+      <td className="min-w-[65px] md:min-w-[80px]">
         <InvoiceField
           onEditItem={(event) => onEdtiItem(event)}
           cellData={{
             type: "number",
-            step: "0.001",
-            min: "1.00",
+            min: "1",
             name: "qty",
             id: id,
             value: qty,

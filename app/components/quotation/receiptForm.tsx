@@ -4,8 +4,6 @@ import InvoiceItem from "./invoiceItem";
 import InvoiceModal from "./invoiceModal";
 import { print } from "../../utils/console";
 import { createId } from "../../utils/stringM";
-import { getCount } from "../../api/eReceiptingApi";
-import ReceiptModal from "./receiptModal";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB", {
@@ -16,39 +14,26 @@ const today = date.toLocaleDateString("en-GB", {
 
 const ReceiptForm = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [discount, setDiscount] = useState("");
+    const [tax, setTax] = useState("15");
     const [invoiceNumber, setInvoiceNumber] = useState(1);
-    const [sumTotal, setSumTotal] = useState("");
+    const [cashierName, setCashierName] = useState("");
+    const [customerName, setCustomerName] = useState("");
+    const [customerContact, setCustomerContact] = useState("");
+    const [customerOrganisation, setCustomerOrganisation] = useState("");
     const [items, setItems] = useState([
         {
             id: createId(),
             name: "",
-            qty: "1.00",
+            qty: 1,
             price: "1.00",
         },
     ]);
-    const [total, setTotal] = useState("");
-    const [receivedFrom, setReceivedFrom] = useState("");
+    const [total, setTotal] = useState(0);
+    const [spContact, setSPContact] = useState("");
     const [email, setEmail] = useState("");
-    const [receiptNo, setReceiptNo] = useState(0);
-    const [stage, setStage] = useState("Receipt Sent");
-    const [currency, setCurrency] = useState<string[]>([]);
 
 
-    useEffect(() => {
-
-
-
-        getCount(stage).then((v) => {
-            if (v !== null) {
-                var r = v.count;
-                setReceiptNo(r);
-            }
-        }).catch((e) => {
-            console.error(e);
-        })
-
-
-    }, [])
 
 
 
@@ -63,7 +48,7 @@ const ReceiptForm = () => {
             {
                 id: createId(),
                 name: "",
-                qty: "1.00",
+                qty: 1,
                 price: "1.00",
             },
         ]);
@@ -76,12 +61,16 @@ const ReceiptForm = () => {
             {
                 id: id,
                 name: "",
-                qty: "1.00",
+                qty: 1,
                 price: "1.00",
             },
         ]);
 
-
+        if (discountRate > 0) {
+            setTotal(subtotal - discountRate + taxRate);
+        } else {
+            setTotal(subtotal - taxRate);
+        }
     };
 
     const deleteItemHandler = (id: any) => {
@@ -109,17 +98,19 @@ const ReceiptForm = () => {
 
     const subtotal = items.reduce((prev, curr) => {
         if (curr.name.trim().length > 0)
-            return prev + Number(parseFloat(curr.price) * parseFloat(curr.qty));
+            return prev + Number(parseInt(curr.price) * Math.floor(curr.qty));
         else return prev;
     }, 0);
+    const taxRate = (parseInt(tax) * subtotal) / 100;
+    const discountRate = (parseInt(discount) * subtotal) / 100;
+    useEffect(() => {
 
-    const handleChange = (value: string) => {
-
-        let cu = currency;
-        cu.push(value);
-        setCurrency(cu);
-
-    };
+        if (discountRate > 0) {
+            setTotal(subtotal - discountRate + taxRate);
+        } else {
+            setTotal(subtotal - taxRate);
+        }
+    }, [subtotal])
 
     return (
         <form
@@ -134,9 +125,19 @@ const ReceiptForm = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                         <label className="font-bold" htmlFor="invoiceNumber">
-                            Receipt Number: {receiptNo}
+                            Invoice Number:
                         </label>
-
+                        <input
+                            required
+                            className="max-w-[130px]"
+                            type="number"
+                            name="invoiceNumber"
+                            id="invoiceNumber"
+                            min="1"
+                            step="1"
+                            value={invoiceNumber}
+                            onChange={(event) => setInvoiceNumber(parseInt(event.target.value))}
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-4 pb-8">
@@ -144,75 +145,168 @@ const ReceiptForm = () => {
                         htmlFor="cashierName"
                         className="text-sm font-bold sm:text-base"
                     >
-                        Received from:
+                        Sales Person:
                     </label>
                     <div>
-                        <textarea
+                        <input
                             required
                             className="
-                                mb-2
-                                w-full
-                                rounded-[25px]
-                                border-2
-                                border-[#fdc92f]
-                                py-3
-                                px-5
-                                bg-white
-                                text-base text-body-color
-                                placeholder-[#ACB6BE]
-                                outline-none
-                                focus-visible:shadow-none
-                                focus:border-primary
-                                "
-                            placeholder="Receied from"
-                            name="receivedFrom"
-                            id="receivedFrom"
-                            value={receivedFrom}
-                            onChange={(event) => setReceivedFrom(event.target.value)}
+              mb-2
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              py-3
+              px-5
+              bg-white
+              text-base text-body-color
+              placeholder-[#ACB6BE]
+              outline-none
+              focus-visible:shadow-none
+              focus:border-primary
+              "
+                            placeholder="Sales person"
+                            name="cashierName"
+                            id="cashierName"
+                            value={cashierName}
+                            onChange={(event) => setCashierName(event.target.value)}
                         />
-
+                        <input
+                            required
+                            className="
+              mb-2
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              py-3
+              px-5
+              bg-white
+              text-base text-body-color
+              placeholder-[#ACB6BE]
+              outline-none
+              focus-visible:shadow-none
+              focus:border-primary
+              "
+                            placeholder="Sales person contact"
+                            name="spContact"
+                            id="spContact"
+                            value={spContact}
+                            onChange={(event) => setSPContact(event.target.value)}
+                        />
+                        <input
+                            required
+                            className="
+              mb-2
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              py-3
+              px-5
+              bg-white
+              text-base text-body-color
+              placeholder-[#ACB6BE]
+              outline-none
+              focus-visible:shadow-none
+              focus:border-primary
+              "
+                            placeholder="Sales Person Email"
+                            name="email"
+                            id="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
                     </div>
 
                     <label
                         htmlFor="customerName"
                         className="col-start-2 row-start-1 text-sm font-bold md:text-base"
                     >
-                        Paid the sum of:
+                        Customer:
                     </label>
                     <div>
-                        <textarea
+                        <input
                             required
                             className="
-                                mb-2
-                                w-full
-                                rounded-[25px]
-                                border-2
-                                border-[#fdc92f]
-                                py-3
-                                px-5
-                                bg-white
-                                text-base text-body-color
-                                placeholder-[#ACB6BE]
-                                outline-none
-                                focus-visible:shadow-none
-                                focus:border-primary
-                            "
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
                             placeholder="Customer name"
-                            name="sumTotal"
-                            id="sumTotal"
-                            value={sumTotal}
-                            onChange={(event) => setSumTotal(event.target.value)}
+                            type="text"
+                            name="customerName"
+                            id="customerName"
+                            value={customerName}
+                            onChange={(event) => setCustomerName(event.target.value)}
                         />
-
+                        <input
+                            required
+                            className="
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
+                            placeholder="Customer Contact"
+                            type="text"
+                            name="customerContact"
+                            id="customerContact"
+                            value={customerContact}
+                            onChange={(event) => setCustomerContact(event.target.value)}
+                        />
+                        <input
+                            required
+                            className="
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
+                            placeholder="Customer Organisation"
+                            type="text"
+                            name="customerOrganisation"
+                            id="customerOrganisation"
+                            value={customerOrganisation}
+                            onChange={(event) => setCustomerOrganisation(event.target.value)}
+                        />
                     </div>
 
                 </div>
                 <table className="w-full p-4 text-left">
                     <thead>
                         <tr className="border-b border-gray-900/10 text-sm md:text-base">
-                            <th>Item Note</th>
+                            <th>ITEM</th>
                             <th>QTY</th>
-                            <th className="text-center">Note</th>
+                            <th className="text-center">PRICE</th>
                             <th className="text-center">ACTION</th>
                         </tr>
                     </thead>
@@ -232,84 +326,142 @@ const ReceiptForm = () => {
                 </table>
                 <button
                     className="
-                        font-bold
-                        w-full
-                        rounded-[25px]
-                        border-2
-                        border-[#fdc92f]
-                        border-primary
-                        py-3
-                        px-5
-                        bg-[#fdc92f]
-                        text-base 
-                        text-[#7d5c00]
-                        cursor-pointer
-                        hover:bg-opacity-90
-                        transition
-                    "
+              font-bold
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              border-primary
+              py-3
+              px-5
+              bg-[#fdc92f]
+              text-base 
+              text-[#7d5c00]
+              cursor-pointer
+              hover:bg-opacity-90
+              transition
+          "
                     type="button"
                     onClick={addItemHandler}
                 >
                     Add Item
                 </button>
-                <div className="grid grid-cols-2 pt-6">
-                    <div className="flex flex-row space-x-4 px-2">
-                        <input onChange={() => handleChange("USD")} type="checkbox" id="usd" name="usd" value="USD" className='accent-green-700 text-white bg-whites' />
-                        <label htmlFor="vehicle1"> USD</label><br />
-                        <input onChange={() => handleChange("ZWL")} type="checkbox" id="zwl" name="zwl" value="ZWL" />
-                        <label htmlFor="vehicle2"> ZWL</label><br />
-                    </div>
+                <div className="flex flex-col items-end space-y-2 pt-6">
                     <div className="flex w-full justify-between md:w-1/2">
-                        <span className="font-bold">Total:</span>
+                        <span className="font-bold">Subtotal:</span>
                         <span>${subtotal.toFixed(2)}</span>
                     </div>
-
+                    <div className="flex w-full justify-between md:w-1/2">
+                        <span className="font-bold">Discount:</span>
+                        <span>
+                            ({discount || "0"}%)${typeof discount === "string" ? 0.00 : discountRate.toFixed(2)}
+                        </span>
+                    </div>
+                    <div className="flex w-full justify-between md:w-1/2">
+                        <span className="font-bold">VAT:</span>
+                        <span>
+                            ({tax || "0"}%)${taxRate.toFixed(2)}
+                        </span>
+                    </div>
+                    <div className="flex w-full justify-between border-t border-gray-900/10 pt-2 md:w-1/2">
+                        <span className="font-bold">Total:</span>
+                        <span className="font-bold">
+                            ${total % 1 === 0 ? total : total.toFixed(2)}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div className="basis-1/4 bg-transparent">
                 <div className="sticky top-0 z-10 space-y-4 divide-y divide-gray-900/10 pb-8 md:pt-6 md:pl-4">
                     <button
                         className="
-                            font-bold
-                            w-full
-                            rounded-[25px]
-                            border-2
-                            border-[#fdc92f]
-                            border-primary
-                            py-3
-                            px-5
-                            bg-[#fdc92f]
-                            text-base 
-                            text-[#7d5c00]
-                            cursor-pointer
-                            hover:bg-opacity-90
-                            transition
-                        "
+                font-bold
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                border-primary
+                py-3
+                px-5
+                bg-[#fdc92f]
+                text-base 
+                text-[#7d5c00]
+                cursor-pointer
+                hover:bg-opacity-90
+                transition
+            "
                         type="submit"
                     >
-                        Review Receipt
+                        Review Invoice
                     </button>
-                    <ReceiptModal
+                    <InvoiceModal
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
-                        type={'Receipt'}
                         invoiceInfo={{
                             invoiceNumber,
+                            cashierName,
+                            customerName,
                             subtotal,
+                            taxRate,
+                            discountRate,
                             total,
                             today,
                             email,
-                            items,
-                            sumTotal,
-                            receivedFrom,
-                            currency,
-                            receiptNo,
-                            stage,
+                            spContact,
+                            customerOrganisation,
+                            customerContact,
+                            items
                         }}
                         items={items}
                         onAddNextInvoice={undefined}
                         onEditItem={() => { }} />
-
+                    <div className="space-y-4 py-2">
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold md:text-base" htmlFor="tax">
+                                Tax rate:
+                            </label>
+                            <div className="flex items-center">
+                                <input
+                                    className="w-full rounded-r-none bg-white shadow-sm"
+                                    type="number"
+                                    name="tax"
+                                    id="tax"
+                                    min="0.01"
+                                    step="0.01"
+                                    placeholder="0.0"
+                                    value={tax}
+                                    onChange={(event) => setTax(event.target.value)}
+                                />
+                                <span className="rounded-r-md bg-gray-200 py-2 px-4 text-gray-500 shadow-sm">
+                                    %
+                                </span>
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <label
+                                className="text-sm font-bold md:text-base"
+                                htmlFor="discount"
+                            >
+                                Discount rate:
+                            </label>
+                            <div className="flex items-center">
+                                <input
+                                    className="w-full rounded-r-none bg-white shadow-sm"
+                                    type="number"
+                                    name="discount"
+                                    id="discount"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="0.0"
+                                    value={discount}
+                                    onChange={(event) => setDiscount(event.target.value)}
+                                />
+                                <span className="rounded-r-md bg-gray-200 py-2 px-4 text-gray-500 shadow-sm">
+                                    %
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

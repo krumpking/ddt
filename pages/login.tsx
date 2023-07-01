@@ -110,10 +110,8 @@ const Login = () => {
                                 SameSite: 'Strict',
                                 Secure: true,
                             });
-                            //  
+
                             if (v.userType == "admin") {
-
-
                                 setCookie(COOKIE_ORGANISATION, encrypt(doc.data().organizationName, key), {
                                     days: 7,
                                     SameSite: 'Strict',
@@ -127,7 +125,7 @@ const Login = () => {
                                 });
 
 
-                                setCookie(PERSON_ROLE, encrypt("Admin", userId), {
+                                setCookie(PERSON_ROLE, encrypt("Admin", COOKIE_ID), {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,
@@ -143,7 +141,7 @@ const Login = () => {
                                     Secure: true,
                                 });
 
-                                setCookie(PERSON_ROLE, doc.data().role, {
+                                setCookie(PERSON_ROLE, encrypt(doc.data().role, COOKIE_ID), {
                                     days: 7,
                                     SameSite: 'Strict',
                                     Secure: true,

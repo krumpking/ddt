@@ -104,24 +104,3 @@ const showMonth = (no: number) => {
             break
     }
 }
-
-export function getExtension(filename: string) {
-    return filename.split('.').pop()
-}
-
-export const excelDateToJSDate = (date: any) => {
-    let converted_date = new Date(Math.round((date - 25569) * 864e5)).toString();
-    converted_date = String(converted_date).slice(4, 15)
-    date = converted_date.split(" ")
-    let day = date[1];
-    let month = date[0];
-    month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(month) / 3 + 1
-    if (month.toString().length <= 1)
-        month = '0' + month
-    let year = date[2];
-    return String(day + '-' + month + '-' + year.slice(2, 4))
-}
-
-export function numberWithCommas(x: string) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}

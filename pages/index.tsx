@@ -5,7 +5,6 @@ import Nav from '../app/components/nav';
 import Header from '../app/components/header';
 import Carousel from '../app/components/carousel';
 import Link from 'next/link';
-import Script from 'next/script';
 
 
 
@@ -165,20 +164,7 @@ const Home: NextPage = () => {
 
   return (
     <div className='relative bg-[#00947a] w-full h-full'>
-      {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=AW-11208371394"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
 
-          gtag('config', 'AW-11208371394');
-        `}
-      </Script>
 
       <div>
         <Nav />
@@ -302,9 +288,10 @@ const Home: NextPage = () => {
                 <p>....and many more </p>
                 <h1>Events Management</h1>
                 <h1 className='text-xl mt-8 line-through '>2740USD</h1>
-                <h1 className='text-xl '>45USD per month</h1>
+                <h1 className='text-xl '>300USD</h1>
                 <p className='text-sm line-through '>100USD pm hosting</p>
-                <p className='text-sm'>Hosting</p>
+                <p className='text-sm'>25USD pm hosting</p>
+                <p className='text-sm'>hosting</p>
                 <p className='text-sm'>24/7 support</p>
               </div>
               <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-48 items-center 2xl:w-72'>

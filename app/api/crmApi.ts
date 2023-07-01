@@ -1,4 +1,4 @@
-import { CRM_DB_REF, CRM_TASK_DB_REF } from "../constants/crmConstants";
+import { CRM_DB_REF, CRM_TASK_DB_REF } from "../constants/crmContacts";
 import { addDoc, doc, getCountFromServer, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { IClient } from "../types/userTypes";
 import { getCookie } from "react-use-cookie";
@@ -33,38 +33,7 @@ export const getAllClientsToDB = async () => {
     }
 
 
-    const q = query(CRM_DB_REF, where("adminId", "==", decrypt(infoFromCookie, COOKIE_ID)), orderBy("date", "asc"));
-    const snapshot = await getCountFromServer(q);
-    if (snapshot.data().count > 0) {
-
-        const querySnapshot = await getDocs(q);
-        return {
-            data: querySnapshot,
-            count: snapshot.data().count
-        }
-
-    } else {
-        return null;
-
-    }
-
-
-
-}
-
-
-export const getAllClientsByDate = async (first: Date, last: Date) => {
-    // Create a query against the collection.
-
-    var infoFromCookie = "";
-    if (getCookie(ADMIN_ID) == "") {
-        infoFromCookie = getCookie(COOKIE_ID);
-    } else {
-        infoFromCookie = getCookie(ADMIN_ID);
-    }
-
-
-    const q = query(CRM_DB_REF, where("adminId", "==", decrypt(infoFromCookie, COOKIE_ID)), where("date", ">=", first), where("date", "<=", last), orderBy("date", "asc"));
+    const q = query(CRM_DB_REF, where("adminId", "==", decrypt(infoFromCookie, COOKIE_ID)));
     const snapshot = await getCountFromServer(q);
     if (snapshot.data().count > 0) {
 
@@ -123,41 +92,6 @@ export const getAllTasksToDB = async () => {
     }
 
 
-
-}
-
-
-export const getAllTasksToday = async () => {
-    // Create a query against the collection.
-
-    var infoFromCookie = "";
-    if (getCookie(ADMIN_ID) == "") {
-        infoFromCookie = getCookie(COOKIE_ID);
-    } else {
-        infoFromCookie = getCookie(ADMIN_ID);
-    }
-
-
-    const q = query(CRM_TASK_DB_REF, where("adminId", "==", decrypt(infoFromCookie, COOKIE_ID)), where("active", "==", true), where("taskDate", "==", new Date().toDateString()));
-    const snapshot = await getCountFromServer(q);
-    if (snapshot.data().count > 0) {
-
-        const querySnapshot = await getDocs(q);
-        return {
-            data: querySnapshot,
-            count: snapshot.data().count
-        }
-
-    } else {
-        return null;
-
-    }
-
-}
-
-
-export const updateTask = async (id: string, date: string) => {
-    return await updateDoc(doc(firestore, "crm_tasks", id), { taskDate: date });
 
 }
 

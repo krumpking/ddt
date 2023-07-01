@@ -23,8 +23,6 @@ const Header = () => {
                     <li>Say bye to insecure records and files <span className='text-yellow-500'>hello bank level protection of records</span></li>
                 </ul>
 
-                <p className='text-white text-lg mt-8 ml-8 mr-8'>We can build on top of what we have and have <span className='text-yellow-500'>Customized Software</span> for your business for only 45USD per month</p>
-
                 <div className='mt-8 ml-8 mr-8 flex flex-row justify-start text-center'>
                     <button className={`bg-[#fdc92f] rounded-[30px] p-2 text-center`}>
                         <Link className='text-xl  text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>

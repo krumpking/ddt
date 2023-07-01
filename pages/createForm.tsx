@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useMemo, useReducer, useState } from 'react'
-import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE, PRIMARY_COLOR } from '../app/constants/constants';
+import { COOKIE_ID, LIGHT_GRAY, PRIMARY_COLOR } from '../app/constants/constants';
 import Loader from '../app/components/loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,28 +41,6 @@ const CreateForm = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = LIGHT_GRAY;
-
-
-        let role = getCookie(PERSON_ROLE);
-        var infoFromCookie = "";
-        if (getCookie(ADMIN_ID) == "") {
-            infoFromCookie = getCookie(COOKIE_ID);
-        } else {
-            infoFromCookie = getCookie(ADMIN_ID);
-        }
-
-        if (typeof role !== 'undefined') {
-            if (role !== "") {
-                var id = decrypt(infoFromCookie, COOKIE_ID);
-                var roleTitle = decrypt(role, id);
-                if (roleTitle == "Viewer") { // "Viewer" //"Editor"
-                    router.push('/home');
-                    toast.info("You do not have permission to access this page");
-                }
-
-            }
-        }
-
 
 
 

@@ -4,7 +4,6 @@ import InvoiceItem from "./invoiceItem";
 import InvoiceModal from "./invoiceModal";
 import { print } from "../../utils/console";
 import { createId } from "../../utils/stringM";
-import { getCount } from "../../api/eReceiptingApi";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB", {
@@ -26,15 +25,13 @@ const QuotationForm = () => {
         {
             id: createId(),
             name: "",
-            qty: "1.00",
+            qty: 1,
             price: "1.00",
         },
     ]);
     const [total, setTotal] = useState(0);
     const [spContact, setSPContact] = useState("");
     const [email, setEmail] = useState("");
-    const [stage, setStage] = useState("Quotation Sent");
-    const [invoiceNo, setInvoiceNo] = useState(0);
 
 
 
@@ -45,7 +42,17 @@ const QuotationForm = () => {
         setIsOpen(true);
     };
 
-
+    const addNextInvoiceHandler = () => {
+        setInvoiceNumber((prevNumber) => incrementString(prevNumber));
+        setItems([
+            {
+                id: createId(),
+                name: "",
+                qty: 1,
+                price: "1.00",
+            },
+        ]);
+    };
 
     const addItemHandler = () => {
         const id = createId();
@@ -54,15 +61,15 @@ const QuotationForm = () => {
             {
                 id: id,
                 name: "",
-                qty: "1.00",
+                qty: 1,
                 price: "1.00",
             },
         ]);
 
         if (discountRate > 0) {
-            setTotal(subtotal + taxRate - discountRate);
+            setTotal(subtotal - discountRate + taxRate);
         } else {
-            setTotal(subtotal + taxRate);
+            setTotal(subtotal - taxRate);
         }
     };
 
@@ -91,32 +98,19 @@ const QuotationForm = () => {
 
     const subtotal = items.reduce((prev, curr) => {
         if (curr.name.trim().length > 0)
-            return prev + Number(parseFloat(curr.price) * parseFloat(curr.qty));
+            return prev + Number(parseInt(curr.price) * Math.floor(curr.qty));
         else return prev;
     }, 0);
-    const taxRate = (parseFloat(tax) * subtotal) / 100;
-    const discountRate = (parseFloat(discount) * subtotal) / 100;
+    const taxRate = (parseInt(tax) * subtotal) / 100;
+    const discountRate = (parseInt(discount) * subtotal) / 100;
     useEffect(() => {
-        print(total + taxRate);
+
         if (discountRate > 0) {
-
-            setTotal((subtotal + taxRate) - discountRate);
+            setTotal(subtotal - discountRate + taxRate);
         } else {
-            setTotal(subtotal + taxRate);
+            setTotal(subtotal - taxRate);
         }
-
-        if (total < 1) {
-            getCount(stage).then((v) => {
-
-                if (v !== null) {
-                    var r = v.count;
-                    setInvoiceNo(r);
-                }
-            }).catch((e) => {
-                console.error(e);
-            })
-        }
-    }, [subtotal]);
+    }, [subtotal])
 
     return (
         <form
@@ -131,9 +125,19 @@ const QuotationForm = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                         <label className="font-bold" htmlFor="invoiceNumber">
-                            Quotation Number: {invoiceNo}
+                            Invoice Number:
                         </label>
-
+                        <input
+                            required
+                            className="max-w-[130px]"
+                            type="number"
+                            name="invoiceNumber"
+                            id="invoiceNumber"
+                            min="1"
+                            step="1"
+                            value={invoiceNumber}
+                            onChange={(event) => setInvoiceNumber(parseInt(event.target.value))}
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-4 pb-8">
@@ -147,20 +151,20 @@ const QuotationForm = () => {
                         <input
                             required
                             className="
-                                mb-2
-                                w-full
-                                rounded-[25px]
-                                border-2
-                                border-[#fdc92f]
-                                py-3
-                                px-5
-                                bg-white
-                                text-base text-body-color
-                                placeholder-[#ACB6BE]
-                                outline-none
-                                focus-visible:shadow-none
-                                focus:border-primary
-                                "
+              mb-2
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              py-3
+              px-5
+              bg-white
+              text-base text-body-color
+              placeholder-[#ACB6BE]
+              outline-none
+              focus-visible:shadow-none
+              focus:border-primary
+              "
                             placeholder="Sales person"
                             name="cashierName"
                             id="cashierName"
@@ -170,20 +174,20 @@ const QuotationForm = () => {
                         <input
                             required
                             className="
-                                    mb-2
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
+              mb-2
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              py-3
+              px-5
+              bg-white
+              text-base text-body-color
+              placeholder-[#ACB6BE]
+              outline-none
+              focus-visible:shadow-none
+              focus:border-primary
+              "
                             placeholder="Sales person contact"
                             name="spContact"
                             id="spContact"
@@ -193,20 +197,20 @@ const QuotationForm = () => {
                         <input
                             required
                             className="
-                                    mb-2
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
+              mb-2
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              py-3
+              px-5
+              bg-white
+              text-base text-body-color
+              placeholder-[#ACB6BE]
+              outline-none
+              focus-visible:shadow-none
+              focus:border-primary
+              "
                             placeholder="Sales Person Email"
                             name="email"
                             id="email"
@@ -225,20 +229,20 @@ const QuotationForm = () => {
                         <input
                             required
                             className="
-                                    mb-2
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                "
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
                             placeholder="Customer name"
                             type="text"
                             name="customerName"
@@ -249,20 +253,20 @@ const QuotationForm = () => {
                         <input
                             required
                             className="
-                                    mb-2
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                "
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
                             placeholder="Customer Contact"
                             type="text"
                             name="customerContact"
@@ -273,20 +277,20 @@ const QuotationForm = () => {
                         <input
                             required
                             className="
-                                mb-2
-                                w-full
-                                rounded-[25px]
-                                border-2
-                                border-[#fdc92f]
-                                py-3
-                                px-5
-                                bg-white
-                                text-base text-body-color
-                                placeholder-[#ACB6BE]
-                                outline-none
-                                focus-visible:shadow-none
-                                focus:border-primary
-                            "
+                mb-2
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                py-3
+                px-5
+                bg-white
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus-visible:shadow-none
+                focus:border-primary
+              "
                             placeholder="Customer Organisation"
                             type="text"
                             name="customerOrganisation"
@@ -322,21 +326,21 @@ const QuotationForm = () => {
                 </table>
                 <button
                     className="
-                        font-bold
-                        w-full
-                        rounded-[25px]
-                        border-2
-                        border-[#fdc92f]
-                        border-primary
-                        py-3
-                        px-5
-                        bg-[#fdc92f]
-                        text-base 
-                        text-[#7d5c00]
-                        cursor-pointer
-                        hover:bg-opacity-90
-                        transition
-                    "
+              font-bold
+              w-full
+              rounded-[25px]
+              border-2
+              border-[#fdc92f]
+              border-primary
+              py-3
+              px-5
+              bg-[#fdc92f]
+              text-base 
+              text-[#7d5c00]
+              cursor-pointer
+              hover:bg-opacity-90
+              transition
+          "
                     type="button"
                     onClick={addItemHandler}
                 >
@@ -371,31 +375,29 @@ const QuotationForm = () => {
                 <div className="sticky top-0 z-10 space-y-4 divide-y divide-gray-900/10 pb-8 md:pt-6 md:pl-4">
                     <button
                         className="
-                                font-bold
-                                w-full
-                                rounded-[25px]
-                                border-2
-                                border-[#fdc92f]
-                                border-primary
-                                py-3
-                                px-5
-                                bg-[#fdc92f]
-                                text-base 
-                                text-[#7d5c00]
-                                cursor-pointer
-                                hover:bg-opacity-90
-                                transition
-                            "
+                font-bold
+                w-full
+                rounded-[25px]
+                border-2
+                border-[#fdc92f]
+                border-primary
+                py-3
+                px-5
+                bg-[#fdc92f]
+                text-base 
+                text-[#7d5c00]
+                cursor-pointer
+                hover:bg-opacity-90
+                transition
+            "
                         type="submit"
                     >
-                        Review Quotation
+                        Review Invoice
                     </button>
                     <InvoiceModal
-                        type={'Quotation'}
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         invoiceInfo={{
-                            stage,
                             invoiceNumber,
                             cashierName,
                             customerName,

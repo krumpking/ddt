@@ -1,5 +1,4 @@
 import * as crypto from 'crypto';
-import { print } from './console';
 
 
 
@@ -43,8 +42,6 @@ export function encrypt(str: string, code: string): string {
 }
 
 export function decrypt(str: string, code: string): string {
-
-
 
 
     if (str.split('|').length > 2) {
