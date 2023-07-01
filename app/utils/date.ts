@@ -47,8 +47,16 @@ export default class DateMethods {
 
     static sortObjectsByDate(objects: any, up: boolean): any {
         const sortedObjects = objects.sort((a: any, b: any) => {
-            const date1: any = new Date(a.date);
-            const date2: any = new Date(b.date);
+            let date1: any;
+            let date2: any;
+            if (a.hasOwnProperty('dateString')) {
+                date1 = new Date(a.dateString);
+                date2 = new Date(b.dateString);
+            } else {
+                date1 = new Date(a.date);
+                date2 = new Date(b.date);
+            }
+
             if (up) {
                 return date1 - date2;
             } else {
@@ -58,6 +66,9 @@ export default class DateMethods {
         });
         return sortedObjects;
     }
+
+
+
 
 
 }

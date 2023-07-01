@@ -302,10 +302,9 @@ const Home: NextPage = () => {
                 <p>....and many more </p>
                 <h1>Events Management</h1>
                 <h1 className='text-xl mt-8 line-through '>2740USD</h1>
-                <h1 className='text-xl '>300USD</h1>
+                <h1 className='text-xl '>45USD per month</h1>
                 <p className='text-sm line-through '>100USD pm hosting</p>
-                <p className='text-sm'>25USD pm hosting</p>
-                <p className='text-sm'>hosting</p>
+                <p className='text-sm'>Hosting</p>
                 <p className='text-sm'>24/7 support</p>
               </div>
               <div className='bg-[#fdc92f] text-[#7d5c00] rounded-[40px] p-4 font-bold  text-center m-auto shadow-xl  flex flex-col w-48 items-center 2xl:w-72'>

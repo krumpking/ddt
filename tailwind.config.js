@@ -14,6 +14,7 @@ module.exports = {
       fontFamily: {
         sans: ["Comfortaa", ...defaultTheme.fontFamily.sans],
         title: ["Rubik Gemstones", "cursive"],
+        open: ["Open Sans", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         "bg-swurl": "url('/images/bg-swurl.png')",
@@ -37,6 +38,9 @@ module.exports = {
         // => @media (min-width: 800) { ... }
         nineSixteen: "900px",
         // => @media (min-width: 800) { ... }
+      },
+      height: {
+        a4: "297mm",
       },
     },
     clipPath: {

@@ -6,7 +6,6 @@ import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, PERSON_ROLE, URL_LOCK_ID } from '../..
 import Payment from '../../app/utils/paymentUtil';
 import ClientNav from '../../app/components/clientNav';
 import ReactTable from "react-table";
-
 import { IData, IDynamicObject } from '../../app/types/types';
 import { forEach } from 'lodash';
 import { decrypt, simpleDecrypt } from '../../app/utils/crypto';
