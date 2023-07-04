@@ -118,8 +118,14 @@ const ClientJourney = () => {
 
 
                     var prodA: any = [];
-                    element.data().enquired.forEach((el: string) => {
-                        prodA.push(decrypt(el, id));
+                    element.data().enquired.forEach((el: any) => {
+                        prodA.push(
+                            {
+                                product: decrypt(el.product, id),
+                                value: decrypt(el.value, id),
+                                totalNumber: decrypt(el.totalNumber, id)
+                            }
+                        )
                     });
 
                     var client = {
@@ -127,6 +133,7 @@ const ClientJourney = () => {
                         id: element.data().id,
                         adminId: element.data().adminId,
                         date: element.data().date,
+                        dateString: element.data().dateString,
                         name: decrypt(element.data().name, id),
                         contact: decrypt(element.data().contact, id),
                         organisation: decrypt(element.data().organisation, id),
@@ -182,10 +189,10 @@ const ClientJourney = () => {
                 <div className='flex flex-col items-center content-center'>
                     <Loader />
                 </div> :
-                <div>
+                <div className=' w-full'>
 
                     {typeof clients !== 'undefined' ?
-                        <div className='flex flex-nowrap overflow-x-auto space-x-8 whitespace-nowrap'>
+                        <div className='grid grid-cols-7 gap-4 overflow-x-auto whitespace-nowrap'>
                             <div className='w-96 h-full shadow-xl p-4 rounded-[15px]'>
                                 <p>{contactMade.length} Contact Made </p>
                                 {contactMade.map((v: any) => {

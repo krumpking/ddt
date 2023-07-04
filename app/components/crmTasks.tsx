@@ -132,10 +132,20 @@ const CRMTasks = () => {
         });
 
 
+
         var prodA: any = [];
-        client.enquired.forEach((el: string) => {
-            prodA.push(decrypt(el, id));
-        });
+
+        if (client.enquired.length > 0) {
+            client.enquired.forEach((el: any) => {
+                prodA.push(
+                    {
+                        product: decrypt(el.product, id),
+                        value: decrypt(el.value, id),
+                        totalNumber: decrypt(el.totalNumber, id)
+                    }
+                )
+            });
+        }
 
         var clientF = {
             id: client.id,

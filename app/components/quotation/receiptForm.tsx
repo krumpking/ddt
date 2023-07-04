@@ -164,7 +164,7 @@ const ReceiptForm = () => {
                                 focus-visible:shadow-none
                                 focus:border-primary
                                 "
-                            placeholder="Receied from"
+                            placeholder="Received from"
                             name="receivedFrom"
                             id="receivedFrom"
                             value={receivedFrom}
@@ -197,7 +197,7 @@ const ReceiptForm = () => {
                                 focus-visible:shadow-none
                                 focus:border-primary
                             "
-                            placeholder="Customer name"
+                            placeholder="Sum Total in words"
                             name="sumTotal"
                             id="sumTotal"
                             value={sumTotal}

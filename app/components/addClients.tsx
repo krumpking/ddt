@@ -448,7 +448,7 @@ const AddClient = () => {
                                 data-required="1"
                                 required>
                                 <option value="Contact" hidden>
-                                    Stage of Deal
+                                    Stage of Relationship
                                 </option>
                                 <option value="Quotation Sent" >
                                     Quotation Sent
@@ -472,9 +472,9 @@ const AddClient = () => {
                         </button>
 
                     </div>
-                    <div className='col-span-2'>
-                        <div>
-                            <table className="w-full p-4 text-left">
+                    <div className='col-span-2 '>
+                        <div className='overflow-x-auto whitespace-nowrap'>
+                            <table className="w-full p-4 text-left  ">
                                 <thead>
                                     <tr className="border-b border-gray-900/10 text-sm md:text-base">
                                         <th>ITEM</th>

@@ -7,6 +7,7 @@ import { getCookie } from "react-use-cookie";
 import { ADMIN_ID, COOKIE_ID } from "../../constants/constants";
 import { decrypt, encrypt } from "../../utils/crypto";
 import { getOrgInfoFromDB } from "../../api/orgApi";
+import { print } from "../../utils/console";
 
 
 interface MyProps {
@@ -106,15 +107,6 @@ const ReceiptModal: FC<MyProps> = ({
 
         var prodA: any = [];
 
-        items.forEach((el: any) => {
-            prodA.push(
-                {
-                    product: encrypt(el.name, id),
-                    value: encrypt(el.price, id),
-                    totalNumber: encrypt(el.qty, id)
-                }
-            )
-        })
 
 
         var client = {
@@ -122,7 +114,7 @@ const ReceiptModal: FC<MyProps> = ({
             adminId: id,
             date: new Date(),
             dateString: new Date().toDateString(),
-            name: encrypt(invoiceInfo.receivedForm, id),
+            name: encrypt(invoiceInfo.receivedFrom, id),
             contact: encrypt(invoiceInfo.customerContact, id),
             organisation: encrypt(invoiceInfo.customerOrgainsation, id),
             stage: encrypt(invoiceInfo.stage, id),

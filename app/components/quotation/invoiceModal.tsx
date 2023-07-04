@@ -259,7 +259,7 @@ const InvoiceModal: FC<MyProps> = ({
                       <p>Tax No {vat}</p>
                     </div>
                     <div className="">
-                      <img src={image} className="max-h-48 border-b-2 border-black w-full ml-2" />
+                      <img src={image} className="max-h-48 border-b-2 border-black w-full ml-2 object-contain" />
                       <p className="mx-2">Date </p>
                       <div className="mt-5 flex flex-row justify-between mx-2">
                         <p>{invoiceInfo.today}</p>
