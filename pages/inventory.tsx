@@ -8,6 +8,7 @@ import ClientNav from '../app/components/clientNav';
 import { Tab } from '@headlessui/react';
 import AddStock from '../app/components/addStock';
 import ConfirmStock from '../app/components/confirmStock';
+import AvailableStock from '../app/components/availableStock';
 import Analytics from '../app/components/analytics';
 
 
@@ -73,9 +74,17 @@ const Inventory = () => {
               >
               
               <ConfirmStock/>
-              </Tab.Panel>
-             
+              </Tab.Panel> 
+
+              <Tab.Panel
+                className={classNames(
+                  'rounded-xl bg-white p-3',
+                  'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                )}
+              >
               
+              <AvailableStock/>
+              </Tab.Panel> 
             </Tab.Panels>
           </Tab.Group>
         </div>

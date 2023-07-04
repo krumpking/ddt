@@ -29,7 +29,7 @@ import { print } from '../utils/console';
 // var array = [];
 // var arrayOfObjects = [{},{},{}]
 
-const ConfirmSotck = () => {
+const AvailableSotck = () => {
   const router = useRouter();
   const [label, setLabel] = useState<any[]>([
     'date',
@@ -139,4 +139,4 @@ const ConfirmSotck = () => {
   );
 };
 
-export default ConfirmSotck;
+export default AvailableSotck;
