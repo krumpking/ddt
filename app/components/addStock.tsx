@@ -11,6 +11,7 @@ import { print } from '../utils/console';
 import { useRouter } from 'next/router';
 
 const AddStock = () => {
+  const [date, setDate] = useState('');
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -62,6 +63,30 @@ const AddStock = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
+           <div className="mb-6">
+            <input
+              type="text"
+              value={date}
+              placeholder={'Date'}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
+              className="
+                        w-full
+                        rounded-[25px]
+                        border-2
+                        border-[#fdc92f]
+                        py-3
+                        px-5
+                        bg-white
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        "
+            />
+          </div>
           <div className="mb-6">
             <input
               type="text"

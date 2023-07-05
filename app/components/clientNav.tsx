@@ -141,7 +141,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 <h1 className='col-span-3 text-white'>E-Receipting</h1>
                             </div>
                         </a>
-                        {/* <a href={'/inventory'} className={url === 'inventory' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                         <a href={'/inventory'} className={url === 'inventory' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
@@ -151,7 +151,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 <h1 className='col-span-3 text-white'>Inventory</h1>
                             </div>
                         </a>
-                        <a href={'/events'} className={url === 'events' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        {/*<a href={'/events'} className={url === 'events' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
@@ -297,7 +297,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 <h1 className='col-span-3 text-white'>E-Receipting</h1>
                             </div>
                         </a>
-                        {/*<a href={'/inventory'} className={url === 'inventory' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        <a href={'/inventory'} className={url === 'inventory' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
                              <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
@@ -307,7 +307,7 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
                                 <h1 className='col-span-3 text-white'>Inventory</h1>
                             </div>
                         </a>
-                        <a href={'/events'} className={url === 'events' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
+                        {/*<a href={'/events'} className={url === 'events' ? 'bg-[#0fa991] p-2 rounded-[25px] ' : 'p-2 rounded-[25px]'}>
                             <div className='grid grid-cols-4 w-full'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="col-span-1 w-6 h-6 text-white justify-self-center">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
