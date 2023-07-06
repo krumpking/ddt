@@ -136,17 +136,18 @@ const QuotationForm = () => {
 
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 pt-4 pb-8">
-                    <label
-                        htmlFor="cashierName"
-                        className="text-sm font-bold sm:text-base"
-                    >
-                        Sales Person:
-                    </label>
+                <div className="grid grid-cols-1 smXS:grid-cols-2 gap-2 pt-4 pb-8">
                     <div>
-                        <input
-                            required
-                            className="
+                        <label
+                            htmlFor="cashierName"
+                            className="text-sm font-bold sm:text-base"
+                        >
+                            Sales Person:
+                        </label>
+                        <div>
+                            <input
+                                required
+                                className="
                                 mb-2
                                 w-full
                                 rounded-[25px]
@@ -161,15 +162,15 @@ const QuotationForm = () => {
                                 focus-visible:shadow-none
                                 focus:border-primary
                                 "
-                            placeholder="Sales person"
-                            name="cashierName"
-                            id="cashierName"
-                            value={cashierName}
-                            onChange={(event) => setCashierName(event.target.value)}
-                        />
-                        <input
-                            required
-                            className="
+                                placeholder="Sales person"
+                                name="cashierName"
+                                id="cashierName"
+                                value={cashierName}
+                                onChange={(event) => setCashierName(event.target.value)}
+                            />
+                            <input
+                                required
+                                className="
                                     mb-2
                                     w-full
                                     rounded-[25px]
@@ -184,15 +185,15 @@ const QuotationForm = () => {
                                     focus-visible:shadow-none
                                     focus:border-primary
                                     "
-                            placeholder="Sales person contact"
-                            name="spContact"
-                            id="spContact"
-                            value={spContact}
-                            onChange={(event) => setSPContact(event.target.value)}
-                        />
-                        <input
-                            required
-                            className="
+                                placeholder="Sales person contact"
+                                name="spContact"
+                                id="spContact"
+                                value={spContact}
+                                onChange={(event) => setSPContact(event.target.value)}
+                            />
+                            <input
+                                required
+                                className="
                                     mb-2
                                     w-full
                                     rounded-[25px]
@@ -207,24 +208,25 @@ const QuotationForm = () => {
                                     focus-visible:shadow-none
                                     focus:border-primary
                                     "
-                            placeholder="Sales Person Email"
-                            name="email"
-                            id="email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                        />
+                                placeholder="Sales Person Email"
+                                name="email"
+                                id="email"
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                            />
+                        </div>
                     </div>
-
-                    <label
-                        htmlFor="customerName"
-                        className="col-start-2 row-start-1 text-sm font-bold md:text-base"
-                    >
-                        Customer:
-                    </label>
                     <div>
-                        <input
-                            required
-                            className="
+                        <label
+                            htmlFor="customerName"
+                            className="col-start-2 row-start-1 text-sm font-bold md:text-base"
+                        >
+                            Customer:
+                        </label>
+                        <div>
+                            <input
+                                required
+                                className="
                                     mb-2
                                     w-full
                                     rounded-[25px]
@@ -239,16 +241,16 @@ const QuotationForm = () => {
                                     focus-visible:shadow-none
                                     focus:border-primary
                                 "
-                            placeholder="Customer name"
-                            type="text"
-                            name="customerName"
-                            id="customerName"
-                            value={customerName}
-                            onChange={(event) => setCustomerName(event.target.value)}
-                        />
-                        <input
-                            required
-                            className="
+                                placeholder="Customer name"
+                                type="text"
+                                name="customerName"
+                                id="customerName"
+                                value={customerName}
+                                onChange={(event) => setCustomerName(event.target.value)}
+                            />
+                            <input
+                                required
+                                className="
                                     mb-2
                                     w-full
                                     rounded-[25px]
@@ -263,16 +265,16 @@ const QuotationForm = () => {
                                     focus-visible:shadow-none
                                     focus:border-primary
                                 "
-                            placeholder="Customer Contact"
-                            type="text"
-                            name="customerContact"
-                            id="customerContact"
-                            value={customerContact}
-                            onChange={(event) => setCustomerContact(event.target.value)}
-                        />
-                        <input
-                            required
-                            className="
+                                placeholder="Customer Contact"
+                                type="text"
+                                name="customerContact"
+                                id="customerContact"
+                                value={customerContact}
+                                onChange={(event) => setCustomerContact(event.target.value)}
+                            />
+                            <input
+                                required
+                                className="
                                 mb-2
                                 w-full
                                 rounded-[25px]
@@ -287,39 +289,46 @@ const QuotationForm = () => {
                                 focus-visible:shadow-none
                                 focus:border-primary
                             "
-                            placeholder="Customer Organisation"
-                            type="text"
-                            name="customerOrganisation"
-                            id="customerOrganisation"
-                            value={customerOrganisation}
-                            onChange={(event) => setCustomerOrganisation(event.target.value)}
-                        />
+                                placeholder="Customer Organisation"
+                                type="text"
+                                name="customerOrganisation"
+                                id="customerOrganisation"
+                                value={customerOrganisation}
+                                onChange={(event) => setCustomerOrganisation(event.target.value)}
+                            />
+                        </div>
+
                     </div>
 
+
+
                 </div>
-                <table className="w-full p-4 text-left">
-                    <thead>
-                        <tr className="border-b border-gray-900/10 text-sm md:text-base">
-                            <th>ITEM</th>
-                            <th>QTY</th>
-                            <th className="text-center">PRICE</th>
-                            <th className="text-center">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item) => (
-                            <InvoiceItem
-                                key={item.id}
-                                id={item.id}
-                                name={item.name}
-                                qty={item.qty}
-                                price={item.price}
-                                onDeleteItem={deleteItemHandler}
-                                onEdtiItem={edtiItemHandler}
-                            />
-                        ))}
-                    </tbody>
-                </table>
+                <div className="w-full overscroll-contain overflow-y-auto">
+                    <table className="w-full p-4 text-left">
+                        <thead>
+                            <tr className="border-b border-gray-900/10 text-sm md:text-base">
+                                <th>ITEM</th>
+                                <th>QTY</th>
+                                <th className="text-center">PRICE</th>
+                                <th className="text-center">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => (
+                                <InvoiceItem
+                                    key={item.id}
+                                    id={item.id}
+                                    name={item.name}
+                                    qty={item.qty}
+                                    price={item.price}
+                                    onDeleteItem={deleteItemHandler}
+                                    onEdtiItem={edtiItemHandler}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
                 <button
                     className="
                         font-bold

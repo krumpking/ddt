@@ -63,9 +63,9 @@ const Accounting = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-12'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12 '>
 
-                <div className='col-span-3'>
+                <div className='lg:col-span-3'>
                     <ClientNav organisationName={'Vision Is Primary'} url={'accounting'} />
                 </div>
 

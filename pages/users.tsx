@@ -12,7 +12,8 @@ import { decrypt, encrypt } from '../app/utils/crypto';
 import { Menu, Tab, Transition } from '@headlessui/react';
 import { addUser, deleteById, getUsers } from '../app/api/usersApi';
 import { print } from '../app/utils/console';
-
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 
 
@@ -82,6 +83,7 @@ const Users = () => {
 
 
     const deleteMemb = (id: string) => {
+        setUsers([]);
         setLoading(true);
         deleteById(id).then((v) => {
 
@@ -93,10 +95,11 @@ const Users = () => {
     }
 
     const addUserToDB = (user: IUser) => {
-
+        setUsers([]);
         setLoading(true);
 
         addUser(user).then((r) => {
+
             toast.success("User added successfully");
             getUsersFromDB();
             setLoading(false);
@@ -125,7 +128,7 @@ const Users = () => {
                                 adminId: element.data().adminId,
                                 date: decrypt(element.data().date, id),
                                 name: decrypt(element.data().name, id),
-                                contact: decrypt(element.data().contact, id),
+                                contact: element.data().contact,
                                 role: decrypt(element.data().role, id),
                                 email: decrypt(element.data().email, id)
                             }
@@ -153,15 +156,14 @@ const Users = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-12'>
-
-                <div className='col-span-3'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12 '>
+                <div className='lg:col-span-3'>
                     <ClientNav organisationName={'Vision Is Primary'} url={'users'} />
                 </div>
 
                 <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9 ">
                     <Tab.Group>
-                        <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1">
+                        <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1 overflow-hidden overflow-x-scroll ">
                             {tabs.map((category) => (
                                 <Tab
                                     key={category}
@@ -193,7 +195,7 @@ const Users = () => {
                                         <Loader />
                                     </div>
                                     : <div className='flex flex-col'>
-                                        <div className='grid grid-cols-2'>
+                                        <div className='grid grid-cols-1 lg:grid-cols-2'>
                                             <div className='py-4 px-1'>
                                                 <input
                                                     type="text"
@@ -359,32 +361,31 @@ const Users = () => {
                             <Tab.Panel
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2  '
                                 )}
                             >
-                                <div className='w-full'>
-                                    <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
-                                        <thead className='bg-[#00947a] text-white font-bold w-full '>
-                                            <tr className='grid grid-cols-6'>
-                                                {labels.map((v: any) => (
-                                                    <th key={v.label} className='text-left'>{v}</th>
+
+
+                                <div className="overflow-auto lg:overflow-visible ">
+                                    <table className="table  border-separate space-y-6 text-sm w-full">
+                                        <thead className="bg-[#00947a] text-white font-bold0">
+                                            <tr>
+                                                {labels.map((v: any, index) => (
+                                                    <th key={v.label} className={`text-left`}>{v}</th>
                                                 ))}
                                             </tr>
-
-
                                         </thead>
                                         <tbody>
-
                                             {
                                                 users.map((value, index) => {
                                                     return (
                                                         <tr key={index}
-                                                            className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-6'}
+                                                            className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer '}
                                                             onClick={() => { }}>
                                                             <td className='text-left' >{getDate(value.date)}</td>
                                                             <td className='text-left' >{value.name}</td>
                                                             <td className='text-left' >{value.contact}</td>
-                                                            <td className='text-left' >{value.email}</td>
+                                                            <td className='text-left col-span-3' >{value.email}</td>
                                                             <td className='text-left' >{value.role}</td>
                                                             <td className=" whitespace-nowrap text-right">
 
@@ -465,11 +466,13 @@ const Users = () => {
                                                     )
                                                 })
                                             }
-
-
                                         </tbody>
                                     </table>
                                 </div>
+
+
+
+
                             </Tab.Panel>
 
 

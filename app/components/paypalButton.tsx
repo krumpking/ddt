@@ -43,10 +43,6 @@ const PaypalCheckoutButton = (props: { affNo: number; }) => {
             var id = "";
             if (getCookie(COOKIE_ID) !== "") {
                 id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-
-
-
-
             }
 
 
@@ -55,7 +51,7 @@ const PaypalCheckoutButton = (props: { affNo: number; }) => {
                 id: order.id,
                 userId: id,
                 date: new Date().toString(),
-                amount: isAff ? 250 : 300,
+                amount: isAff ? 40 : 45,
                 refCode: affNo.toString()
             }
 
@@ -101,7 +97,7 @@ const PaypalCheckoutButton = (props: { affNo: number; }) => {
                             {
                                 description: "Purchase DDT",
                                 amount: {
-                                    value: isAff ? '250' : '300'
+                                    value: '45'
                                 }
                             }
                         ]

@@ -134,9 +134,19 @@ const ClientProfile = () => {
 
 
                     var prodA: any = [];
-                    element.data().enquired.forEach((el: string) => {
-                        prodA.push(decrypt(el, id));
-                    });
+
+                    if (element.data().enquired.length > 0) {
+                        element.data().enquired.forEach((el: any) => {
+                            prodA.push(
+                                {
+                                    product: decrypt(el.product, id),
+                                    value: decrypt(el.value, id),
+                                    totalNumber: decrypt(el.totalNumber, id)
+                                }
+                            )
+                        });
+                    }
+
 
                     var client = {
                         docId: element.id,
@@ -154,7 +164,7 @@ const ClientProfile = () => {
                         value: decrypt(element.data().value, id),
                         salesPerson: decrypt(element.data().salesPerson, id),
                     }
-                    print(client);
+
                     clnts.push(client);
 
                 });
@@ -202,6 +212,8 @@ const ClientProfile = () => {
         }
     };
 
+
+    // TODO later Update Client
     const updateClient = () => {
         setOpenDialog(false);
         if (typeof editMember !== 'undefined') {
@@ -283,7 +295,13 @@ const ClientProfile = () => {
 
             var prodAr = editMember.enquired;
             prodAr.forEach((el: any) => {
-                prodA.push(encrypt(el, id));
+                prodA.push(
+                    {
+                        product: encrypt(el.product, id),
+                        value: encrypt(el.value, id),
+                        totalNumber: encrypt(el.totalNumber, id)
+                    }
+                )
             })
 
 
@@ -342,8 +360,15 @@ const ClientProfile = () => {
 
             var prodAr = editMember.enquired;
             prodAr.forEach((el: any) => {
-                prodA.push(encrypt(el, id));
+                prodA.push(
+                    {
+                        product: encrypt(el.product, id),
+                        value: encrypt(el.value, id),
+                        totalNumber: encrypt(el.totalNumber, id)
+                    }
+                )
             })
+
 
 
 
@@ -415,7 +440,13 @@ const ClientProfile = () => {
 
             var prodAr = editMember.enquired;
             prodAr.forEach((el: any) => {
-                prodA.push(encrypt(el, id));
+                prodA.push(
+                    {
+                        product: encrypt(el.product, id),
+                        value: encrypt(el.value, id),
+                        totalNumber: encrypt(el.totalNumber, id)
+                    }
+                )
             })
 
 
@@ -470,8 +501,6 @@ const ClientProfile = () => {
 
     const getView = () => {
 
-
-
         switch (view) {
             case 0:
                 return (
@@ -480,7 +509,7 @@ const ClientProfile = () => {
                         <Pill title={`${editMember?.contact}`} description={'Contact'} />
                         <Pill title={`${editMember?.organisation}`} description={'Organization'} />
                         <Pill title={`${editMember?.refSource}`} description={'Came to us through'} />
-                        <Pill title={`${editMember?.enquired}`} description={'Enquired About'} />
+                        <Pill title={`${editMember?.enquired.map((v: any) => v.product)}`} description={'Enquired About'} />
                         <Pill title={`${editMember?.value}`} description={'Total Value'} />
                         <Pill title={`${editMember?.stage}`} description={'Stage'} />
                         <Pill title={`${editMember?.notes}`} description={'Notes'} />
@@ -579,33 +608,27 @@ const ClientProfile = () => {
                                     data-required="1"
                                     required>
                                     <option value="Contact" hidden>
-                                        Stage of communication
+                                        Stage of Relationship
                                     </option>
-                                    <option value="Contact">
-                                        Contact Made
+                                    <option value="Contact" hidden>
+                                        Stage of Deal
                                     </option>
-                                    <option value="Appointment" >
-                                        Appointment Set
+                                    <option value="Quotation Sent" >
+                                        Quotation Sent
                                     </option>
-                                    <option value="Presentation" >
-                                        Presentation Made
+                                    <option value="Invoice Sent" >
+                                        Invoice Sent
                                     </option>
-                                    <option value="Decision" >
-                                        Decision Maker brought in
+                                    <option value="Receipt Sent" >
+                                        Receipt Sent
                                     </option>
-                                    <option value="Contract" >
-                                        Contract Sent
-                                    </option>
-                                    <option value="Signed" >
-                                        Contract Signed
-                                    </option>
-                                    <option value="Started" >
+                                    <option value="Project Started" >
                                         Project Started
                                     </option>
-                                    <option value="Progressed" >
+                                    <option value="Project In Progress" >
                                         Project In Progress
                                     </option>
-                                    <option value="Finished" >
+                                    <option value="Project Finished" >
                                         Project Finished
                                     </option>
                                 </select>
@@ -1050,13 +1073,11 @@ const ClientProfile = () => {
                     </div>
 
                     <div className='w-full overscroll-contain overflow-y-auto max-h-screen '>
-                        <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
-                            <thead className=' text-white font-bold w-full p-4'>
-                                <tr className='grid grid-cols-6'>
-                                    <th className='col-span-2'>
-                                        <button
-                                            onClick={() => { sortClients() }}
-                                            className='
+                        <div className='grid grid-cols-1 md:grid-cols-6'>
+                            <div className='col-span-1'>
+                                <button
+                                    onClick={() => { sortClients() }}
+                                    className='
                                         
                                                 flex 
                                                 flex-row
@@ -1076,27 +1097,27 @@ const ClientProfile = () => {
                                                 cursor-pointer
                                                 hover:bg-opacity-90
                                                 transition'>
-                                            Sort by Date
-                                            {sortDateUp ?
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3" />
-                                                </svg>
-                                                : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
-                                                </svg>
-                                            }
-                                        </button>
-                                    </th>
-                                    <th className='col-span-3'>
-                                        <input
-                                            type="text"
-                                            value={search}
-                                            placeholder={"Search"}
-                                            onChange={(e) => {
-                                                setSearch(e.target.value);
+                                    Sort by Date
+                                    {sortDateUp ?
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3" />
+                                        </svg>
+                                        : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
+                                        </svg>
+                                    }
+                                </button>
+                            </div>
+                            <div className='col-span-5'>
+                                <input
+                                    type="text"
+                                    value={search}
+                                    placeholder={"Search"}
+                                    onChange={(e) => {
+                                        setSearch(e.target.value);
 
-                                            }}
-                                            className="
+                                    }}
+                                    className="
                                             
                                             w-full
                                             rounded-[25px]
@@ -1113,14 +1134,14 @@ const ClientProfile = () => {
                                             focus-visible:shadow-none
                                             focus:border-primary
                                             "
-                                            onKeyDown={handleKeyDown}
-                                        />
-                                    </th>
+                                    onKeyDown={handleKeyDown}
+                                />
+                            </div>
+                        </div>
+                        <table className="table border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
+                            <thead className=' text-white font-bold w-full p-4'>
 
-
-
-                                </tr>
-                                <tr className='grid grid-cols-6 bg-[#00947a] py-3'>
+                                <tr className=' bg-[#00947a] py-3'>
                                     {labels.map((v: any) => (
                                         <th key={v.label} className='text-left'>{v}</th>
                                     ))}
@@ -1132,10 +1153,9 @@ const ClientProfile = () => {
 
                                 {
                                     tempClients.map((value, index) => {
-
                                         return (
                                             <tr key={index}
-                                                className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-6'}
+                                                className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer '}
                                             >
 
                                                 <td className='text-left' >{value.dateString}</td>
@@ -1145,7 +1165,6 @@ const ClientProfile = () => {
                                                 <td className='text-left' >{value.organisation}</td>
 
                                                 <td className=" whitespace-nowrap text-right">
-
 
                                                     <Menu>
                                                         {({ open }) => (
@@ -1188,7 +1207,7 @@ const ClientProfile = () => {
                                                                                 )}
                                                                             </Menu.Item>
                                                                         </div>
-                                                                        <div className="py-1">
+                                                                        {/* <div className="py-1">
 
                                                                             <Menu.Item>
                                                                                 {({ active }) => (
@@ -1203,7 +1222,7 @@ const ClientProfile = () => {
                                                                                     </button>
                                                                                 )}
                                                                             </Menu.Item>
-                                                                        </div>
+                                                                        </div> */}
                                                                         <div className="py-1">
 
                                                                             <Menu.Item>
@@ -1261,9 +1280,6 @@ const ClientProfile = () => {
                                                             </>
                                                         )}
                                                     </Menu>
-
-
-
 
                                                 </td>
 

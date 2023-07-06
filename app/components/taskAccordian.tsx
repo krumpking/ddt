@@ -60,7 +60,7 @@ const TaskAccordion: FC<MyProps> = ({ title, task }) => {
                         <Pill title={`${task.client?.contact}`} description={'Contact'} />
                         <Pill title={`${task.client?.organisation}`} description={'Organization'} />
                         <Pill title={`${task.client?.refSource}`} description={'Came to us through'} />
-                        <Pill title={`${task.client?.enquired}`} description={'Enquired About'} />
+                        <Pill title={`${task.client?.enquired.map((v: any) => v.product)}`} description={'Enquired About'} />
                         <Pill title={`${task.client?.value}`} description={'Total Value'} />
                         <Pill title={`${task.client?.stage}`} description={'Stage'} />
                         <Pill title={`${task.client?.notes}`} description={'Notes'} />

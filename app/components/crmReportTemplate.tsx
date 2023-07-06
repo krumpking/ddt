@@ -318,7 +318,9 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
         } else {
             let first = new Date();
             let last = new Date();
-            if (tab == 1) {
+            if (tab == 0) {
+                first = sub(new Date(), { days: 1 });
+            } else if (tab == 1) {
                 first = sub(new Date(), { days: 7 });
             } else if (tab == 2) {
                 first = sub(new Date(), { days: 30 });
@@ -627,9 +629,9 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                         <Loader />
                     </div> :
                     <>
-                        {tempClients.length > 0 ? <div className='shadow-2xl rounded-[25px] flex flex-col p-4'>
-                            <div className='flex justify-between mb-6'>
-                                <h1 className='px-4 text-4xl'>Overview</h1>
+                        {tempClients.length > 0 ? <div className='shadow-2xl rounded-[25px] flex flex-col'>
+                            <div className='grid grid-cols-1 xs:flex xs:justify-between mb-6'>
+                                <h1 className='px-4 text-xl md:text-2xl lg:text-4xl'>Overview</h1>
                                 <button
                                     onClick={() => { downloadPdf() }}
                                     className='                                        
@@ -656,20 +658,18 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                             </div>
 
                             <div id="print">
-                                <div className='grid grid-cols-5'>
+                                <div className='grid grid-cols-1 smXS:grid-cols-2 md:grid-cols-3 lg:grid-cols-5'>
                                     <ReportHighlight title={'Top Product'} description={`${highestProduct(productsCount).value}`} />
                                     <ReportHighlight title={'Top Sales Person'} description={`${highest(salesPeople).value}`} />
                                     <ReportHighlight title={'Total Clients'} description={`${clients.length}`} />
                                     <ReportHighlight title={'Convesion Rate'} description={`${Math.floor((totalFinished.length / clients.length) * 100)}%`} />
                                     <ReportHighlight title={'Total Value'} description={`$${numberWithCommas(totalValue.toFixed(2))}`} />
                                 </div>
-                                <table className="table-auto border-separate border-spacing-1   p-4 w-full">
-                                    <thead className=' text-white font-bold w-full p-4'>
-                                        <tr className='grid grid-cols-5'>
-                                            <th className='col-span-2'>
-                                                <button
-                                                    onClick={() => { sortClients() }}
-                                                    className='                                        
+                                <div>
+                                    <div className='col-span-2'>
+                                        <button
+                                            onClick={() => { sortClients() }}
+                                            className='                                        
                                                 flex 
                                                 flex-row
                                                 items-center
@@ -688,27 +688,27 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                 cursor-pointer
                                                 hover:bg-opacity-90
                                                 transition'>
-                                                    Sort by Date
-                                                    {sortDateUp ?
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3" />
-                                                        </svg>
-                                                        : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
-                                                        </svg>
-                                                    }
-                                                </button>
-                                            </th>
-                                            <th className='col-span-3'>
-                                                <input
-                                                    type="text"
-                                                    value={search}
-                                                    placeholder={"Search"}
-                                                    onChange={(e) => {
-                                                        setSearch(e.target.value);
+                                            Sort by Date
+                                            {sortDateUp ?
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3" />
+                                                </svg>
+                                                : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
+                                                </svg>
+                                            }
+                                        </button>
+                                    </div>
+                                    <div className='col-span-3'>
+                                        <input
+                                            type="text"
+                                            value={search}
+                                            placeholder={"Search"}
+                                            onChange={(e) => {
+                                                setSearch(e.target.value);
 
-                                                    }}
-                                                    className="                                            
+                                            }}
+                                            className="                                            
                                                     w-full
                                                     rounded-[25px]
                                                     border-2
@@ -724,66 +724,69 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                     focus-visible:shadow-none
                                                     focus:border-primary
                                             "
-                                                    onKeyDown={handleKeyDown}
-                                                />
-                                            </th>
+                                            onKeyDown={handleKeyDown}
+                                        />
+                                    </div>
 
 
 
-                                        </tr>
-                                        <tr className='grid grid-cols-5 bg-[#00947a] py-3'>
-                                            {labels.map((v: any) => (
-                                                <th key={v.label} className='text-left'>{v}</th>
-                                            ))}
-                                        </tr>
+                                </div>
+                                <div className='w-full overscroll-contain overflow-x-auto whitespace-nowrap'>
+                                    <table className="table border-separate border-spacing-1  shadow-2xl rounded-[25px] w-full">
+                                        <thead className=' text-white font-bold w-full  p-4'>
+
+                                            <tr className='bg-[#00947a] py-3'>
+                                                {labels.map((v: any) => (
+                                                    <th key={v.label} className='text-left'>{v}</th>
+                                                ))}
+                                            </tr>
 
 
-                                    </thead>
-                                    <tbody className='h-48 overflow-scroll flex flex-col text whitespace-nowrap'>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                tempClients.map((value, index) => {
+                                                    return (
+                                                        <tr key={index}
+                                                            className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer'}
+                                                        >
+                                                            <td className='text-left' >{value.date}</td>
+                                                            <td className='text-left' >{value.name}</td>
+                                                            <td className='text-left' >{value.stage}</td>
+                                                            <td className='text-left' >{value.enquired[0].product}</td>
+                                                            <td className='text-left' >{value.value}</td>
+                                                        </tr>
+                                                    )
+                                                })
 
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr
+                                                className={'bg-[#00947a] hover:cursor-pointer text-white'}
+                                            >
+                                                <td className='text-left' >{new Date().toDateString()}</td>
+                                                <td className='text-left' ></td>
+                                                <td className='text-left' ></td>
+                                                <td className='text-left' >Total</td>
+                                                <td className='text-left' >${numberWithCommas(totalValue.toFixed(2))}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
 
-                                        {
-                                            tempClients.map((value, index) => {
-                                                return (
-                                                    <tr key={index}
-                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-5'}
-                                                    >
-                                                        <td className='text-left' >{value.date}</td>
-                                                        <td className='text-left' >{value.name}</td>
-                                                        <td className='text-left' >{value.stage}</td>
-                                                        <td className='text-left' >{value.enquired[0].product}</td>
-                                                        <td className='text-left' >{value.value}</td>
-                                                    </tr>
-                                                )
-                                            })
-
-                                        }
-
-                                    </tbody>
-                                    <tfoot>
-                                        <tr
-                                            className={'bg-[#00947a] hover:cursor-pointer grid grid-cols-5 text-white'}
-                                        >
-                                            <td className='text-left' >{new Date().toDateString()}</td>
-                                            <td className='text-left' ></td>
-                                            <td className='text-left' ></td>
-                                            <td className='text-left' >Total</td>
-                                            <td className='text-left' >${numberWithCommas(totalValue.toFixed(2))}</td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
                                 <h1 className='text-center text-4xl'>Top Products Overview</h1>
                                 <div>
                                     {salesByProduct.map((v) => {
                                         var totalValueOfSalesPerson = 0;
                                         return (
-                                            <div>
+                                            <div className='w-full overscroll-contain overflow-y-auto whitespace-nowrap' key={v.product}>
                                                 <h1 className='ml-8'>
                                                     {v.product} Total Quotations
                                                 </h1>
                                                 <table className="table-auto border-separate border-spacing-1   p-4 w-full">
                                                     <thead className=' text-white font-bold w-full p-4'>
-                                                        <tr className='grid grid-cols-5 bg-[#00947a] py-3'>
+                                                        <tr className='bg-[#00947a] py-3'>
                                                             {labels.map((v: any) => (
                                                                 <th key={v.label} className='text-left'>{v}</th>
                                                             ))}
@@ -791,14 +794,14 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
 
                                                     </thead>
-                                                    <tbody className='h-48 overflow-scroll flex flex-col text whitespace-nowrap'>
+                                                    <tbody>
                                                         {
                                                             v.value.map((value: any, index: any) => {
                                                                 totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));
 
                                                                 return (
                                                                     <tr key={index}
-                                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-5'}
+                                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer '}
                                                                     >
                                                                         <td className='text-left' >{value.date}</td>
                                                                         <td className='text-left' >{value.name}</td>
@@ -814,7 +817,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                     </tbody>
                                                     <tfoot>
                                                         <tr
-                                                            className={'bg-[#00947a] hover:cursor-pointer grid grid-cols-5 text-white'}
+                                                            className={'bg-[#00947a] hover:cursor-pointer  text-white'}
                                                         >
                                                             <td className='text-left' >{new Date().toDateString()}</td>
                                                             <td className='text-left' ></td>
@@ -860,17 +863,17 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
 
                                 <h1 className='text-center text-4xl'>Sales Rep Overview</h1>
-                                <div>
+                                <div >
                                     {salesRepLabel.map((v) => {
                                         var totalValueOfSalesPerson = 0;
                                         return (
-                                            <div>
+                                            <div className='w-full overscroll-contain overflow-x-auto whitespace-nowrap' key={v.person}>
                                                 <h1 className='ml-8'>
                                                     {v.person} Total Quotations
                                                 </h1>
-                                                <table className="table-auto border-separate border-spacing-1   p-4 w-full">
+                                                <table className="table-auto border-separate border-spacing-1 p-4 w-full">
                                                     <thead className=' text-white font-bold w-full p-4'>
-                                                        <tr className='grid grid-cols-5 bg-[#00947a] py-3'>
+                                                        <tr className='bg-[#00947a] py-3'>
                                                             {labels.map((v: any) => (
                                                                 <th key={v.label} className='text-left'>{v}</th>
                                                             ))}
@@ -878,14 +881,14 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
 
                                                     </thead>
-                                                    <tbody className='h-48 overflow-scroll flex flex-col text whitespace-nowrap'>
+                                                    <tbody>
                                                         {
                                                             v.value.map((value: any, index: any) => {
-                                                                totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));;
+                                                                totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));
 
                                                                 return (
                                                                     <tr key={index}
-                                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-5'}
+                                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer'}
                                                                     >
                                                                         <td className='text-left' >{value.date}</td>
                                                                         <td className='text-left' >{value.name}</td>
@@ -901,7 +904,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                     </tbody>
                                                     <tfoot>
                                                         <tr
-                                                            className={'bg-[#00947a] hover:cursor-pointer grid grid-cols-5 text-white'}
+                                                            className={'bg-[#00947a] hover:cursor-pointer text-white'}
                                                         >
                                                             <td className='text-left' >{new Date().toDateString()}</td>
                                                             <td className='text-left' ></td>

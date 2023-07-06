@@ -20,7 +20,7 @@ const CRM = () => {
         "Add Profile",
         "Profiles",
         "Tasks",
-        "Client Journey",
+        // "Client Journey",
         "Reports"
     ])
 
@@ -43,15 +43,15 @@ const CRM = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-12 m-2'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12 '>
 
-                <div className='col-span-3'>
+                <div className='lg:col-span-3'>
                     <ClientNav organisationName={'Vision Is Primary'} url={'crm'} />
                 </div>
 
-                <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9 ">
+                <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9  ">
                     <Tab.Group>
-                        <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1">
+                        <Tab.List className="flex space-x-4 rounded-[25px] bg-green-900/20 p-1 overflow-x-auto whitespace-nowrap">
                             {tabs.map((category) => (
                                 <Tab
                                     key={category}
@@ -60,7 +60,7 @@ const CRM = () => {
                                             'w-full  py-2.5 text-sm font-medium leading-5 text-[#00947a] rounded-[25px]',
                                             'ring-white ring-opacity-60 ring-offset-2 ring-offset-[#00947a] focus:outline-none focus:ring-2',
                                             selected
-                                                ? 'bg-white shadow'
+                                                ? 'bg-white shadow p-4'
                                                 : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
                                         )
                                     }
@@ -98,7 +98,7 @@ const CRM = () => {
                             >
                                 <CRMTasks />
                             </Tab.Panel>
-                            <Tab.Panel
+                            {/* <Tab.Panel
 
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
@@ -106,7 +106,7 @@ const CRM = () => {
                                 )}
                             >
                                 <ClientJourney />
-                            </Tab.Panel>
+                            </Tab.Panel> */}
                             <Tab.Panel
 
                                 className={classNames(

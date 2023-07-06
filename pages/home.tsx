@@ -258,7 +258,7 @@ const Home = () => {
                             {/* Previous Forms  */}
                             {tasks.length > 0 ? <>{
                                 tasks.splice(0, 3).map((v) => (
-                                    <TaskSummary title={v.title} description={v.description} />
+                                    <TaskSummary key={v.title} title={v.title} description={v.description} />
                                 ))
                             }</> : <p> No Tasks today</p>}
 

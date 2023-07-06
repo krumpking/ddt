@@ -49,7 +49,7 @@ export default class DateMethods {
         const sortedObjects = objects.sort((a: any, b: any) => {
             let date1: any;
             let date2: any;
-            if (a.hasOwnProperty('dateString')) {
+            if (a.hasOwn('dateString')) {
                 date1 = new Date(a.dateString);
                 date2 = new Date(b.dateString);
             } else {

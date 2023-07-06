@@ -93,7 +93,7 @@ const CRMReport = () => {
                     </div> :
                     <>
                         <Tab.Group>
-                            <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1">
+                            <Tab.List className="flex space-x-4 rounded-[25px] bg-green-900/20 p-1 overflow-x-auto whitespace-nowrap ">
                                 {tabs.map((category) => (
                                     <Tab
                                         key={category}
@@ -102,7 +102,7 @@ const CRMReport = () => {
                                                 'w-full  py-2.5 text-sm font-medium leading-5 text-[#00947a] rounded-[25px]',
                                                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-[#00947a] focus:outline-none focus:ring-2',
                                                 selected
-                                                    ? 'bg-white shadow'
+                                                    ? 'bg-white shadow p-4'
                                                     : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
                                             )
                                         }
