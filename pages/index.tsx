@@ -10,18 +10,10 @@ import YouTube from "react-youtube";
 
 
 
-
 const Home: NextPage = () => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [trackingId, settrackingId] = useState("AW-11208371394");
 
 
-  useEffect(() => {
-
-  }, []);
 
   const shownSlides = [
     {
@@ -231,7 +223,7 @@ const Home: NextPage = () => {
     <div className='relative bg-[#00947a] w-full h-full'>
       {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=AW-11208371394"
+        src="https://www.googletagmanager.com/gtag/js?id=G-YRWLWE46T0"
         strategy="afterInteractive"
       />
       <Script id="google-analytics" strategy="afterInteractive">
@@ -240,7 +232,7 @@ const Home: NextPage = () => {
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'AW-11208371394');
+          gtag('config', 'G-YRWLWE46T0');
         `}
       </Script>
 
@@ -331,14 +323,18 @@ const Home: NextPage = () => {
           <p className='text-white m-4'>Elegent and intuitive interface makes Digital Data Tree, easy to use</p>
           <div className='flex flex-row space-x-4 overflow-x-scroll no-scrollbar p-4'>
             {tuts.map((v) => (
-              <YouTube videoId={v.id}
-                opts={{
-                  height: "390",
-                  width: "640",
-                  playerVars: {
-                    autoplay: 0,
-                  },
-                }} onReady={(e) => { onReady(e) }} />
+              <div key={v.title}>
+                <YouTube videoId={v.id}
+
+                  opts={{
+                    height: "390",
+                    width: "640",
+                    playerVars: {
+                      autoplay: 0,
+                    },
+                  }} onReady={(e) => { onReady(e) }} />
+              </div>
+
             ))}
           </div>
         </div>

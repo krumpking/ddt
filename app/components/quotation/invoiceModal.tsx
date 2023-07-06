@@ -7,6 +7,7 @@ import { getCookie } from "react-use-cookie";
 import { ADMIN_ID, COOKIE_ID } from "../../constants/constants";
 import { decrypt, encrypt } from "../../utils/crypto";
 import { getOrgInfoFromDB } from "../../api/orgApi";
+import Head from "next/head";
 
 
 interface MyProps {
@@ -209,160 +210,165 @@ const InvoiceModal: FC<MyProps> = ({
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={closeModal}
-      >
-        <div className="min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-          </Transition.Child>
 
-          {/* This element is to trick the browser into centering the modal contents. */}
-          <span
-            className="inline-block h-screen align-middle"
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <div>
-              <div id="print" className="font-open text-lg my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
-                <div className="p-16 border-2 border-black m-8 " >
-                  <h1 className="text-center text-2xl font-bold text-gray-900 border-black border-4 text-bold">
-                    {type}
-                  </h1>
-                  <div className="grid grid-cols-2 p-4 my-12">
-                    <div className="flex flex-col border-r-2 border-black">
-                      <h1 className="font-bold text-2xl"> {organizationName} </h1>
-                      <p>{address}</p>
-                      <p>Email: {email}</p>
-                      <p>Tel: {call}/{landline}</p>
-                      <p>Tax No {vat}</p>
-                    </div>
-                    <div className="">
-                      <img src={image} className="max-h-48 border-b-2 border-black w-full ml-2 object-contain" />
-                      <p className="mx-2">Date </p>
-                      <div className="mt-5 flex flex-row justify-between mx-2">
-                        <p>{invoiceInfo.today}</p>
-                        <p>Our refference</p>
-                        <p>{invoiceInfo.cashierName}</p>
+    <>
+      <Head>
+        <meta name="viewport" content="width=978"></meta>
+      </Head>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={closeModal}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+            </Transition.Child>
+
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div>
+                <div id="print" className="font-open text-lg my-8 inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
+                  <div className="p-16 border-2 border-black m-8 " >
+                    <h1 className="text-center text-2xl font-bold text-gray-900 border-black border-4 text-bold">
+                      {type}
+                    </h1>
+                    <div className="grid grid-cols-2 p-4 my-12">
+                      <div className="flex flex-col border-r-2 border-black">
+                        <h1 className="font-bold text-2xl"> {organizationName} </h1>
+                        <p>{address}</p>
+                        <p>Email: {email}</p>
+                        <p>Tel: {call}/{landline}</p>
+                        <p>Tax No {vat}</p>
                       </div>
-
-                    </div>
-                  </div>
-                  <div className="my-12 ">
-                    <div className="mb-4 grid grid-cols-2 border-y-2 p-4 border-black ">
-
-                      <div>
-                        <p>{invoiceInfo.customerName}</p>
-                        <p>{invoiceInfo.customerOrganisation}</p>
-                        <p>{invoiceInfo.customerContact}</p>
-                      </div>
-                      <div className="border-l-2 border-black px-2">
-                        <p>REF: {invoiceInfo.cashierName}</p>
-                        <p>CELL: {invoiceInfo.spContact}</p>
-                        <p>EMAIL: {invoiceInfo.email}</p>
-                      </div>
-
-                    </div>
-                    <div className="min-h-[1000px]">
-                      <table className="w-full text-left">
-                        <thead>
-                          <tr className="text-sm md:text-base p-4">
-                            <th>ITEM</th>
-                            <th className="text-center">QTY</th>
-                            <th className="text-right">PRICE</th>
-                            <th className="text-right">AMOUNT</th>
-                          </tr>
-                        </thead>
-                        <tbody >
-                          {items.map((item: any) => (
-                            <tr key={item.id}>
-                              <td className="w-full">{item.name}</td>
-                              <td className="min-w-[50px] text-center">
-                                {item.qty}
-                              </td>
-                              <td className="min-w-[80px] text-right">
-                                ${Number(item.price).toFixed(2)}
-                              </td>
-                              <td className="min-w-[90px] text-right">
-                                ${Number(item.price * item.qty).toFixed(2)}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <div className="grid grid-cols-2 content-end">
-                      <div className="p-4 max-w-72">
-                        <p className="font-bold">Please Note</p>
-                        <ul className="list-decimal">
-                          {quotation.includes(",") ? quotation.split(",").map((v) => (
-                            <li key={v}>{v}</li>
-                          )) : <li>{quotation}</li>}
-                        </ul>
-
-                      </div>
-                      <div>
-                        <div className="flex flex-col items-end space-y-2">
-                          <div className="flex w-full justify-between border-t border-black/10 pt-2">
-                            <span className="font-bold">Subtotal:</span>
-                            <span>${invoiceInfo.subtotal.toFixed(2)}</span>
-                          </div>
-                          <div className="flex w-full justify-between">
-                            {/* TO BE CORRECTED */}
-                            <span className="font-bold">Discount:</span>
-                            <span>${typeof invoiceInfo.discountRate === "number" ? 0 : invoiceInfo.discountRate.toFixed(2)}</span>
-                          </div>
-                          <div className="flex w-full justify-between">
-                            <span className="font-bold">Tax:</span>
-                            <span>${invoiceInfo.taxRate.toFixed(2)}</span>
-                          </div>
-                          <div className="flex w-full justify-between border-t border-black/10 py-2">
-                            <span className="font-bold">Total:</span>
-                            <span className="font-bold">
-                              $
-                              {invoiceInfo.total % 1 === 0
-                                ? invoiceInfo.total
-                                : invoiceInfo.total.toFixed(2)}
-                            </span>
-                          </div>
+                      <div className="">
+                        <img src={image} className="max-h-48 border-b-2 border-black w-full ml-2 object-contain" />
+                        <p className="mx-2">Date </p>
+                        <div className="mt-5 flex flex-row justify-between mx-2">
+                          <p>{invoiceInfo.today}</p>
+                          <p>Our refference</p>
+                          <p>{invoiceInfo.cashierName}</p>
                         </div>
 
                       </div>
+                    </div>
+                    <div className="my-12 ">
+                      <div className="mb-4 grid grid-cols-2 border-y-2 p-4 border-black ">
+
+                        <div>
+                          <p>{invoiceInfo.customerName}</p>
+                          <p>{invoiceInfo.customerOrganisation}</p>
+                          <p>{invoiceInfo.customerContact}</p>
+                        </div>
+                        <div className="border-l-2 border-black px-2">
+                          <p>REF: {invoiceInfo.cashierName}</p>
+                          <p>CELL: {invoiceInfo.spContact}</p>
+                          <p>EMAIL: {invoiceInfo.email}</p>
+                        </div>
+
+                      </div>
+                      <div className="min-h-[1000px]">
+                        <table className="w-full text-left">
+                          <thead>
+                            <tr className="text-sm md:text-base p-4">
+                              <th>ITEM</th>
+                              <th className="text-center">QTY</th>
+                              <th className="text-right">PRICE</th>
+                              <th className="text-right">AMOUNT</th>
+                            </tr>
+                          </thead>
+                          <tbody >
+                            {items.map((item: any) => (
+                              <tr key={item.id}>
+                                <td className="w-full">{item.name}</td>
+                                <td className="min-w-[50px] text-center">
+                                  {item.qty}
+                                </td>
+                                <td className="min-w-[80px] text-right">
+                                  ${Number(item.price).toFixed(2)}
+                                </td>
+                                <td className="min-w-[90px] text-right">
+                                  ${Number(item.price * item.qty).toFixed(2)}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="grid grid-cols-2 content-end">
+                        <div className="p-4 max-w-72">
+                          <p className="font-bold">Please Note</p>
+                          <ul className="list-decimal">
+                            {quotation.includes(",") ? quotation.split(",").map((v) => (
+                              <li key={v}>{v}</li>
+                            )) : <li>{quotation}</li>}
+                          </ul>
+
+                        </div>
+                        <div>
+                          <div className="flex flex-col items-end space-y-2">
+                            <div className="flex w-full justify-between border-t border-black/10 pt-2">
+                              <span className="font-bold">Subtotal:</span>
+                              <span>${invoiceInfo.subtotal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex w-full justify-between">
+                              {/* TO BE CORRECTED */}
+                              <span className="font-bold">Discount:</span>
+                              <span>${typeof invoiceInfo.discountRate === "number" ? 0 : invoiceInfo.discountRate.toFixed(2)}</span>
+                            </div>
+                            <div className="flex w-full justify-between">
+                              <span className="font-bold">Tax:</span>
+                              <span>${invoiceInfo.taxRate.toFixed(2)}</span>
+                            </div>
+                            <div className="flex w-full justify-between border-t border-black/10 py-2">
+                              <span className="font-bold">Total:</span>
+                              <span className="font-bold">
+                                $
+                                {invoiceInfo.total % 1 === 0
+                                  ? invoiceInfo.total
+                                  : invoiceInfo.total.toFixed(2)}
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </div>
+                      <div className="w-full text-center border-t-2 border-black">
+                        <p className="text-2xl font-bold">WE VALUE YOUR BUSINESS</p>
+                      </div>
 
                     </div>
-                    <div className="w-full text-center border-t-2 border-black">
-                      <p className="text-2xl font-bold">WE VALUE YOUR BUSINESS</p>
-                    </div>
-
                   </div>
-                </div>
 
-              </div>
-              <div className="w-full mb-6">
-                <button
-                  className="
+                </div>
+                <div className="w-full mb-6">
+                  <button
+                    className="
                     font-bold
                     w-full
                     rounded-[25px]
@@ -378,19 +384,21 @@ const InvoiceModal: FC<MyProps> = ({
                     hover:bg-opacity-90
                     transition
                 "
-                  onClick={SaveAsPDFHandler}
-                >
+                    onClick={SaveAsPDFHandler}
+                  >
 
-                  <span>Download</span>
-                </button>
+                    <span>Download</span>
+                  </button>
 
+                </div>
               </div>
-            </div>
 
-          </Transition.Child>
-        </div>
-      </Dialog >
-    </Transition >
+            </Transition.Child>
+          </div>
+        </Dialog >
+      </Transition >
+    </>
+
   );
 };
 

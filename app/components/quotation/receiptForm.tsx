@@ -139,17 +139,18 @@ const ReceiptForm = () => {
 
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 pt-4 pb-8">
-                    <label
-                        htmlFor="cashierName"
-                        className="text-sm font-bold sm:text-base"
-                    >
-                        Received from:
-                    </label>
+                <div className="grid grid-cols-1 smXS:grid-cols-2 gap-2 pt-4 pb-8">
                     <div>
-                        <textarea
-                            required
-                            className="
+                        <label
+                            htmlFor="cashierName"
+                            className="text-sm font-bold sm:text-base"
+                        >
+                            Received from:
+                        </label>
+                        <div>
+                            <textarea
+                                required
+                                className="
                                 mb-2
                                 w-full
                                 rounded-[25px]
@@ -164,25 +165,26 @@ const ReceiptForm = () => {
                                 focus-visible:shadow-none
                                 focus:border-primary
                                 "
-                            placeholder="Received from"
-                            name="receivedFrom"
-                            id="receivedFrom"
-                            value={receivedFrom}
-                            onChange={(event) => setReceivedFrom(event.target.value)}
-                        />
+                                placeholder="Received from"
+                                name="receivedFrom"
+                                id="receivedFrom"
+                                value={receivedFrom}
+                                onChange={(event) => setReceivedFrom(event.target.value)}
+                            />
 
+                        </div>
                     </div>
-
-                    <label
-                        htmlFor="customerName"
-                        className="col-start-2 row-start-1 text-sm font-bold md:text-base"
-                    >
-                        Paid the sum of:
-                    </label>
                     <div>
-                        <textarea
-                            required
-                            className="
+                        <label
+                            htmlFor="customerName"
+                            className="col-start-2 row-start-1 text-sm font-bold md:text-base"
+                        >
+                            Paid the sum of:
+                        </label>
+                        <div>
+                            <textarea
+                                required
+                                className="
                                 mb-2
                                 w-full
                                 rounded-[25px]
@@ -197,39 +199,46 @@ const ReceiptForm = () => {
                                 focus-visible:shadow-none
                                 focus:border-primary
                             "
-                            placeholder="Sum Total in words"
-                            name="sumTotal"
-                            id="sumTotal"
-                            value={sumTotal}
-                            onChange={(event) => setSumTotal(event.target.value)}
-                        />
+                                placeholder="Sum Total in words"
+                                name="sumTotal"
+                                id="sumTotal"
+                                value={sumTotal}
+                                onChange={(event) => setSumTotal(event.target.value)}
+                            />
 
+                        </div>
                     </div>
 
+
+
+
                 </div>
-                <table className="w-full p-4 text-left">
-                    <thead>
-                        <tr className="border-b border-gray-900/10 text-sm md:text-base">
-                            <th>Item Note</th>
-                            <th>QTY</th>
-                            <th className="text-center">Note</th>
-                            <th className="text-center">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item) => (
-                            <InvoiceItem
-                                key={item.id}
-                                id={item.id}
-                                name={item.name}
-                                qty={item.qty}
-                                price={item.price}
-                                onDeleteItem={deleteItemHandler}
-                                onEdtiItem={edtiItemHandler}
-                            />
-                        ))}
-                    </tbody>
-                </table>
+                <div className="w-full overscroll-contain overflow-y-auto">
+                    <table className="w-full p-4 text-left">
+                        <thead>
+                            <tr className="border-b border-gray-900/10 text-sm md:text-base">
+                                <th>Item Note</th>
+                                <th>QTY</th>
+                                <th className="text-center">Note</th>
+                                <th className="text-center">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => (
+                                <InvoiceItem
+                                    key={item.id}
+                                    id={item.id}
+                                    name={item.name}
+                                    qty={item.qty}
+                                    price={item.price}
+                                    onDeleteItem={deleteItemHandler}
+                                    onEdtiItem={edtiItemHandler}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
                 <button
                     className="
                         font-bold
@@ -252,7 +261,7 @@ const ReceiptForm = () => {
                 >
                     Add Item
                 </button>
-                <div className="grid grid-cols-2 pt-6">
+                <div className="grid grid-cols-1 smXS:grid-cols-2 pt-6">
                     <div className="flex flex-row space-x-4 px-2">
                         <input onChange={() => handleChange("USD")} type="checkbox" id="usd" name="usd" value="USD" className='accent-green-700 text-white bg-whites' />
                         <label htmlFor="vehicle1"> USD</label><br />

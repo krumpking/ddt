@@ -28,7 +28,7 @@ import { print } from '../utils/console';
 
 const ConfirmSotck = () => {
     const router = useRouter();
-    const [label, setLabel] = useState<any[]>([{"date", "category", "name", "price", "number"}]);
+    const [label, setLabel] = useState<any[]>(["date", "category", "name", "price", "number"]);
     const [data, setData] = useState<any[]>([
         {
             date: "26 June 2023",
@@ -75,10 +75,10 @@ const ConfirmSotck = () => {
                                             return (
                                                 <tr key={index}
                                                     className={'odd:bg-white even:bg-slate-50 hover:bg-[#0ead96] hover:text-white hover:cursor-pointer'}>
-                                                    {data.map((v: any) => 
+
                                                 </tr>
-                                                    )
-                                        }
+                                            )
+                                        })
                                     }
 
 
@@ -91,7 +91,7 @@ const ConfirmSotck = () => {
                                     setLoading(true);
 
                                     var exlD: any[] = [];
-                                   
+
                                 }}
                                 className="
                                 font-bold

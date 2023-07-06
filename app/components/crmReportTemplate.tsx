@@ -731,8 +731,8 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
 
                                 </div>
-                                <div className='w-full overscroll-contain overflow-y-auto whitespace-nowrap'>
-                                    <table className="table border-separate border-spacing-1  shadow-2xl rounded-[25px] w-full h-12">
+                                <div className='w-full overscroll-contain overflow-x-auto whitespace-nowrap'>
+                                    <table className="table border-separate border-spacing-1  shadow-2xl rounded-[25px] w-full">
                                         <thead className=' text-white font-bold w-full  p-4'>
 
                                             <tr className='bg-[#00947a] py-3'>
@@ -780,7 +780,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                     {salesByProduct.map((v) => {
                                         var totalValueOfSalesPerson = 0;
                                         return (
-                                            <div className='w-full overscroll-contain overflow-y-auto whitespace-nowrap'>
+                                            <div className='w-full overscroll-contain overflow-y-auto whitespace-nowrap' key={v.product}>
                                                 <h1 className='ml-8'>
                                                     {v.product} Total Quotations
                                                 </h1>
@@ -863,17 +863,17 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
 
                                 <h1 className='text-center text-4xl'>Sales Rep Overview</h1>
-                                <div>
+                                <div >
                                     {salesRepLabel.map((v) => {
                                         var totalValueOfSalesPerson = 0;
                                         return (
-                                            <div>
+                                            <div className='w-full overscroll-contain overflow-x-auto whitespace-nowrap' key={v.person}>
                                                 <h1 className='ml-8'>
                                                     {v.person} Total Quotations
                                                 </h1>
-                                                <table className="table-auto border-separate border-spacing-1   p-4 w-full">
+                                                <table className="table-auto border-separate border-spacing-1 p-4 w-full">
                                                     <thead className=' text-white font-bold w-full p-4'>
-                                                        <tr className='grid grid-cols-5 bg-[#00947a] py-3'>
+                                                        <tr className='bg-[#00947a] py-3'>
                                                             {labels.map((v: any) => (
                                                                 <th key={v.label} className='text-left'>{v}</th>
                                                             ))}
@@ -881,14 +881,14 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
 
                                                     </thead>
-                                                    <tbody className='h-48 overflow-scroll flex flex-col text whitespace-nowrap'>
+                                                    <tbody>
                                                         {
                                                             v.value.map((value: any, index: any) => {
-                                                                totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));;
-                                                                print(value.value);
+                                                                totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));
+
                                                                 return (
                                                                     <tr key={index}
-                                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-5'}
+                                                                        className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer'}
                                                                     >
                                                                         <td className='text-left' >{value.date}</td>
                                                                         <td className='text-left' >{value.name}</td>
@@ -904,7 +904,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                     </tbody>
                                                     <tfoot>
                                                         <tr
-                                                            className={'bg-[#00947a] hover:cursor-pointer grid grid-cols-5 text-white'}
+                                                            className={'bg-[#00947a] hover:cursor-pointer text-white'}
                                                         >
                                                             <td className='text-left' >{new Date().toDateString()}</td>
                                                             <td className='text-left' ></td>
