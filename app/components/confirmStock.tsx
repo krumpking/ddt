@@ -134,14 +134,10 @@ const ConfirmSotck = () => {
                     </div>
                 )}
 
-              >
-                Download Table as Excel File
-              </button>
+
 
             </div>
-          </div>
-        )}
-      </div>
+
 
 
             <ToastContainer position="top-right" autoClose={5000} />
@@ -149,6 +145,6 @@ const ConfirmSotck = () => {
     );
 };
 
-export default ConfirmSotck; 
+export default ConfirmSotck;
 
 

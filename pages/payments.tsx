@@ -418,7 +418,4 @@ const Payments = () => {
 
 
 export default Payments
-function setRole(arg0: string) {
-    throw new Error('Function not implemented.');
-}
 
