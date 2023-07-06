@@ -10,18 +10,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import { print } from '../utils/console';
 import { useRouter } from 'next/router';
 
-const AddStock = () => {
-  const [date, setDate] = useState('');
-  const [category, setCategory] = useState('');
+const AddEmployee = () => {
+  const [surname, setSurname] = useState('');
+  const [title, setTitle] = useState('');
   const [name, setName] = useState('');
+  const [gender, setGender] = useState('');
+  const [date, setDate] = useState('');
+  const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [stage, setStage] = useState('');
-  const [notes, setNotes] = useState('');
-  const [refSource, setRefSource] = useState('');
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState('');
-  const [Price, setPrice] = useState('');
-  const [salesPerson, setSalesPerson] = useState('');
+  const [email, setEmail] = useState('');
+  const [account, setAccount] = useState('');
+  const [bank, setBank] = useState('');
   const router = useRouter()
 
 
@@ -66,10 +66,10 @@ const AddStock = () => {
            <div className="mb-6">
             <input
               type="text"
-              value={date}
-              placeholder={'Date'}
+              value={surname}
+              placeholder={'Employee Surname'}
               onChange={(e) => {
-                setDate(e.target.value);
+                setSurname(e.target.value);
               }}
               className="
                         w-full
@@ -90,10 +90,10 @@ const AddStock = () => {
           <div className="mb-6">
             <input
               type="text"
-              value={category}
-              placeholder={'Item Category'}
+              value={title}
+              placeholder={'Employee Title'}
               onChange={(e) => {
-                setCategory(e.target.value);
+                setTitle(e.target.value);
               }}
               className="
                         w-full
@@ -115,7 +115,7 @@ const AddStock = () => {
             <input
               type="text"
               value={name}
-              placeholder={'Item Name'}
+              placeholder={'Employee Name'}
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -138,8 +138,83 @@ const AddStock = () => {
           <div className="mb-6">
             <input
               type="text"
+              value={gender}
+              placeholder={'Employee Gender'}
+              onChange={(e) => {
+                setGender(e.target.value);
+              }}
+              className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+            />
+          </div>
+
+          <div className="mb-6">
+            <input
+              type="text"
+              value={date}
+              placeholder={'Date of Birth'}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
+              className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+            />
+          </div>
+
+          <div className="mb-6">
+            <input
+              type="text"
+              value={address}
+              placeholder={'Home Address'}
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+              className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+            />
+          </div>
+
+          <div className="mb-6">
+            <input
+              type="text"
               value={number}
-              placeholder={'Number of Items'}
+              placeholder={'Phone Number'}
               onChange={(e) => {
                 setNumber(e.target.value);
               }}
@@ -160,13 +235,64 @@ const AddStock = () => {
             />
           </div>
 
+          <div className="mb-6">
+            <input
+              type="text"
+              value={email}
+              placeholder={'Email'}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+            />
+          </div>
+          
+        
+          <div className="mb-6">
+            <input
+             type="text"
+              value={account}
+              placeholder={'Account Number'}
+              onChange={(e) => {
+                setAccount(e.target.value);
+              }}
+              className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+            />
+          </div>
 
           <div className="mb-6">
             <input
-              value={Price}
-              placeholder={'Total Price in USD'}
+              type="text"
+              value={bank}
+              placeholder={'Name of Bank'}
               onChange={(e) => {
-                setPrice(e.target.value);
+                setBank(e.target.value);
               }}
               className="
                                     w-full
@@ -186,11 +312,10 @@ const AddStock = () => {
           </div>
 
 
-
           <div className="mb-6">
             <button
               onClick={() => {
-                AddStock();
+                AddEmployee();
               }}
               className="
 
@@ -210,7 +335,7 @@ const AddStock = () => {
                     transition
                                     "
             >
-              Add Stock
+              Add Employee
             </button>
           </div>
         </div>
@@ -220,4 +345,4 @@ const AddStock = () => {
   );
 };
 
-export default AddStock;
+export default AddEmployee;

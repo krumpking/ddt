@@ -126,13 +126,23 @@ const ConfirmSotck = () => {
                                     hover:bg-opacity-90
                                     transition
                                     "
+
                             >
                                 Download Table as Excel File
                             </button>
                         </div>
                     </div>
                 )}
+
+              >
+                Download Table as Excel File
+              </button>
+
             </div>
+          </div>
+        )}
+      </div>
+
 
             <ToastContainer position="top-right" autoClose={5000} />
         </div>
@@ -140,3 +150,5 @@ const ConfirmSotck = () => {
 };
 
 export default ConfirmSotck; 
+
+
