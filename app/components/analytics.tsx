@@ -45,7 +45,8 @@ const Analytics = () => {
     var client = {
       id: id,
       adminId: decrypt(infoFromCookie, COOKIE_ID),
-      date: new Date().toDateString(),
+      date: new Date(),
+      dateString: new Date().toDateString(),
       name: encrypt(fullName, id),
       contact: encrypt(contact, id),
       organisation: encrypt(organisation, id),
