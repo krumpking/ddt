@@ -95,7 +95,7 @@ const AddBookingEvent = () => {
                     <Loader />
                 </div>
             ) : (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-col-1 md:grid-cols-2 gap-4">
                     <div className="mb-6">
                         <input
                             type="date"
@@ -192,7 +192,7 @@ const AddBookingEvent = () => {
                                     "
                         />
                     </div>
-                    <div className="mb-6 col-span-2">
+                    <div className="mb-6 md:col-span-2">
                         <textarea
                             value={description}
                             placeholder={'Event Description'}
@@ -215,7 +215,7 @@ const AddBookingEvent = () => {
                                     "
                         />
                     </div>
-                    <div className="mb-6 col-span-2">
+                    <div className="mb-6 md:col-span-2">
                         <textarea
                             value={directions}
                             placeholder={'Event Directions'}

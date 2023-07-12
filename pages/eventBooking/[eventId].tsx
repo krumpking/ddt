@@ -18,7 +18,7 @@ import { createId } from '../../app/utils/stringM';
 import { print } from '../../app/utils/console';
 import { IFormElement } from '../../app/types/formTypes';
 import { getOneForm, updateForm } from '../../app/api/formApi';
-import { addBookingToEvent, getOneBookingEvent } from '../../app/api/bookingsApi';
+import { addBookingToEvent, getOneBookingEvent, sendEmailAtBooking } from '../../app/api/bookingsApi';
 import Pill from '../../app/components/pill';
 import { IAttendee } from '../../app/types/bookingsTypes';
 import { downloadExcel } from '../../app/utils/excel';
@@ -42,11 +42,12 @@ const EventBooking = () => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [bookings, setBookings] = useState<IAttendee[]>([]);
-    const [topics, setTopics] = useState(["Name", "Email", "Phone Number", ""])
+    const [topics, setTopics] = useState(["Name", "Email", "Phone Number", "Attendance"])
     const [editMember, setEditMember] = useState<any>();
     const [openDialog, setOpenDialog] = useState(false);
     const [notes, setNotes] = useState("");
     const [tempClients, setTempClients] = useState([]);
+
 
 
 
@@ -108,9 +109,7 @@ const EventBooking = () => {
         let adminId = decrypt(infoFromCookie, COOKIE_ID);
         getOneBookingEvent(id).then((v) => {
 
-
             if (v !== null) {
-
                 let d = v.data.data();
                 setTitle(decrypt(d.title, adminId));
                 setDescription(decrypt(d.description, adminId));
@@ -118,10 +117,7 @@ const EventBooking = () => {
                 setVenue(decrypt(d.venue, adminId));
                 setDirections(decrypt(d.directions, adminId));
                 setBookings(d.bookings);
-
-
-
-
+                setTime(decrypt(d.time, adminId));
             } else {
                 toast.error('Form not found, please refresh the page');
             }
@@ -149,7 +145,7 @@ const EventBooking = () => {
 
         let adminId = decrypt(infoFromCookie, COOKIE_ID);
 
-        print(bookings);
+
         let booking: any[] = [];
         if (bookings.length > 0) {
             booking = bookings
@@ -161,12 +157,15 @@ const EventBooking = () => {
             eventId: docId,
             name: encrypt(name, adminId),
             phone: encrypt(phone, adminId),
-            email: encrypt(email, adminId)
+            email: encrypt(email, adminId),
+            attended: false,
+            notes: []
         });
 
         setBookings(booking);
 
         addBookingToEvent(docId, booking).then((v) => {
+            sendEmailAtBooking(email, name, title, description, venue, directions, date, time);
             setLoading(false);
         }).catch((e) => { console.error(e) });
 
@@ -184,7 +183,7 @@ const EventBooking = () => {
 
     const addNotes = () => {
         setOpenDialog(false);
-        setTempClients([]);
+
         if (typeof editMember !== 'undefined') {
             setLoading(true);
             var infoFromCookie = "";
@@ -193,59 +192,48 @@ const EventBooking = () => {
             } else {
                 infoFromCookie = getCookie(ADMIN_ID);
             }
-
             var id = decrypt(infoFromCookie, COOKIE_ID);
-
-
             var notesA: any = [];
-            var notesAr = editMember.notes;
-            notesAr.forEach((el: any) => {
 
-                notesA.push(encrypt(el, id))
-            });
+            if (editMember.notes.length > 0) {
+                notesA = editMember.notes;
+            }
+
             notesA.push(encrypt(notes, id));
-
-            var prodA: any = [];
-
-            var prodAr = editMember.enquired;
-            prodAr.forEach((el: any) => {
-                prodA.push(
-                    {
-                        product: encrypt(el.product, id),
-                        value: encrypt(el.value, id),
-                        totalNumber: encrypt(el.totalNumber, id)
-                    }
-                )
-            })
-
-
-
 
 
 
             var client = {
-                id: editMember.id,
-                adminId: editMember.adminId,
-                date: editMember.date,
-                name: encrypt(editMember.name, id),
-                contact: encrypt(editMember.contact, id),
-                organisation: encrypt(editMember.organisation, id),
-                stage: encrypt(editMember.stage, id),
-                notes: notesA,
-                refSource: encrypt(editMember.refSource, id),
-                enquired: prodA,
-                dateString: editMember.dateString,
-                value: encrypt(editMember.value, id),
-                encryption: 2
+                eventId: editMember.eventId,
+                name: editMember.name,
+                phone: editMember.phone,
+                email: editMember.email,
+                attended: editMember.attended,
+                notes: notesA
             }
 
-            // updateClientToDB(editMember.docId, client).then((r) => {
-            //     getClientsFromDB();
-            // }).catch((e) => {
-            //     toast.error("There was an error adding client please try again");
-            //     setLoading(false);
-            //     console.error(e);
-            // });
+            let booking: any[] = [];
+            if (bookings.length > 0) {
+                booking = bookings
+            } else {
+                booking = []
+            }
+
+            booking.forEach((element, index) => {
+                if (element.eventId === client.eventId) {
+                    booking[index] = client;
+                    return;
+                }
+            });
+            addBookingToEvent(docId, booking).then((r) => {
+
+                getBookingEvent(docId);
+
+            }).catch((e) => {
+                toast.error("There was an error adding client please try again");
+                setLoading(false);
+                console.error(e);
+            });
         }
     }
 
@@ -259,6 +247,40 @@ const EventBooking = () => {
 
         let adminId = decrypt(infoFromCookie, COOKIE_ID);
         return decrypt(data, adminId);
+    }
+
+    const markAttended = () => {
+        var client = {
+            eventId: editMember.eventId,
+            name: editMember.name,
+            phone: editMember.phone,
+            email: editMember.email,
+            attended: true,
+            notes: editMember.notes
+        }
+
+        let booking: any[] = [];
+        if (bookings.length > 0) {
+            booking = bookings
+        } else {
+            booking = []
+        }
+
+        booking.forEach((element, index) => {
+            if (element.eventId === client.eventId) {
+                booking[index] = client;
+                return;
+            }
+
+        });
+
+        addBookingToEvent(docId, booking).then((r) => {
+            getBookingEvent(docId);
+        }).catch((e) => {
+            toast.error("There was an error adding client please try again");
+            setLoading(false);
+            console.error(e);
+        });
     }
 
 
@@ -304,7 +326,7 @@ const EventBooking = () => {
                                         'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                     )}
                                 >
-                                    <div className='grid grid-cols-2'>
+                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                                         <div className='flex flex-col'>
                                             <Pill title={`${title}`} description={'title'} />
                                             <Pill title={`${description}`} description={'Description'} />
@@ -420,9 +442,9 @@ const EventBooking = () => {
                                         'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                     )}
                                 >
-                                    <div>
-                                        <div className="overflow-x-auto whitespace-nowrap">
-                                            <table className="table-auto border-separate border-spacing-1 w-full">
+                                    <div className='min-h-screen h-full'>
+                                        <div className="overflow-x-auto whitespace-nowrap mb-12 min-h-screen">
+                                            <table className="table-auto border-separate border-spacing-1 w-full h-full">
                                                 <thead className='bg-[#00947a] text-white font-bold w-full '>
                                                     <tr>
                                                         {topics.map((v: any) => (
@@ -438,11 +460,12 @@ const EventBooking = () => {
                                                         bookings.map((value, index) => {
                                                             return (
                                                                 <tr key={index}
-                                                                    className={'odd:bg-white even:bg-slate-50 hover:bg-[#0ead96] hover:text-white hover:cursor-pointer'}>
+                                                                    className={'odd:bg-white even:bg-slate-50 '}>
 
                                                                     <td>{getData(value.name)}</td>
                                                                     <td>{getData(value.email)}</td>
                                                                     <td>{getData(value.phone)}</td>
+                                                                    <td>{value.attended ? "Attended" : "Not Attended"}</td>
                                                                     <td className=" whitespace-nowrap text-right">
 
                                                                         <Menu>
@@ -457,6 +480,7 @@ const EventBooking = () => {
                                                                                         </Menu.Button>
                                                                                     </span>
 
+
                                                                                     <Transition
                                                                                         show={open}
                                                                                         enter="transition ease-out duration-100"
@@ -470,25 +494,46 @@ const EventBooking = () => {
                                                                                             static
                                                                                             className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                                                                         >
-
                                                                                             <div className="py-1">
 
                                                                                                 <Menu.Item>
                                                                                                     {({ active }) => (
                                                                                                         <button
-                                                                                                            onClick={() => { if (typeof value.id !== 'undefined') setOpenDialog(true); setEditMember(value); }}
+                                                                                                            onClick={() => { if (typeof value.name !== 'undefined') setEditMember(value); markAttended(); }}
                                                                                                             className={`${active
                                                                                                                 ? "bg-gray-100 text-gray-900"
                                                                                                                 : "text-gray-700"
                                                                                                                 } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
                                                                                                         >
-                                                                                                            Add Notes
+                                                                                                            Mark Attended
+                                                                                                        </button>
+
+                                                                                                    )}
+                                                                                                </Menu.Item>
+                                                                                            </div>
+                                                                                            <div className="py-1">
+
+                                                                                                <Menu.Item>
+                                                                                                    {({ active }) => (
+                                                                                                        <button
+                                                                                                            onClick={() => { if (typeof value.name !== 'undefined') setOpenDialog(true); setEditMember(value); }}
+                                                                                                            className={`${active
+                                                                                                                ? "bg-gray-100 text-gray-900"
+                                                                                                                : "text-gray-700"
+                                                                                                                } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                                                                                        >
+                                                                                                            Notes
                                                                                                         </button>
                                                                                                     )}
                                                                                                 </Menu.Item>
                                                                                             </div>
+
+
+
+
                                                                                         </Menu.Items>
                                                                                     </Transition>
+
                                                                                 </>
                                                                             )}
                                                                         </Menu>
@@ -515,7 +560,9 @@ const EventBooking = () => {
                                                         const object = {
                                                             name: getData(element.name),
                                                             email: getData(element.email),
-                                                            phone: getData(element.phone)
+                                                            phone: getData(element.phone),
+                                                            attended: element.attended,
+                                                            notes: element.notes.map((v) => getData(v))
                                                         };
 
                                                         exlD.push(object);
@@ -610,20 +657,20 @@ const EventBooking = () => {
                                                 setNotes(e.target.value);
                                             }}
                                             className="
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    py-3
-                                    px-5
-                                    h-48
-                                    bg-white
-                                    text-base text-body-color
-                                    placeholder-[#ACB6BE]
-                                    outline-none
-                                    focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
+                                                w-full
+                                                rounded-[25px]
+                                                border-2
+                                                border-[#fdc92f]
+                                                py-3
+                                                px-5
+                                                h-48
+                                                bg-white
+                                                text-base text-body-color
+                                                placeholder-[#ACB6BE]
+                                                outline-none
+                                                focus-visible:shadow-none
+                                                focus:border-primary
+                                                "
 
                                         />
                                     </div>
@@ -631,23 +678,31 @@ const EventBooking = () => {
                                         <button
                                             onClick={() => { addNotes() }}
                                             className="
-                                    font-bold
-                                    w-full
-                                    rounded-[25px]
-                                    border-2
-                                    border-[#fdc92f]
-                                    border-primary
-                                    py-3
-                                    px-5
-                                    bg-[#fdc92f]
-                                    text-base
-                                    text-[#7d5c00]
-                                    cursor-pointer
-                                    hover:bg-opacity-90
-                                    transition
-                                    ">
+                                                font-bold
+                                                w-full
+                                                rounded-[25px]
+                                                border-2
+                                                border-[#fdc92f]
+                                                border-primary
+                                                py-3
+                                                px-5
+                                                bg-[#fdc92f]
+                                                text-base
+                                                text-[#7d5c00]
+                                                cursor-pointer
+                                                hover:bg-opacity-90
+                                                transition
+                                                ">
                                             Add Notes
                                         </button>
+                                    </div>
+
+                                    <div>
+                                        {typeof editMember !== "undefined" ? editMember.notes.map((v: any) => {
+                                            return (
+                                                <p className='p-4 shadow-2xl rounded-[20px]'>{getData(v)}</p>
+                                            )
+                                        }) : <p></p>}
                                     </div>
                                 </div>
 

@@ -23,6 +23,8 @@ export type IAttendee = {
     eventId: any,
     name: any,
     phone: any,
-    email: any
+    email: any,
+    attended: boolean,
+    notes: any[]
 
 }

@@ -2,8 +2,10 @@ import { addDoc, collection, doc, getCountFromServer, getDoc, getDocs, query, up
 import { firestore } from "../../firebase/clientApp";
 import { IAttendee, IBookingEvent } from "../types/bookingsTypes";
 import { getCookie } from "react-use-cookie";
-import { ADMIN_ID, COOKIE_ID } from "../constants/constants";
+import { ADMIN_ID, API_ROUTE, COOKIE_ID } from "../constants/constants";
 import { decrypt } from "../utils/crypto";
+import axios from "axios";
+import { EMAIL_AT_BOOKING, EMAIL_REMINDER } from "../constants/bookingConstants";
 
 
 
@@ -79,3 +81,74 @@ export const addBookingToEvent = async (id: string, attendes: IAttendee[]) => {
     });
 
 }
+
+
+export const sendEmailAtBooking = async (email: string, name: string, title: string, description: string, venue: string, directions: string, date: string, time: string) => {
+    try {
+        // 👇️ const data: GetUsersResponse
+        const { data, status } = await axios.post<boolean>(
+            `${API_ROUTE}${EMAIL_AT_BOOKING}`,
+            {
+                email: email,
+                name: name,
+                title: title,
+                description: description,
+                venue: venue,
+                directions: directions,
+                date: date,
+                time: time
+            },
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            },
+        );
+        return data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.log('error message: ', error.message);
+            return null;
+        } else {
+            console.log('unexpected error: ', error);
+            return null;
+        }
+    }
+}
+
+export const sendEmailReminder = async (email: string, name: string, title: string, description: string, venue: string, directions: string, date: string, time: string, before: boolean) => {
+    try {
+        // 👇️ const data: GetUsersResponse
+        const { data, status } = await axios.post<boolean>(
+            `${API_ROUTE}${EMAIL_REMINDER}`,
+            {
+                email: email,
+                name: name,
+                title: title,
+                description: description,
+                venue: venue,
+                directions: directions,
+                date: date,
+                time: time,
+                before: before
+            },
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            },
+        );
+        return data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.log('error message: ', error.message);
+            return null;
+        } else {
+            console.log('unexpected error: ', error);
+            return null;
+        }
+    }
+}
+
+
+

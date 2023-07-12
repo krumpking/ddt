@@ -10,6 +10,7 @@ import { ADMIN_ID, COOKIE_ID } from '../constants/constants';
 import { decrypt, encrypt } from '../utils/crypto';
 import { getMyEvents } from '../api/bookingsApi';
 import { IAttendee } from '../types/bookingsTypes';
+import Head from 'next/head';
 
 const localizer = momentLocalizer(moment);
 
@@ -103,23 +104,29 @@ const BasicCalendar = () => {
 
     const onNavigate = useCallback((newDate: SetStateAction<Date>) => setDate(newDate), [setDate])
     return (
-        <Calendar
-            // components={components}
-            defaultView="week"
-            date={date}
-            events={events}
-            localizer={localizer}
-            eventPropGetter={eventPropGetter}
-            onNavigate={onNavigate}
-            onSelectEvent={((e) => {
-                router.push(`/eventBooking/${encrypt(e.id, COOKIE_ID)}`)
-            })}
-            // onView={onView}
-            views={["month", "week", "day", "agenda"]}
-            style={{
-                color: '#00947a',
-            }}
-        />)
+        <>
+            <Head>
+                <meta name="viewport" content="width=978"></meta>
+            </Head>
+            <Calendar
+                // components={components}
+                defaultView="week"
+                date={date}
+                events={events}
+                localizer={localizer}
+                eventPropGetter={eventPropGetter}
+                onNavigate={onNavigate}
+                onSelectEvent={((e) => {
+                    router.push(`/eventBooking/${encrypt(e.id, COOKIE_ID)}`)
+                })}
+                // onView={onView}
+                views={["month", "week", "day", "agenda"]}
+                style={{
+                    color: '#00947a',
+                }}
+            />
+        </>
+    )
 }
 
 export default BasicCalendar
