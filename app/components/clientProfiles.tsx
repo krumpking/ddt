@@ -1072,7 +1072,7 @@ const ClientProfile = () => {
                         </div>
                     </div>
 
-                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen '>
+                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen min-h-screen'>
                         <div className='grid grid-cols-1 md:grid-cols-6'>
                             <div className='col-span-1'>
                                 <button

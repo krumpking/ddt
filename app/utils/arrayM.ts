@@ -26,6 +26,7 @@ export function findOccurrencesProducts(array: any[], value: any): number {
 
 
 export function addTotalValue(array: any[], value: any): number {
+
     let total: number = 0.0;
     for (let i = 0; i < array.length; i++) {
         if (array[i].product === value) {
@@ -130,29 +131,59 @@ export function getProductsRepMapFromArray(arr: any[]) {
     let checkArr: any = [];
 
     for (var i = 0; i < arr.length; i++) {
-        var key = arr[i].enquired[0].product;
 
 
-        if (checkArr.includes(key)) {
+        if (arr[i].enquired.length > 0) {
+            arr[i].enquired.forEach((element: any) => {
+                var key = element.product;
+
+                if (checkArr.includes(key)) {
 
 
-            for (let index = 0; index < arrRes.length; index++) {
-                const element = arrRes[index];
-                if (element.product == key) {
-                    let valArr = element.value;
+                    for (let index = 0; index < arrRes.length; index++) {
+                        const element = arrRes[index];
+                        if (element.product == key) {
+                            let valArr = element.value;
+                            valArr.push(arr[i]);
+                            arrRes[index] = { product: key, value: valArr }
+
+                        }
+
+                    }
+
+
+                } else {
+                    let valArr = [];
                     valArr.push(arr[i]);
-                    arrRes[index] = { product: key, value: valArr }
+                    arrRes.push({ product: key, value: valArr })
+                    checkArr.push(key);
+                }
+            });
+        } else {
+            var key = arr[i].enquired[0].product.product;
+
+            if (checkArr.includes(key)) {
+
+
+                for (let index = 0; index < arrRes.length; index++) {
+                    const element = arrRes[index];
+                    if (element.product == key) {
+                        let valArr = element.value;
+                        valArr.push(arr[i]);
+                        arrRes[index] = { product: key, value: valArr }
+
+                    }
 
                 }
 
+
+            } else {
+                let valArr = [];
+                valArr.push(arr[i]);
+                arrRes.push({ product: key, value: valArr })
+                checkArr.push(key);
             }
 
-
-        } else {
-            let valArr = [];
-            valArr.push(arr[i]);
-            arrRes.push({ product: key, value: valArr })
-            checkArr.push(key);
         }
 
 
