@@ -700,7 +700,7 @@ const EventBooking = () => {
                                     <div>
                                         {typeof editMember !== "undefined" ? editMember.notes.map((v: any) => {
                                             return (
-                                                <p className='p-4 shadow-2xl rounded-[20px]'>{getData(v)}</p>
+                                                <p className='p-4 shadow-2xl rounded-[20px]' key={v}>{getData(v)}</p>
                                             )
                                         }) : <p></p>}
                                     </div>
