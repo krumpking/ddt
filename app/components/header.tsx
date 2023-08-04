@@ -12,7 +12,7 @@ import MainCarousel from './mainCarousel';
 const Header = () => {
 
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-10 p-4' id='home'>
+        <div className='grid grid-cols-1 lg:grid-cols-10 p-4' >
             <div className='col-span-4 lg:col-span-5  lg:p-0 flex flex-col m-4    afterMini:bg-none afterMini:border-none p-4'>
                 <h1 className='text-white xxs:text-2xl xs:text-3xl font-extrabold m-8 w-11/12'>Rest  <span className='text-yellow-500'>Assured </span> </h1>
 
@@ -27,7 +27,7 @@ const Header = () => {
 
                 <div className='mt-8 ml-8 mr-8 flex flex-row justify-start text-center'>
                     <button className={`bg-[#fdc92f] rounded-[30px] p-2 text-center`}>
-                        <Link className='text-xl  text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>
+                        <Link className='text-xl  text-[#7d5c00] text-center ' href='/signup'>Start Free trial</Link>
                     </button>
                     <Link href="#benefits"><p className="m-2 text-white p-2 text-xl">See more</p></Link>
 

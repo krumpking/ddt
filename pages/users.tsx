@@ -83,7 +83,7 @@ const Users = () => {
 
 
     const deleteMemb = (id: string) => {
-        setUsers([]);
+        // setUsers([]);
         setLoading(true);
         deleteById(id).then((v) => {
 
@@ -95,14 +95,22 @@ const Users = () => {
     }
 
     const addUserToDB = (user: IUser) => {
-        setUsers([]);
+
         setLoading(true);
 
         addUser(user).then((r) => {
 
-            toast.success("User added successfully");
-            getUsersFromDB();
-            setLoading(false);
+            if (r == null) {
+                toast.info("User already exists, use a different phone number for a different user");
+                getUsersFromDB();
+                setLoading(false);
+            } else {
+                toast.success("User added successfully");
+                getUsersFromDB();
+                setLoading(false);
+            }
+
+
         }).catch((e) => {
             console.error(e);
             setLoading(false);
@@ -111,6 +119,7 @@ const Users = () => {
 
     const getUsersFromDB = () => {
         setLoading(true);
+        setUsers([]);
         var infoFromCookie = getCookie(COOKIE_ID);
         if (typeof infoFromCookie !== 'undefined') {
 
@@ -122,6 +131,7 @@ const Users = () => {
                 getUsers(id).then((v) => {
 
                     if (v !== null) {
+                        let userArray: any[] = [];
                         v.data.forEach(element => {
                             var newUser = {
                                 id: element.data().id,
@@ -132,10 +142,12 @@ const Users = () => {
                                 role: decrypt(element.data().role, id),
                                 email: decrypt(element.data().email, id)
                             }
-                            setUsers([...users, newUser]);
+
+                            userArray.push(newUser);
+
 
                         });
-
+                        setUsers(userArray);
                     }
                     setLoading(false);
                 }).catch((e) => {
@@ -151,7 +163,39 @@ const Users = () => {
 
 
 
+    const getDataToAdd = () => {
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
 
+        var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        var id = decrypt(infoFromCookie, COOKIE_ID)
+        if (typeof infoFromCookie !== 'undefined') {
+
+
+            if (infoFromCookie.length > 0) {
+
+
+                var user = {
+                    name: encrypt(fullName, id),
+                    contact: phoneNumber,
+                    role: encrypt(role, id),
+                    date: encrypt(new Date().toDateString(), id),
+                    adminId: id,
+                    id: createId(),
+                    email: encrypt(email, id)
+                }
+
+
+                addUserToDB(user);
+
+
+            }
+        }
+    }
 
 
     return (
@@ -194,7 +238,7 @@ const Users = () => {
                                     <div className='flex flex-col items-center'>
                                         <Loader />
                                     </div>
-                                    : <div className='flex flex-col'>
+                                    : <div className='flex flex-col '>
                                         <div className='grid grid-cols-1 lg:grid-cols-2'>
                                             <div className='py-4 px-1'>
                                                 <input
@@ -305,36 +349,7 @@ const Users = () => {
                                                 onClick={() => {
 
 
-                                                    var infoFromCookie = "";
-                                                    if (getCookie(ADMIN_ID) == "") {
-                                                        infoFromCookie = getCookie(COOKIE_ID);
-                                                    } else {
-                                                        infoFromCookie = getCookie(ADMIN_ID);
-                                                    }
-
-                                                    var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-                                                    var id = decrypt(infoFromCookie, COOKIE_ID)
-                                                    if (typeof infoFromCookie !== 'undefined') {
-
-
-                                                        if (infoFromCookie.length > 0) {
-
-
-                                                            var user = {
-                                                                name: encrypt(fullName, id),
-                                                                contact: phoneNumber,
-                                                                role: encrypt(role, id),
-                                                                date: encrypt(new Date().toDateString(), id),
-                                                                adminId: id,
-                                                                id: myId,
-                                                                email: encrypt(email, id)
-                                                            }
-
-                                                            addUserToDB(user);
-
-
-                                                        }
-                                                    }
+                                                    getDataToAdd();
 
                                                 }}
                                                 className="
@@ -366,7 +381,7 @@ const Users = () => {
                             >
 
 
-                                <div className="overflow-auto lg:overflow-visible ">
+                                <div className="overflow-auto lg:overflow-visible h-screen">
                                     <table className="table  border-separate space-y-6 text-sm w-full">
                                         <thead className="bg-[#00947a] text-white font-bold0">
                                             <tr>

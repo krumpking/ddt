@@ -108,7 +108,7 @@ const AddClient = () => {
             notes: notesA,
             refSource: encrypt(refSource, id),
             enquired: prodA,
-            value: encrypt(totalAmount, id),
+            value: encrypt(total.toString(), id),
             encryption: 2,
             salesPerson: encrypt(salesPerson, id),
         }

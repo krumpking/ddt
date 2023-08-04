@@ -168,7 +168,7 @@ const ClientProfile = () => {
                     clnts.push(client);
 
                 });
-                let res = DateMethods.sortObjectsByDate(clnts, false);
+                let res = clnts.sort((a, b) => new Date(a.dateString).getTime() - new Date(b.dateString).getTime());
                 setClients(res);
                 setTempClients(res);
 
@@ -1072,7 +1072,7 @@ const ClientProfile = () => {
                         </div>
                     </div>
 
-                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen '>
+                    <div className='w-full overscroll-contain overflow-y-auto max-h-screen min-h-screen'>
                         <div className='grid grid-cols-1 md:grid-cols-6'>
                             <div className='col-span-1'>
                                 <button

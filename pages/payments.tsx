@@ -74,13 +74,7 @@ const Payments = () => {
 
                         let prevPayments: IPayments[] = [];
                         v.data.forEach(element => {
-                            print(element.data());
                             const fromDb = element.data().userId;
-                            print(fromDb);
-                            print(fromDb);
-                            print(fromDb);
-                            print(fromDb);
-                            print(fromDb);
                             if (fromDb !== "") {
                                 if (fromDb === id) {
                                     prevPayments.push({

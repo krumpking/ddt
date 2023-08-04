@@ -231,7 +231,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                     setTotalValue(totVal);
                     let salesRep = getSalesRepMapFromArray(clnts);
                     setSalesRepLabels(salesRep);
-                    let salesByP = getProductsRepMapFromArray(clnts)
+                    let salesByP = getProductsRepMapFromArray(clnts);
                     setSalesByProduct(salesByP);
                     const uniqueProductsCal = salesByP.map((value: any) => value.product);
                     setUniqueProducts(uniqueProductsCal);
@@ -410,7 +410,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                     setTotalValue(totVal);
                     let salesRep = getSalesRepMapFromArray(clnts);
                     setSalesRepLabels(salesRep);
-                    let salesByP = getProductsRepMapFromArray(clnts)
+                    let salesByP = getProductsRepMapFromArray(clnts);
                     setSalesByProduct(salesByP);
                     const uniqueProductsCal = salesByP.map((value: any) => value.product);
                     setUniqueProducts(uniqueProductsCal);
@@ -753,7 +753,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                             <td className='text-left' >{value.date}</td>
                                                             <td className='text-left' >{value.name}</td>
                                                             <td className='text-left' >{value.stage}</td>
-                                                            <td className='text-left' >{value.enquired[0].product}</td>
+                                                            <td className='text-left' >{value.enquired.map((v) => v.product + ", ")}</td>
                                                             <td className='text-left' >{value.value}</td>
                                                         </tr>
                                                     )
@@ -777,7 +777,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
 
                                 <h1 className='text-center text-4xl'>Top Products Overview</h1>
                                 <div>
-                                    {salesByProduct.map((v) => {
+                                    {salesByProduct.map((v, i) => {
                                         var totalValueOfSalesPerson = 0;
                                         return (
                                             <div className='w-full overscroll-contain overflow-y-auto whitespace-nowrap' key={v.product}>
@@ -797,7 +797,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                     <tbody>
                                                         {
                                                             v.value.map((value: any, index: any) => {
-                                                                totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));
+                                                                totalValueOfSalesPerson += parseFloat(value.enquired[i].value.replace('$', '').replace(',', ''));
 
                                                                 return (
                                                                     <tr key={index}
@@ -806,8 +806,8 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                                         <td className='text-left' >{value.date}</td>
                                                                         <td className='text-left' >{value.name}</td>
                                                                         <td className='text-left' >{value.stage}</td>
-                                                                        <td className='text-left' >{value.enquired[0].product}</td>
-                                                                        <td className='text-left' >{value.value}</td>
+                                                                        <td className='text-left' >{value.enquired[i].product}</td>
+                                                                        <td className='text-left' >{value.enquired[i].value}</td>
                                                                     </tr>
                                                                 )
                                                             })
