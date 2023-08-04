@@ -14,6 +14,7 @@ import Random from '../app/utils/random';
 import { decrypt } from '../app/utils/crypto';
 import { IPayments } from '../app/types/paymentTypes';
 import { addPayment, getPayments, getPromo } from '../app/api/paymentApi';
+import { print } from '../app/utils/console';
 
 
 
@@ -50,37 +51,48 @@ const Payments = () => {
             if (infoFormCookie.length > 0) {
                 const id = decrypt(infoFormCookie, COOKIE_ID);
                 setUserId(id);
+                var roleCookie = getCookie(PERSON_ROLE);
+                if (typeof roleCookie !== 'undefined') {
+
+                    if (roleCookie.length > 0) {
+
+
+                        let role = decrypt(getCookie(PERSON_ROLE), id);
+                        if (role !== 'Admin') {
+                            toast.error('Only Admin can make payments');
+                            toast.error('Kindly contact Admin to make payment');
+                            router.push('/login');
+                        }
+
+                    }
+                }
+
 
                 getPayments(id).then((v) => {
 
                     if (v !== null) {
 
+                        let prevPayments: IPayments[] = [];
                         v.data.forEach(element => {
                             const fromDb = element.data().userId;
                             if (fromDb !== "") {
-
-                                const idFromDB = decrypt(fromDb, COOKIE_ID);
-                                if (idFromDB === id) {
-
-
-                                    setPayments((prevPayments) => [...prevPayments, {
+                                if (fromDb === id) {
+                                    prevPayments.push({
                                         id: element.id,
                                         userId: element.data().userId,
                                         date: element.data().date,
                                         amount: element.data().amount,
                                         refCode: element.data().refCode
-                                    }]);
+                                    });
                                 }
 
                             }
-
-
-
                         });
+                        setPayments(prevPayments);
                         if (payments.length > 0) {
                             setProduct({
-                                description: "DaCollectree hosting, security and backup fee",
-                                price: 20
+                                description: "Digital Data Tree Subscription Fee",
+                                price: 45
                             });
                             setLastPaymentDate("Upcoming");
 
@@ -124,19 +136,7 @@ const Payments = () => {
             });
         }
 
-        var roleCookie = getCookie(PERSON_ROLE);
-        if (typeof roleCookie !== 'undefined') {
 
-            if (roleCookie.length > 0) {
-                let role = decrypt(getCookie(PERSON_ROLE), ADMIN_ID);
-                if (role !== 'Admin') {
-                    toast.error('Only Admin can make payments');
-                    toast.error('Kindly contact Admin to make payment');
-                    router.push('/login');
-                }
-
-            }
-        }
 
 
 
@@ -412,7 +412,4 @@ const Payments = () => {
 
 
 export default Payments
-function setRole(arg0: string) {
-    throw new Error('Function not implemented.');
-}
 

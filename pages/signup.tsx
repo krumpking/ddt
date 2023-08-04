@@ -12,6 +12,11 @@ import { setCookie } from 'react-use-cookie';
 import { DocumentData, DocumentReference } from 'firebase/firestore';
 import { encrypt } from '../app/utils/crypto';
 import Link from 'next/link';
+import { format, compareAsc, subDays } from 'date-fns'
+import { addPayment } from '../app/api/paymentApi';
+import Random from '../app/utils/random';
+import Script from 'next/script';
+import Head from 'next/head';
 
 
 const SignUp = () => {
@@ -134,6 +139,21 @@ const SignUp = () => {
                     setSent(false);
                 } else {
 
+
+                    const payment = {
+                        id: Random.randomString(13, "abcdefghijkhlmnopqrstuvwxz123456789"),
+                        userId: userId,
+                        date: subDays(new Date(), 23).toString(),
+                        amount: 0,
+                        refCode: ""
+                    }
+
+                    addPayment(payment).then((v) => {
+
+                    }).catch((er) => {
+                        console.error(er);
+                    });
+
                     const key = v.id.substring(-13);
                     setCookie(COOKIE_ID, encrypt(userId, COOKIE_ID), {
                         days: 1,
@@ -173,51 +193,68 @@ const SignUp = () => {
     }
 
     const handleChange = () => {
-        setChecked(!checked);
+        setChecked(true);
     };
 
 
 
 
     return (
-        <div className='bg-[#00947a] w-full h-full p-4 md:p-8 lg:p-16 '>
-            <div className='bg-white h-full rounded-[25px] grid grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
+        <>
 
-                <div className='hidden lg:block'>
-                    <Carousel children={shownSlides.map((v) => {
-                        return (
-                            slide(v.image)
-                        )
-                    })} />
+            {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-YRWLWE46T0"
+                strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){window.dataLayer.push(arguments);}
+                    gtag('js', new Date());
 
-                </div>
+                    gtag('config', 'G-YRWLWE46T0');
+                    `}
+            </Script>
 
-                <div className=''>
-                    {loading ?
-                        <Loader />
+            <div className='bg-[#00947a] w-full h-full p-4 md:p-8 lg:p-16 '>
+                <div className='bg-white h-full rounded-[25px] grid grid-cols-1 md:grid-cols-2 p-4 place-items-center'>
 
-                        :
+                    <div className='hidden lg:block'>
+                        <Carousel children={shownSlides.map((v) => {
+                            return (
+                                slide(v.image)
+                            )
+                        })} />
 
-                        <>
-                            {sent ?
-                                <form onSubmit={
-                                    (e) => {
-                                        e.preventDefault()
-                                        signIn()
-                                    }
-                                }>
-                                    <div className="mb-6">
-                                        <input
-                                            type="text"
-                                            value={accessCode}
-                                            placeholder={"Please enter the One Time Password"}
-                                            onChange={(e) => {
+                    </div>
 
-                                                setAccessCode(e.target.value);
+                    <div className=''>
+                        {loading ?
+                            <Loader />
+
+                            :
+
+                            <>
+                                {sent ?
+                                    <form onSubmit={
+                                        (e) => {
+                                            e.preventDefault()
+                                            signIn()
+                                        }
+                                    }>
+                                        <div className="mb-6">
+                                            <input
+                                                type="text"
+                                                value={accessCode}
+                                                placeholder={"Please enter the One Time Password"}
+                                                onChange={(e) => {
+
+                                                    setAccessCode(e.target.value);
 
 
-                                            }}
-                                            className="
+                                                }}
+                                                className="
                                                 w-full
                                                 rounded-[25px]
                                                 border-2
@@ -231,15 +268,15 @@ const SignUp = () => {
                                                 focus-visible:shadow-none
                                                 focus:border-primary
                                                 "
-                                            required
-                                        />
-                                    </div>
+                                                required
+                                            />
+                                        </div>
 
-                                    <div className="mb-10">
-                                        <input
-                                            type="submit"
-                                            value={"Login"}
-                                            className="
+                                        <div className="mb-10">
+                                            <input
+                                                type="submit"
+                                                value={"Login"}
+                                                className="
                                             font-bold
                                             w-full
                                             rounded-[25px]
@@ -255,28 +292,28 @@ const SignUp = () => {
                                             hover:bg-opacity-90
                                             transition
                                             "
-                                        />
-                                    </div>
-                                </form>
+                                            />
+                                        </div>
+                                    </form>
 
-                                :
-                                <form onSubmit={
-                                    (e) => {
-                                        e.preventDefault()
-                                        signUp()
-                                    }
-                                }>
-                                    <p className='text-center text-xs text-gray-300 mb-4 font-bold'>Sign Up</p>
-                                    <div className="mb-6">
-                                        <input
-                                            type="text"
-                                            value={fullName}
-                                            placeholder={"Full Name"}
-                                            onChange={(e) => {
-                                                setFullName(e.target.value);
+                                    :
+                                    <form onSubmit={
+                                        (e) => {
+                                            e.preventDefault()
+                                            signUp()
+                                        }
+                                    }>
+                                        <p className='text-center text-xs text-black-300 mb-4 font-bold'>Start your 7 Day FREE trial</p>
+                                        <div className="mb-6">
+                                            <input
+                                                type="text"
+                                                value={fullName}
+                                                placeholder={"Full Name"}
+                                                onChange={(e) => {
+                                                    setFullName(e.target.value);
 
-                                            }}
-                                            className="
+                                                }}
+                                                className="
                                                     w-full
                                                     rounded-[25px]
                                                     border-2
@@ -290,19 +327,19 @@ const SignUp = () => {
                                                     focus-visible:shadow-none
                                                     focus:border-primary
                                                     "
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-6">
-                                        <input
-                                            type="text"
-                                            value={phone}
-                                            placeholder={"Phone (include country your code )"}
-                                            onChange={(e) => {
-                                                setPhone(e.target.value);
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <input
+                                                type="text"
+                                                value={phone}
+                                                placeholder={"Phone (include country your code )"}
+                                                onChange={(e) => {
+                                                    setPhone(e.target.value);
 
-                                            }}
-                                            className="
+                                                }}
+                                                className="
                                                 w-full
                                                 rounded-[25px]
                                                 border-2
@@ -316,19 +353,19 @@ const SignUp = () => {
                                                 focus-visible:shadow-none
                                                 focus:border-primary
                                                 "
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-6">
-                                        <input
-                                            type="text"
-                                            value={email}
-                                            placeholder={"Email"}
-                                            onChange={(e) => {
-                                                setEmail(e.target.value);
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <input
+                                                type="text"
+                                                value={email}
+                                                placeholder={"Email"}
+                                                onChange={(e) => {
+                                                    setEmail(e.target.value);
 
-                                            }}
-                                            className="
+                                                }}
+                                                className="
                                                 w-full
                                                 rounded-[25px]
                                                 border-2
@@ -342,19 +379,19 @@ const SignUp = () => {
                                                 focus-visible:shadow-none
                                                 focus:border-primary
                                                 "
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mb-6">
-                                        <input
-                                            type="text"
-                                            value={organisationName}
-                                            placeholder={"Organisation Name"}
-                                            onChange={(e) => {
-                                                setOrganisationName(e.target.value);
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <input
+                                                type="text"
+                                                value={organisationName}
+                                                placeholder={"Organisation Name"}
+                                                onChange={(e) => {
+                                                    setOrganisationName(e.target.value);
 
-                                            }}
-                                            className="
+                                                }}
+                                                className="
                                                 w-full
                                                 rounded-[25px]
                                                 border-2
@@ -368,15 +405,15 @@ const SignUp = () => {
                                                 focus-visible:shadow-none
                                                 focus:border-primary
                                                 "
-                                            required
-                                        />
-                                    </div>
+                                                required
+                                            />
+                                        </div>
 
-                                    <div className="mb-4">
-                                        <input
-                                            type="submit"
-                                            value={"Send One Time Password"}
-                                            className="
+                                        <div className="mb-4">
+                                            <input
+                                                type="submit"
+                                                value={"Send One Time Password"}
+                                                className="
                                             font-bold
                                                 w-full
                                                 rounded-[25px]
@@ -392,33 +429,35 @@ const SignUp = () => {
                                                 hover:bg-opacity-90
                                                 transition
                                                 "
-                                        />
-                                    </div>
-                                    <div className='text-center' >
-                                        <input
-                                            onChange={handleChange}
-                                            type="checkbox"
-                                            id="terms"
-                                            name="terms"
-                                            value="terms"
-                                            className='accent-green-700 text-white bg-whites' />
-                                        <label htmlFor="terms"> I understand the Terms and Conditions</label><br></br>
-                                    </div>
-                                    <Link href={'/terms'}>
-                                        <p className='text-center text-xs text-gray-300 mb-4 font-bold underline'>See Terms</p>
-                                    </Link>
-                                </form>}
+                                            />
+                                        </div>
+                                        <div className='text-center' >
+                                            <input
+                                                onChange={() => { setChecked(true) }}
+                                                type="checkbox"
+                                                id="terms"
+                                                name="terms"
+                                                value="terms"
+                                                className='accent-green-700 text-white bg-whites' />
+                                            <label htmlFor="terms"> I understand the Terms and Conditions</label><br></br>
+                                        </div>
+                                        <Link href={'/terms'}>
+                                            <p className='text-center text-xs text-gray-300 mb-4 font-bold underline'>See Terms</p>
+                                        </Link>
+                                    </form>}
 
-                        </>
-                    }
+                            </>
+                        }
+                    </div>
+
                 </div>
-
+                <div id="recaptcha-container"></div>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000} />
             </div>
-            <div id="recaptcha-container"></div>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000} />
-        </div>
+        </>
+
     )
 };
 

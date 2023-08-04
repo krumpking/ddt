@@ -23,6 +23,14 @@
     ],
     "rewrites": [
       {
+        "source": "/eventBooking/**",
+        "destination": "/[eventId].html"
+      },
+      {
+        "source": "/bookings",
+        "destination": "/bookings.html"
+      },
+      {
         "source": "/info",
         "destination": "/info.html"
       },

@@ -12,7 +12,8 @@ import { decrypt, encrypt } from '../app/utils/crypto';
 import { Menu, Tab, Transition } from '@headlessui/react';
 import { addUser, deleteById, getUsers } from '../app/api/usersApi';
 import { print } from '../app/utils/console';
-
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 
 
@@ -82,6 +83,7 @@ const Users = () => {
 
 
     const deleteMemb = (id: string) => {
+        // setUsers([]);
         setLoading(true);
         deleteById(id).then((v) => {
 
@@ -97,9 +99,18 @@ const Users = () => {
         setLoading(true);
 
         addUser(user).then((r) => {
-            toast.success("User added successfully");
-            getUsersFromDB();
-            setLoading(false);
+
+            if (r == null) {
+                toast.info("User already exists, use a different phone number for a different user");
+                getUsersFromDB();
+                setLoading(false);
+            } else {
+                toast.success("User added successfully");
+                getUsersFromDB();
+                setLoading(false);
+            }
+
+
         }).catch((e) => {
             console.error(e);
             setLoading(false);
@@ -108,6 +119,7 @@ const Users = () => {
 
     const getUsersFromDB = () => {
         setLoading(true);
+        setUsers([]);
         var infoFromCookie = getCookie(COOKIE_ID);
         if (typeof infoFromCookie !== 'undefined') {
 
@@ -119,20 +131,23 @@ const Users = () => {
                 getUsers(id).then((v) => {
 
                     if (v !== null) {
+                        let userArray: any[] = [];
                         v.data.forEach(element => {
                             var newUser = {
                                 id: element.data().id,
                                 adminId: element.data().adminId,
                                 date: decrypt(element.data().date, id),
                                 name: decrypt(element.data().name, id),
-                                contact: decrypt(element.data().contact, id),
+                                contact: element.data().contact,
                                 role: decrypt(element.data().role, id),
                                 email: decrypt(element.data().email, id)
                             }
-                            setUsers([...users, newUser]);
+
+                            userArray.push(newUser);
+
 
                         });
-
+                        setUsers(userArray);
                     }
                     setLoading(false);
                 }).catch((e) => {
@@ -148,20 +163,51 @@ const Users = () => {
 
 
 
+    const getDataToAdd = () => {
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
 
+        var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
+        var id = decrypt(infoFromCookie, COOKIE_ID)
+        if (typeof infoFromCookie !== 'undefined') {
+
+
+            if (infoFromCookie.length > 0) {
+
+
+                var user = {
+                    name: encrypt(fullName, id),
+                    contact: phoneNumber,
+                    role: encrypt(role, id),
+                    date: encrypt(new Date().toDateString(), id),
+                    adminId: id,
+                    id: createId(),
+                    email: encrypt(email, id)
+                }
+
+
+                addUserToDB(user);
+
+
+            }
+        }
+    }
 
 
     return (
         <div>
-            <div className='grid grid-cols-12'>
-
-                <div className='col-span-3'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12 '>
+                <div className='lg:col-span-3'>
                     <ClientNav organisationName={'Vision Is Primary'} url={'users'} />
                 </div>
 
                 <div className="w-full m-2 px-2 py-8 sm:px-0 col-span-9 ">
                     <Tab.Group>
-                        <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1">
+                        <Tab.List className="flex space-x-1 rounded-[25px] bg-green-900/20 p-1 overflow-hidden overflow-x-scroll ">
                             {tabs.map((category) => (
                                 <Tab
                                     key={category}
@@ -192,8 +238,8 @@ const Users = () => {
                                     <div className='flex flex-col items-center'>
                                         <Loader />
                                     </div>
-                                    : <div className='flex flex-col'>
-                                        <div className='grid grid-cols-2'>
+                                    : <div className='flex flex-col '>
+                                        <div className='grid grid-cols-1 lg:grid-cols-2'>
                                             <div className='py-4 px-1'>
                                                 <input
                                                     type="text"
@@ -303,36 +349,7 @@ const Users = () => {
                                                 onClick={() => {
 
 
-                                                    var infoFromCookie = "";
-                                                    if (getCookie(ADMIN_ID) == "") {
-                                                        infoFromCookie = getCookie(COOKIE_ID);
-                                                    } else {
-                                                        infoFromCookie = getCookie(ADMIN_ID);
-                                                    }
-
-                                                    var myId = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
-                                                    var id = decrypt(infoFromCookie, COOKIE_ID)
-                                                    if (typeof infoFromCookie !== 'undefined') {
-
-
-                                                        if (infoFromCookie.length > 0) {
-
-
-                                                            var user = {
-                                                                name: encrypt(fullName, id),
-                                                                contact: phoneNumber,
-                                                                role: encrypt(role, id),
-                                                                date: encrypt(new Date().toDateString(), id),
-                                                                adminId: id,
-                                                                id: myId,
-                                                                email: encrypt(email, id)
-                                                            }
-
-                                                            addUserToDB(user);
-
-
-                                                        }
-                                                    }
+                                                    getDataToAdd();
 
                                                 }}
                                                 className="
@@ -359,32 +376,31 @@ const Users = () => {
                             <Tab.Panel
                                 className={classNames(
                                     'rounded-xl bg-white p-3',
-                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                                    'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2  '
                                 )}
                             >
-                                <div className='w-full'>
-                                    <table className="table-auto border-separate border-spacing-1  shadow-2xl rounded-[25px] p-4 w-full">
-                                        <thead className='bg-[#00947a] text-white font-bold w-full '>
-                                            <tr className='grid grid-cols-6'>
-                                                {labels.map((v: any) => (
-                                                    <th key={v.label} className='text-left'>{v}</th>
+
+
+                                <div className="overflow-auto lg:overflow-visible h-screen">
+                                    <table className="table  border-separate space-y-6 text-sm w-full">
+                                        <thead className="bg-[#00947a] text-white font-bold0">
+                                            <tr>
+                                                {labels.map((v: any, index) => (
+                                                    <th key={v.label} className={`text-left`}>{v}</th>
                                                 ))}
                                             </tr>
-
-
                                         </thead>
                                         <tbody>
-
                                             {
                                                 users.map((value, index) => {
                                                     return (
                                                         <tr key={index}
-                                                            className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer grid grid-cols-6'}
+                                                            className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer '}
                                                             onClick={() => { }}>
                                                             <td className='text-left' >{getDate(value.date)}</td>
                                                             <td className='text-left' >{value.name}</td>
                                                             <td className='text-left' >{value.contact}</td>
-                                                            <td className='text-left' >{value.email}</td>
+                                                            <td className='text-left col-span-3' >{value.email}</td>
                                                             <td className='text-left' >{value.role}</td>
                                                             <td className=" whitespace-nowrap text-right">
 
@@ -465,11 +481,13 @@ const Users = () => {
                                                     )
                                                 })
                                             }
-
-
                                         </tbody>
                                     </table>
                                 </div>
+
+
+
+
                             </Tab.Panel>
 
 

@@ -6,21 +6,14 @@ import Header from '../app/components/header';
 import Carousel from '../app/components/carousel';
 import Link from 'next/link';
 import Script from 'next/script';
-
-
+import YouTube from "react-youtube";
 
 
 
 const Home: NextPage = () => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [trackingId, settrackingId] = useState("AW-11208371394");
 
-  useEffect(() => {
 
-  }, []);
 
   const shownSlides = [
     {
@@ -126,6 +119,7 @@ const Home: NextPage = () => {
       message: 'Digitized information can be accessed from anywhere, which can give your organization more flexibility in how you operate.',
       image: '/images/test-1.png',
     },
+
   ]
 
 
@@ -161,35 +155,89 @@ const Home: NextPage = () => {
     )
   }
 
+  const tuts = [
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'hYjzHBrUmxk',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'uNjtbj12MBI',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'BycELuE3GJs',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'GCJqe8Rdymk',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'BUd57WkUQ1c',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'F3C4fIPxOfE',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: '7FIUetzu9T0',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'aezxv_OE6aY',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'LnathUtkUYI',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'QW5n4pVW5BM',
+    },
+    {
+      title: 'How to generate a Quotation on Digital Data Tree',
+      description: 'Easily generate a Quotation on Digital Data Tree.Each Quotation is automatically added to you Customer Relationship Managment',
+      id: 'AVTPs8nGUeg',
+    },
 
+
+  ]
+
+  const onReady = (event: { data?: any; target: any; }) => {
+    event.target.pauseVideo();
+  }
 
   return (
     <div className='relative bg-[#00947a] w-full h-full'>
-      {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=AW-11208371394"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
 
-          gtag('config', 'AW-11208371394');
-        `}
-      </Script>
 
       <div>
         <Nav />
       </div>
       <Header />
-      <div className="rounded-t-[70px] bg-[#027f6d] text-center items-center content-center">
+      <div className="rounded-t-[70px] bg-[#027f6d] text-center items-center content-center" id='home'>
         <div id="discover">
-          <img src='/images/start.png' className='mx-auto w-48 h-24' />
-          <div className='p-16'>
-            <h1 className='text-white text-sm xs:text-xl xsMD:text-3xl font-bold'>Transform Your Data into a Story with Stunning Presentations</h1>
-            <p className='text-white font-bold mt-5 text-xs xs:text-sm xxsMD:text-base'>Turning data into a format that is easy to understand and analyze can be a daunting task, but it doesn&apos;t have to be! With the right tools and software, you can transform your data into a beautiful and emotional presentation that tells a story. Imagine taking a bunch of numbers and turning them into a colorful chart or graph that not only looks stunning but also conveys important information. It&apos;s like creating a work of art that speaks to your audience&apos;s hearts and minds. So, don&apos;t be afraid to get creative and experiment with different formats and presentation styles to bring your data to life and make a lasting impact on your viewers.</p>
+          <img src='/images/start.png' className='mx-auto w-48 h-24 mb-6' />
+          <h1 className='text-white'>TRUSTED BY</h1>
+          <div className='p-16 grid grid-cols-2 sm:grid-cols-4 gap-4'>
+            <img src='/images/duraroof.png' className='mx-auto w-48 h-24 object-contain' />
+            <img src='/images/megans.png' className='mx-auto w-48 h-24 object-contain' />
+            <img src='/images/fundo.png' className='mx-auto w-48 h-24 object-contain' />
+            <img src='/images/adlset.png' className='mx-auto w-48 h-24 object-contain' />
+            {/* <h1 className='text-white text-sm xs:text-xl xsMD:text-3xl font-bold'>Transform Your Data into a Story with Stunning Presentations</h1>
+            <p className='text-white font-bold mt-5 text-xs xs:text-sm xxsMD:text-base'>Turning data into a format that is easy to understand and analyze can be a daunting task, but it doesn&apos;t have to be! With the right tools and software, you can transform your data into a beautiful and emotional presentation that tells a story. Imagine taking a bunch of numbers and turning them into a colorful chart or graph that not only looks stunning but also conveys important information. It&apos;s like creating a work of art that speaks to your audience&apos;s hearts and minds. So, don&apos;t be afraid to get creative and experiment with different formats and presentation styles to bring your data to life and make a lasting impact on your viewers.</p> */}
           </div>
 
           {/* <img src="/images/sample.png" className='h-full w-full' /> */}
@@ -233,7 +281,42 @@ const Home: NextPage = () => {
           </div>
 
         </div>
-        <div id="benefits" className='text-center p-16'>
+        <div className='p-16 shadow-xl  rounded-2xl'>
+
+          <div className="h-fit rounded-lg grid grid-cols-1 md:grid-cols-2 ">
+            <div>
+              <img src="/images/automation.jpg" className='w-full h-4/5' />
+            </div>
+            <div>
+              <h1 className='text-xs xxsMD:text-sm xsMD:text-xl mini:text-4xl text-white font-extrabold mb-4'>Customizable Enteprise System</h1>
+              <button className="w-full text-left">
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Digital Data Tree is not just another enterprise system - it&apos;s a transformational solution. We understand that managing data can be overwhelming for businesses, leading to inefficiencies and missed opportunities. That&apos;s why we have created Digital Data Tree, a customizable system that can be tailored to fit the exact digitization needs of every client.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Think about it: no more manual data entry, no more missing or inaccurate information, no more wasted time. With Digital Data Tree, you can streamline your operations, enhance productivity, and drive business success. Our easy-to-use interface and customizable options empower you to take control of your data and transform your business from the inside out.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Whether you need to manage customer relationships, optimize event logistics, track inventory, or monitor production, Digital Data Tree has you covered. Say goodbye to tedious and error-prone manual processes, and say hello to automation and efficiency. With real-time access to critical business information, you can provide personalized experiences to your customers, build trust with stakeholders, and make data-driven decisions.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Imagine the satisfaction of being able to focus on growing your business instead of being bogged down by data management. Think about the joy of having more time to spend with your customers, employees, or loved ones. With Digital Data Tree, you can experience all of this and more.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  So why wait? Join us on the journey to unlocking the full potential of your data. With Digital Data Tree, you can achieve greater efficiency, enhance customer experiences, ensure data security, and make informed decisions in real-time. Transform your business and bring your vision to life with Digital Data Tree today!
+                </p>
+              </button>
+
+
+            </div>
+
+          </div>
+          <button
+            className='h-12 w-full xxsMD:w-48 bg-[#00947a] rounded-[25px] mt-5 mx-auto text-white p-2'>
+            <Link href='/signup'><p className='font-bold text-xs xxsMD:text-xl'>Register for Free</p></Link>
+          </button>
+        </div>
+        <div id="blog" className='text-center p-16'>
           {/* // eslint-disable */}
           <Carousel children={shownSlides.map((v) => {
             return (
@@ -244,10 +327,22 @@ const Home: NextPage = () => {
         <div className='p-8' id="action">
           <h1 className='text-white text-3xl font-bold m-4'>See it in action</h1>
           <p className='text-white m-4'>Elegent and intuitive interface makes Digital Data Tree, easy to use</p>
-          <video className='w-full h-96 m-4' autoPlay={false} loop={true} controls>
-            <source src={"/videos/ex1.mp4"} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <div className='flex flex-row space-x-4 overflow-x-scroll no-scrollbar p-4'>
+            {tuts.map((v) => (
+              <div key={v.title}>
+                <YouTube videoId={v.id}
+
+                  opts={{
+                    height: "390",
+                    width: "640",
+                    playerVars: {
+                      autoplay: 0,
+                    },
+                  }} onReady={(e) => { onReady(e) }} />
+              </div>
+
+            ))}
+          </div>
         </div>
         <div className='p-8' id="testimonials">
           <h1 className='text-white text-3xl font-bold m-4'>Unlock the Power of Digitization: Transform Your Business for Success</h1>
@@ -347,10 +442,8 @@ const Home: NextPage = () => {
               <p className='text-xs line-through lg:hidden'>420USD</p>
               <p>....and many more can be done on Digital Data Tree</p>
               <h1 className='text-xs line-through lg:hidden'>2740USD</h1>
-              <h1 className='text-xl '>300USD</h1>
+              <h1 className='text-xl '>45USD per month</h1>
               <p className='text-xs line-through lg:hidden'>100USD pm hosting</p>
-
-              <p className='text-sm lg:hidden'>25USD pm</p>
               <p className='text-sm'>hosting</p>
               <p className='text-sm'>24/7 support</p>
             </div>
@@ -359,7 +452,7 @@ const Home: NextPage = () => {
             <Link className='text-xl text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>
           </button>
 
-          <div className='text-white my-8 shadow-xl p-8 rounded-2xl' id="affiliate">
+          {/* <div className='text-white my-8 shadow-xl p-8 rounded-2xl' id="affiliate">
             <h1 className='text-5xl font-bold font-title tracking-wide text-[#fdc92f] m-4'>Join us to change the world </h1>
             <p>Imagine a world where you can connect with anyone, anywhere in the world, at any time. A world where you have access to all the information you could ever need, at your fingertips. A world where you can learn new skills, start your own business, and make a difference in the world.
 
@@ -371,7 +464,7 @@ const Home: NextPage = () => {
             <button className={`bg-[#fdc92f] rounded-[30px] p-3 m-8 text-center`}>
               <Link className='text-xl text-[#7d5c00] text-center ' href='/affiliate'>Become an affiliate</Link>
             </button>
-          </div>
+          </div> */}
 
 
 
