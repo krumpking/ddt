@@ -8,11 +8,16 @@ export type IBookingEvent = {
     created: any,
     title: any,
     date: any,
+    endDate: any,
     dateString: any,
     description: any,
     time: any,
     venue: any,
     directions: any,
+    parking: any,
+    refreshments: any,
+    dressCode: any,
+    otherInfo: any,
     encryption: number,
     bookings: IAttendee[]
 

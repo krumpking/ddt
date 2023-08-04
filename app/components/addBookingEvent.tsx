@@ -11,16 +11,24 @@ import { print } from '../utils/console';
 import { useRouter } from 'next/router';
 import { IBookingEvent } from '../types/bookingsTypes';
 import { addBookingEvent } from '../api/bookingsApi';
+import { getOrgInfoFromDB } from '../api/orgApi';
 
 const AddBookingEvent = () => {
     const [date, setDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [title, setTitle] = useState('');
     const [venue, setVenue] = useState('');
     const [time, setTime] = useState('');
     const [description, setDescription] = useState('');
     const [directions, setDirections] = useState('');
+    const [parking, setParking] = useState("");
+    const [refreshments, setRefreshments] = useState("");
+    const [otherInfo, setOtherInfo] = useState("");
+    const [dressCode, setDressCode] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [events, setEvents] = useState<any[]>([]);
+    const [venues, setVenues] = useState<any[]>([]);
 
 
     useEffect(() => {
@@ -40,13 +48,62 @@ const AddBookingEvent = () => {
                     router.push('/home');
                     toast.info("You do not have permission to access this page");
                 }
+                getOrgInfo();
 
             }
         }
 
 
 
-    }, [])
+    }, []);
+
+
+    const getOrgInfo = () => {
+        setLoading(true);
+        getOrgInfoFromDB().then((r) => {
+
+            var infoFromCookie = "";
+            if (getCookie(ADMIN_ID) == "") {
+                infoFromCookie = getCookie(COOKIE_ID);
+            } else {
+                infoFromCookie = getCookie(ADMIN_ID);
+            }
+            var id = decrypt(infoFromCookie, COOKIE_ID);
+
+
+            if (r !== null) {
+
+                r.data.forEach(element => {
+
+                    if (typeof element.data().venues !== "undefined") {
+
+                        let venuesA: any = [];
+                        element.data().venues.forEach((e: any) => {
+                            venuesA.push(decrypt(e, id));
+                        });
+                        setVenues(venuesA);
+                    }
+
+                    if (typeof element.data().events !== "undefined") {
+                        let evnts: any = [];
+                        element.data().events.forEach((e: any) => {
+                            evnts.push(decrypt(e, id));
+                        });
+                        setEvents(evnts);
+                    }
+
+
+
+                });
+
+            }
+            setLoading(false);
+
+        }).catch((e) => {
+            console.error(e);
+            setLoading(false);
+        });
+    }
 
 
     const AddEvent = () => {
@@ -67,15 +124,22 @@ const AddBookingEvent = () => {
                 id: myId,
                 description: encrypt(description, adminId),
                 date: date,
+                endDate: endDate,
                 dateString: new Date(date).toDateString(),
                 created: new Date(),
                 title: encrypt(title, adminId),
                 time: encrypt(time, adminId),
                 venue: encrypt(venue, adminId),
                 directions: encrypt(directions, adminId),
+                parking: encrypt(parking, adminId),
+                dressCode: encrypt(dressCode, adminId),
+                refreshments: encrypt(refreshments, adminId),
+                otherInfo: encrypt(otherInfo, adminId),
                 encryption: 2,
                 bookings: []
             }
+
+
 
             addBookingEvent(booking).then((r) => {
                 setLoading(false);
@@ -97,6 +161,7 @@ const AddBookingEvent = () => {
             ) : (
                 <div className="grid grid-col-1 md:grid-cols-2 gap-4">
                     <div className="mb-6">
+                        <p className='text-center text-xs text-gray-300 mb-1 font-bold'>Start Date</p>
                         <input
                             type="date"
                             value={date}
@@ -105,46 +170,84 @@ const AddBookingEvent = () => {
                                 setDate(e.target.value);
                             }}
                             className="
-                        w-full
-                        rounded-[25px]
-                        border-2
-                        border-[#fdc92f]
-                        py-3
-                        px-5
-                        bg-white
-                        text-base text-body-color
-                        placeholder-[#ACB6BE]
-                        outline-none
-                        focus-visible:shadow-none
-                        focus:border-primary
-                        "
+                                w-full
+                                rounded-[25px]
+                                border-2
+                                border-[#fdc92f]
+                                py-3
+                                px-5
+                                bg-white
+                                text-base text-body-color
+                                placeholder-[#ACB6BE]
+                                outline-none
+                                focus-visible:shadow-none
+                                focus:border-primary
+                                "
                         />
                     </div>
                     <div className="mb-6">
+                        <p className='text-center text-xs text-gray-300 mb-1 font-bold'>End Date</p>
                         <input
-                            type="text"
-                            value={title}
-                            placeholder={'Title'}
+                            type="date"
+                            value={endDate}
+                            placeholder={'End date'}
                             onChange={(e) => {
-                                setTitle(e.target.value);
+                                setEndDate(e.target.value);
                             }}
                             className="
-                        w-full
-                        rounded-[25px]
-                        border-2
-                        border-[#fdc92f]
-                        py-3
-                        px-5
-                        bg-white
-                        text-base text-body-color
-                        placeholder-[#ACB6BE]
-                        outline-none
-                        focus-visible:shadow-none
-                        focus:border-primary
-                        "
+                                w-full
+                                rounded-[25px]
+                                border-2
+                                border-[#fdc92f]
+                                py-3
+                                px-5
+                                bg-white
+                                text-base text-body-color
+                                placeholder-[#ACB6BE]
+                                outline-none
+                                focus-visible:shadow-none
+                                focus:border-primary
+                            "
                         />
                     </div>
                     <div className="mb-6">
+                        <p className='text-center text-xs text-gray-300 mb-1 font-bold'>Event Title</p>
+                        <div className="mb-6 w-full">
+                            <button className=' w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary' onClick={(e) => e.preventDefault()}>
+                                <select
+                                    value={title}
+                                    onChange={(e) => {
+                                        setTitle(e.target.value);
+                                    }}
+                                    className='bg-white w-full'
+                                    required
+                                >
+                                    <option value="Category" hidden>
+                                        Select Event
+                                    </option>
+                                    {events.map((v) => {
+                                        return (
+                                            <option value={v} key={v}>{v}</option>
+                                        )
+                                    })}
+                                </select>
+                            </button>
+
+                        </div>
+                    </div>
+                    <div className="mb-6">
+                        <p className='text-center text-xs text-gray-300 mb-1 font-bold'>Event Time</p>
                         <input
                             type="time"
                             value={time}
@@ -168,16 +271,8 @@ const AddBookingEvent = () => {
                         "
                         />
                     </div>
-                    <div className="mb-6">
-                        <input
-                            type="text"
-                            value={venue}
-                            placeholder={'Venue'}
-                            onChange={(e) => {
-                                setVenue(e.target.value);
-                            }}
-                            className="
-                                    w-full
+                    <div className="mb-6 md:col-span-2">
+                        <button className=' w-full
                                     rounded-[25px]
                                     border-2
                                     border-[#fdc92f]
@@ -188,9 +283,25 @@ const AddBookingEvent = () => {
                                     placeholder-[#ACB6BE]
                                     outline-none
                                     focus-visible:shadow-none
-                                    focus:border-primary
-                                    "
-                        />
+                                    focus:border-primary' onClick={(e) => e.preventDefault()}>
+                            <select
+                                value={venue}
+                                onChange={(e) => {
+                                    setVenue(e.target.value);
+                                }}
+                                className='bg-white w-full'
+                                required
+                            >
+                                <option value="Category" hidden>
+                                    Select Venue
+                                </option>
+                                {venues.map((v) => {
+                                    return (
+                                        <option value={v} key={v}>{v}</option>
+                                    )
+                                })}
+                            </select>
+                        </button>
                     </div>
                     <div className="mb-6 md:col-span-2">
                         <textarea
@@ -221,6 +332,98 @@ const AddBookingEvent = () => {
                             placeholder={'Event Directions'}
                             onChange={(e) => {
                                 setDirections(e.target.value);
+                            }}
+                            className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+                        />
+                    </div>
+                    <div className="mb-6 md:col-span-2">
+                        <textarea
+                            value={parking}
+                            placeholder={'Parking'}
+                            onChange={(e) => {
+                                setParking(e.target.value);
+                            }}
+                            className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+                        />
+                    </div>
+                    <div className="mb-6 md:col-span-2">
+                        <textarea
+                            value={dressCode}
+                            placeholder={'Dress Code'}
+                            onChange={(e) => {
+                                setDressCode(e.target.value);
+                            }}
+                            className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+                        />
+                    </div>
+                    <div className="mb-6 md:col-span-2">
+                        <textarea
+                            value={refreshments}
+                            placeholder={'Refreshments'}
+                            onChange={(e) => {
+                                setRefreshments(e.target.value);
+                            }}
+                            className="
+                                    w-full
+                                    rounded-[25px]
+                                    border-2
+                                    border-[#fdc92f]
+                                    py-3
+                                    px-5
+                                    bg-white
+                                    text-base text-body-color
+                                    placeholder-[#ACB6BE]
+                                    outline-none
+                                    focus-visible:shadow-none
+                                    focus:border-primary
+                                    "
+                        />
+                    </div>
+                    <div className="mb-6 md:col-span-2">
+                        <textarea
+                            value={otherInfo}
+                            placeholder={'Other info'}
+                            onChange={(e) => {
+                                setOtherInfo(e.target.value);
                             }}
                             className="
                                     w-full

@@ -70,8 +70,8 @@ const ClientNav: FC<MyProps> = ({ organisationName, url }) => {
 
 
     return (
-        <div>
-            <div className='hidden lg:block w-fit'>
+        <div className='h-full'>
+            <div className='hidden lg:block w-fit h-full'>
                 <div className='bg-[#00947a] h-full m-8 rounded-[30px] flex flex-col items-center shadow-md px-8'>
 
                     <img src="/images/logowhitebg.png" className='h-24 w-24 my-6 rounded-xl' />

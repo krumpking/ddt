@@ -77,14 +77,13 @@ const BasicCalendar = () => {
 
                 res.data.forEach(element => {
                     let d = element.data();
-                    print(decrypt(d.time, id))
                     let h = decrypt(d.time, id).toString().split(":");
                     ev.push({
                         id: element.id,
                         title: decrypt(d.title, id),
                         allDay: true,
                         start: new Date(d.dateString).setHours(parseInt(h[0]), parseInt(h[1]), 0),
-                        end: new Date(d.dateString),
+                        end: new Date(d.endDate),
                     })
                 });
 
@@ -110,7 +109,7 @@ const BasicCalendar = () => {
             </Head>
             <Calendar
                 // components={components}
-                defaultView="week"
+                defaultView="month"
                 date={date}
                 events={events}
                 localizer={localizer}
@@ -123,6 +122,7 @@ const BasicCalendar = () => {
                 views={["month", "week", "day", "agenda"]}
                 style={{
                     color: '#00947a',
+                    height: 700
                 }}
             />
         </>

@@ -168,7 +168,7 @@ const ClientProfile = () => {
                     clnts.push(client);
 
                 });
-                let res = DateMethods.sortObjectsByDate(clnts, false);
+                let res = clnts.sort((a, b) => new Date(a.dateString).getTime() - new Date(b.dateString).getTime());
                 setClients(res);
                 setTempClients(res);
 

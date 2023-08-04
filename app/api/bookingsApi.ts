@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getCountFromServer, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { firestore } from "../../firebase/clientApp";
 import { IAttendee, IBookingEvent } from "../types/bookingsTypes";
 import { getCookie } from "react-use-cookie";
@@ -74,6 +74,8 @@ export const getOneBookingEvent = async (id: string) => {
 }
 
 
+
+
 export const addBookingToEvent = async (id: string, attendes: IAttendee[]) => {
 
     return await updateDoc(doc(firestore, "booking_event", id), {
@@ -83,8 +85,39 @@ export const addBookingToEvent = async (id: string, attendes: IAttendee[]) => {
 }
 
 
-export const sendEmailAtBooking = async (email: string, name: string, title: string, description: string, venue: string, directions: string, date: string, time: string) => {
+export const updateBookingEvent = async (id: string, event: IBookingEvent) => {
+
+    return await updateDoc(doc(firestore, "booking_event", id), event);
+
+}
+
+export const updateOrganizationInfo = async (id: string, data: any) => {
+
+    return await updateDoc(doc(firestore, "org", id), data);
+}
+
+
+export const sendEmailAtBooking = async (
+    email: string,
+    name: string,
+    title: string,
+    description: string,
+    venue: string,
+    directions: string,
+    date: string,
+    endDate: string,
+    time: string,
+    orgEmail: string,
+    call: string,
+    orgName: string,
+    logo: string,
+    parking: string,
+    refreshments: string,
+    dressCode: string,
+    otherInfo: string) => {
     try {
+
+
         // 👇️ const data: GetUsersResponse
         const { data, status } = await axios.post<boolean>(
             `${API_ROUTE}${EMAIL_AT_BOOKING}`,
@@ -96,7 +129,17 @@ export const sendEmailAtBooking = async (email: string, name: string, title: str
                 venue: venue,
                 directions: directions,
                 date: date,
-                time: time
+                endDate: endDate,
+                time: time,
+                orgEmail: orgEmail,
+                call: call,
+                logo: logo,
+                orgName: orgName,
+                parking: parking,
+                refreshments: refreshments,
+                dressCode: dressCode,
+                otherInfo: otherInfo
+
             },
             {
                 headers: {
@@ -116,7 +159,21 @@ export const sendEmailAtBooking = async (email: string, name: string, title: str
     }
 }
 
-export const sendEmailReminder = async (email: string, name: string, title: string, description: string, venue: string, directions: string, date: string, time: string, before: boolean) => {
+export const sendEmailReminder = async (
+    email: string,
+    name: string,
+    title: string,
+    description: string,
+    venue: string,
+    directions: string,
+    date: string,
+    endDate: string,
+    time: string,
+    orgEmail: string,
+    orgName: string,
+    call: string,
+    logo: string,
+    before: boolean) => {
     try {
         // 👇️ const data: GetUsersResponse
         const { data, status } = await axios.post<boolean>(
@@ -129,7 +186,12 @@ export const sendEmailReminder = async (email: string, name: string, title: stri
                 venue: venue,
                 directions: directions,
                 date: date,
+                endDate: endDate,
                 time: time,
+                orgEmail: orgEmail,
+                call: call,
+                logo: logo,
+                orgName: orgName,
                 before: before
             },
             {
@@ -148,6 +210,11 @@ export const sendEmailReminder = async (email: string, name: string, title: stri
             return null;
         }
     }
+}
+
+
+export const updateBooking = async (id: string, data: any) => {
+    return await updateDoc(doc(firestore, "booking_event", id), data);
 }
 
 

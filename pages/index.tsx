@@ -221,26 +221,13 @@ const Home: NextPage = () => {
 
   return (
     <div className='relative bg-[#00947a] w-full h-full'>
-      {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-YRWLWE46T0"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
 
-          gtag('config', 'G-YRWLWE46T0');
-        `}
-      </Script>
 
       <div>
         <Nav />
       </div>
       <Header />
-      <div className="rounded-t-[70px] bg-[#027f6d] text-center items-center content-center">
+      <div className="rounded-t-[70px] bg-[#027f6d] text-center items-center content-center" id='home'>
         <div id="discover">
           <img src='/images/start.png' className='mx-auto w-48 h-24 mb-6' />
           <h1 className='text-white'>TRUSTED BY</h1>
@@ -294,23 +281,42 @@ const Home: NextPage = () => {
           </div>
 
         </div>
-        <div className='text-center p-16'>
-          <h1></h1>
-          <div className="h-fit rounded-lg flex flex-col content-center items-center">
-            <h1 className='text-xs xxsMD:text-sm xsMD:text-xl mini:text-4xl text-white font-extrabold mb-4'>Customizable Enteprise System</h1>
-            <button className="w-full text-center">
-              <p className='text-white text-xs xsMD:text-sm'>Digital Data Tree is a customizable Enteprise System, which in conjuction with each of your clients, we customize it to fit the exact digitilization needs of every one of our clients
-                From Customer Relationship Management, to Events Management, to Inventory Management, Production Tracking, Digital Data Tree can transform any organization
-              </p>
-            </button>
+        <div className='p-16 shadow-xl  rounded-2xl'>
 
-            <button
-              className='h-12 w-24 xxsMD:w-48 bg-[#00947a] rounded-[25px] mt-5 mx-auto text-white p-2'>
-              <Link href='/signup'><p className='font-bold text-xs xxsMD:text-xl'>Get a Demo</p></Link>
-            </button>
+          <div className="h-fit rounded-lg grid grid-cols-1 md:grid-cols-2 ">
+            <div>
+              <img src="/images/automation.jpg" className='w-full h-4/5' />
+            </div>
+            <div>
+              <h1 className='text-xs xxsMD:text-sm xsMD:text-xl mini:text-4xl text-white font-extrabold mb-4'>Customizable Enteprise System</h1>
+              <button className="w-full text-left">
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Digital Data Tree is not just another enterprise system - it&apos;s a transformational solution. We understand that managing data can be overwhelming for businesses, leading to inefficiencies and missed opportunities. That&apos;s why we have created Digital Data Tree, a customizable system that can be tailored to fit the exact digitization needs of every client.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Think about it: no more manual data entry, no more missing or inaccurate information, no more wasted time. With Digital Data Tree, you can streamline your operations, enhance productivity, and drive business success. Our easy-to-use interface and customizable options empower you to take control of your data and transform your business from the inside out.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Whether you need to manage customer relationships, optimize event logistics, track inventory, or monitor production, Digital Data Tree has you covered. Say goodbye to tedious and error-prone manual processes, and say hello to automation and efficiency. With real-time access to critical business information, you can provide personalized experiences to your customers, build trust with stakeholders, and make data-driven decisions.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  Imagine the satisfaction of being able to focus on growing your business instead of being bogged down by data management. Think about the joy of having more time to spend with your customers, employees, or loved ones. With Digital Data Tree, you can experience all of this and more.
+                </p>
+                <p className='text-white text-xs xsMD:text-sm m-4'>
+                  So why wait? Join us on the journey to unlocking the full potential of your data. With Digital Data Tree, you can achieve greater efficiency, enhance customer experiences, ensure data security, and make informed decisions in real-time. Transform your business and bring your vision to life with Digital Data Tree today!
+                </p>
+              </button>
+
+
+            </div>
+
           </div>
+          <button
+            className='h-12 w-full xxsMD:w-48 bg-[#00947a] rounded-[25px] mt-5 mx-auto text-white p-2'>
+            <Link href='/signup'><p className='font-bold text-xs xxsMD:text-xl'>Register for Free</p></Link>
+          </button>
         </div>
-        <div id="benefits" className='text-center p-16'>
+        <div id="blog" className='text-center p-16'>
           {/* // eslint-disable */}
           <Carousel children={shownSlides.map((v) => {
             return (
@@ -446,7 +452,7 @@ const Home: NextPage = () => {
             <Link className='text-xl text-[#7d5c00] text-center ' href='/signup'>Get Started</Link>
           </button>
 
-          <div className='text-white my-8 shadow-xl p-8 rounded-2xl' id="affiliate">
+          {/* <div className='text-white my-8 shadow-xl p-8 rounded-2xl' id="affiliate">
             <h1 className='text-5xl font-bold font-title tracking-wide text-[#fdc92f] m-4'>Join us to change the world </h1>
             <p>Imagine a world where you can connect with anyone, anywhere in the world, at any time. A world where you have access to all the information you could ever need, at your fingertips. A world where you can learn new skills, start your own business, and make a difference in the world.
 
@@ -458,7 +464,7 @@ const Home: NextPage = () => {
             <button className={`bg-[#fdc92f] rounded-[30px] p-3 m-8 text-center`}>
               <Link className='text-xl text-[#7d5c00] text-center ' href='/affiliate'>Become an affiliate</Link>
             </button>
-          </div>
+          </div> */}
 
 
 

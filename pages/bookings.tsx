@@ -17,6 +17,7 @@ import { Tab } from '@headlessui/react';
 import Data from '../app/components/data';
 import AddBookingEvent from '../app/components/addBookingEvent';
 import BasicCalendar from '../app/components/calendar';
+import AddGeneralBookingInfo from '../app/components/addGeneralBookingInfo';
 
 
 function classNames(...classes: string[]) {
@@ -33,6 +34,7 @@ const Bookings = () => {
     const [formsSearch, setFormsSearch] = useState("");
     const [temp, setTemp] = useState<IForm[]>([]);
     const [tabs, setTabs] = useState([
+        'Save General Booking Info',
         'Add Event',
         'My Events'
     ]);
@@ -173,6 +175,14 @@ const Bookings = () => {
                                 ))}
                             </Tab.List>
                             <Tab.Panels className="mt-2 ">
+                                <Tab.Panel
+                                    className={classNames(
+                                        'rounded-xl bg-white p-3',
+                                        'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
+                                    )}
+                                >
+                                    <AddGeneralBookingInfo />
+                                </Tab.Panel>
                                 <Tab.Panel
                                     className={classNames(
                                         'rounded-xl bg-white p-3',
