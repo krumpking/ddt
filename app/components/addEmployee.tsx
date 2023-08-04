@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 
 const AddEmployee = () => {
   const [surname, setSurname] = useState('');
-  const [title, setTitle] = useState('');
+  const [position, setPosition] = useState('');
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const [date, setDate] = useState('');
@@ -63,6 +63,34 @@ const AddEmployee = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
+
+<div className="mb-6">
+            <input
+              type="text"
+              value={position}
+              placeholder={'Employee Position'}
+              onChange={(e) => {
+                setPosition(e.target.value);
+              }}
+              className="
+                        w-full
+                        rounded-[25px]
+                        border-2
+                        border-[#fdc92f]
+                        py-3
+                        px-5
+                        bg-white
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        "
+            />
+          </div>
+
+
+
            <div className="mb-6">
             <input
               type="text"
@@ -87,30 +115,7 @@ const AddEmployee = () => {
                         "
             />
           </div>
-          <div className="mb-6">
-            <input
-              type="text"
-              value={title}
-              placeholder={'Employee Title'}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              className="
-                        w-full
-                        rounded-[25px]
-                        border-2
-                        border-[#fdc92f]
-                        py-3
-                        px-5
-                        bg-white
-                        text-base text-body-color
-                        placeholder-[#ACB6BE]
-                        outline-none
-                        focus-visible:shadow-none
-                        focus:border-primary
-                        "
-            />
-          </div>
+         
           <div className="mb-6">
             <input
               type="text"

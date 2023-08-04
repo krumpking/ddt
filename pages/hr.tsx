@@ -10,6 +10,7 @@ import CRMTasks from '../app/components/crmTasks';
 import ClientJourney from '../app/components/clientJourney';
 import CRMReport from '../app/components/crmReport';
 import AddEmployee from '../app/components/addEmployee';
+import HRProfile from '../app/components/hrProfiles';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -87,7 +88,7 @@ const HR = () => {
                                     'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2'
                                 )}
                             >
-                                <ClientProfile />
+                                <HRProfile />
                             </Tab.Panel>
                             <Tab.Panel
 
