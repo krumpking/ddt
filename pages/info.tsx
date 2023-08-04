@@ -163,9 +163,9 @@ const Support = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-12'>
+            <div className='flex flex-col lg:grid lg:grid-cols-12'>
 
-                <div className='col-span-3'>
+                <div className='lg:col-span-3'>
                     <ClientNav organisationName={'Vision Is Primary'} url={'info'} />
                 </div>
 
@@ -177,7 +177,7 @@ const Support = () => {
                             <Loader />
 
                         </div>
-                        : <div className='grid grid-cols-2'>
+                        : <div className='grid grid-cols-1 lg:grid-cols-2'>
                             <div className='flex flex-col items-center space-y-4'>
                                 <img src={imageAdded ? image : `${image}`} className='rounded-[25px] shadow-md w-48 h-48' />
                                 <h1>
@@ -193,7 +193,7 @@ const Support = () => {
                                     Tel: {call} /{landline}
                                 </h1>
                                 <h1>
-                                    VAT No {vat}
+                                    Tax No {vat}
                                 </h1>
                                 {quotation.includes(",") ?
                                     <ul className="list-decimal">

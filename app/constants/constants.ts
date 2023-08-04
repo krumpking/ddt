@@ -3,7 +3,7 @@ import { firestore } from "../../firebase/clientApp";
 import { createId } from "../utils/stringM";
 
 // Main
-export const API_ROUTE = 'API_ROUTE'
+export const API_ROUTE = 'http://localhost:3146'// 'https://meganb-backend.herokuapp.com'
 
 export const WHATSAPP_CONTACT = 'https://wa.me/263713020524?text=Hello%20I%2020want%20to%20know%20more%20about%20Digital%20Data%20Tree%20I%20got%20your%20number%20from%20whatsapp';
 

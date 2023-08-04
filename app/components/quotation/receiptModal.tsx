@@ -7,6 +7,8 @@ import { getCookie } from "react-use-cookie";
 import { ADMIN_ID, COOKIE_ID } from "../../constants/constants";
 import { decrypt, encrypt } from "../../utils/crypto";
 import { getOrgInfoFromDB } from "../../api/orgApi";
+import { print } from "../../utils/console";
+import Head from "next/head";
 
 
 interface MyProps {
@@ -106,15 +108,6 @@ const ReceiptModal: FC<MyProps> = ({
 
         var prodA: any = [];
 
-        items.forEach((el: any) => {
-            prodA.push(
-                {
-                    product: encrypt(el.name, id),
-                    value: encrypt(el.price, id),
-                    totalNumber: encrypt(el.qty, id)
-                }
-            )
-        })
 
 
         var client = {
@@ -122,7 +115,7 @@ const ReceiptModal: FC<MyProps> = ({
             adminId: id,
             date: new Date(),
             dateString: new Date().toDateString(),
-            name: encrypt(invoiceInfo.receivedForm, id),
+            name: encrypt(invoiceInfo.receivedFrom, id),
             contact: encrypt(invoiceInfo.customerContact, id),
             organisation: encrypt(invoiceInfo.customerOrgainsation, id),
             stage: encrypt(invoiceInfo.stage, id),
@@ -207,105 +200,109 @@ const ReceiptModal: FC<MyProps> = ({
     };
 
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog
-                as="div"
-                className="fixed inset-0 z-10 overflow-y-auto"
-                onClose={closeModal}
-            >
-                <div className="min-h-screen px-4 text-center">
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                    </Transition.Child>
+        <>
+            <Head>
+                <meta name="viewport" content="width=978"></meta>
+            </Head>
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog
+                    as="div"
+                    className="fixed inset-0 z-10 overflow-y-auto"
+                    onClose={closeModal}
+                >
+                    <div className="min-h-screen px-4 text-center">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                        </Transition.Child>
 
-                    {/* This element is to trick the browser into centering the modal contents. */}
-                    <span
-                        className="inline-block h-screen align-middle"
-                        aria-hidden="true"
-                    >
-                        &#8203;
-                    </span>
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                    >
-                        <div>
-                            <div id="print" className="my-8 text-lg font-open inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all ">
-                                <div className="grid grid-cols-3 justify-items-center content-center place-content-center p-4">
-                                    <div>
-                                        <img src={image} className="max-h-48 w-full ml-2" />
-                                    </div>
-                                    <div>
-                                        <h1>Receipt No: {invoiceInfo.receiptNo}</h1>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <h1 className="font-bold text-xl"> {organizationName} </h1>
-                                        <p>{address}</p>
-                                        <p>Email: {email}</p>
-                                        <p>Tel: {call}/{landline}</p>
-                                        <p>Tax No {vat}</p>
-                                    </div>
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        <span
+                            className="inline-block h-screen align-middle"
+                            aria-hidden="true"
+                        >
+                            &#8203;
+                        </span>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                        >
+                            <div>
+                                <div id="print" className="  my-8 text-lg font-open inline-block w-full transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all ">
+                                    <div className="grid grid-cols-3 justify-items-center content-center place-content-center p-4">
+                                        <div>
+                                            <img src={image} className="max-h-48 w-full ml-2" />
+                                        </div>
+                                        <div>
+                                            <h1>Receipt No: {invoiceInfo.receiptNo}</h1>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <h1 className="font-bold text-xl"> {organizationName} </h1>
+                                            <p>{address}</p>
+                                            <p>Email: {email}</p>
+                                            <p>Tel: {call}/{landline}</p>
+                                            <p>Tax No {vat}</p>
+                                        </div>
 
-                                </div>
-                                <div className="grid grid-cols-4 p-4 mb-6">
-
-                                    <div className="col-span-3">
-                                        <p> Received from: {invoiceInfo.receivedFrom}  Date: {new Date().toDateString()}</p>
-                                        <p>Paid the sum of: {invoiceInfo.sumTotal}</p>
-                                        <div className="flex flex-row space-x-2">
-                                            {invoiceInfo.currency.map((v: any) => (
-                                                <p key={v}>{v}</p>
-                                            ))}</div>
-                                        <p>Name ................................... Signature:.................................................</p>
                                     </div>
-                                    <div className="col-span-1  border-2 border-black p-4">
-                                        <table className="w-full text-left ">
-                                            <thead>
-                                                <tr className=" text-sm md:text-base p-4">
-                                                    <th className="text-center">ITEM</th>
-                                                    <th className="text-center">QTY</th>
-                                                    <th className="text-right">PRICE</th>
-                                                    <th className="text-right">AMOUNT</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody >
-                                                {items.map((item: any) => (
-                                                    <tr key={item.id}>
-                                                        <td className="w-12">{item.name}</td>
-                                                        <td className="min-w-[50px] text-center">
-                                                            {item.qty}
-                                                        </td>
-                                                        <td className="min-w-[80px] text-right">
-                                                            ${Number(item.price).toFixed(2)}
-                                                        </td>
-                                                        <td className="min-w-[90px] text-right ">
-                                                            ${Number(item.price * item.qty).toFixed(2)}
-                                                        </td>
+                                    <div className="grid grid-cols-4 p-4 mb-6">
+
+                                        <div className="col-span-3">
+                                            <p> Received from: {invoiceInfo.receivedFrom}  Date: {new Date().toDateString()}</p>
+                                            <p>Paid the sum of: {invoiceInfo.sumTotal}</p>
+                                            <div className="flex flex-row space-x-2">
+                                                {invoiceInfo.currency.map((v: any) => (
+                                                    <p key={v}>{v}</p>
+                                                ))}</div>
+                                            <p>Name ................................... Signature:.................................................</p>
+                                        </div>
+                                        <div className="col-span-1  border-2 border-black p-4">
+                                            <table className="w-full text-left ">
+                                                <thead>
+                                                    <tr className=" text-sm md:text-base p-4">
+                                                        <th className="text-center">ITEM</th>
+                                                        <th className="text-center">QTY</th>
+                                                        <th className="text-right">PRICE</th>
+                                                        <th className="text-right">AMOUNT</th>
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody >
+                                                    {items.map((item: any) => (
+                                                        <tr key={item.id}>
+                                                            <td className="w-12">{item.name}</td>
+                                                            <td className="min-w-[50px] text-center">
+                                                                {item.qty}
+                                                            </td>
+                                                            <td className="min-w-[80px] text-right">
+                                                                ${Number(item.price).toFixed(2)}
+                                                            </td>
+                                                            <td className="min-w-[90px] text-right ">
+                                                                ${Number(item.price * item.qty).toFixed(2)}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
-                            <div className="w-full mb-6">
-                                <button
-                                    className="
+                                <div className="w-full mb-6">
+                                    <button
+                                        className="
                                         font-bold
                                         w-full
                                         rounded-[25px]
@@ -321,19 +318,21 @@ const ReceiptModal: FC<MyProps> = ({
                                         hover:bg-opacity-90
                                         transition
                                     "
-                                    onClick={SaveAsPDFHandler}
-                                >
+                                        onClick={SaveAsPDFHandler}
+                                    >
 
-                                    <span>Download</span>
-                                </button>
+                                        <span>Download</span>
+                                    </button>
 
+                                </div>
                             </div>
-                        </div>
 
-                    </Transition.Child>
-                </div>
-            </Dialog >
-        </Transition >
+                        </Transition.Child>
+                    </div>
+                </Dialog >
+            </Transition >
+        </>
+
     );
 };
 
