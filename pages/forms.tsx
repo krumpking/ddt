@@ -112,12 +112,7 @@ const Forms = () => {
 
 
         let role = getCookie(PERSON_ROLE);
-        var infoFromCookie = "";
-        if (getCookie(ADMIN_ID) == "") {
-            infoFromCookie = getCookie(COOKIE_ID);
-        } else {
-            infoFromCookie = getCookie(ADMIN_ID);
-        }
+
 
         if (typeof role !== 'undefined') {
             if (role !== "") {

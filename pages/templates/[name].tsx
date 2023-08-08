@@ -4,7 +4,7 @@ import React, { Fragment, useEffect, useMemo, useReducer, useState } from 'react
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
-import { COOKIE_ID, LIGHT_GRAY, TEMPLATES } from '../../app/constants/constants';
+import { ADMIN_ID, COOKIE_ID, LIGHT_GRAY, TEMPLATES } from '../../app/constants/constants';
 import Payment from '../../app/utils/paymentUtil';
 import { getCookie } from 'react-use-cookie';
 import { decrypt } from '../../app/utils/crypto';
@@ -106,11 +106,21 @@ const Template = () => {
             if (v) {
                 const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
+                var infoFromCookie = "";
+                if (getCookie(ADMIN_ID) == "") {
+                    infoFromCookie = getCookie(COOKIE_ID);
+                } else {
+                    infoFromCookie = getCookie(ADMIN_ID);
+                }
+
+                const adminId = decrypt(infoFromCookie, COOKIE_ID);
+
                 const newForm = {
                     id: createId(),
                     title: formTitle,
                     description: formDescr,
                     elements: elements,
+                    adminId: adminId,
                     creatorId: id,
                     editorNumbers: editors.split(","),
                     dateCreated: new Date().toString()
@@ -118,7 +128,7 @@ const Template = () => {
 
 
 
-                addForm(id, newForm).then((v) => {
+                addForm(newForm).then((v) => {
                     toast.success('Form created successfully');
                     setLoading(false);
                     router.push({

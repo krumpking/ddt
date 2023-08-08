@@ -165,6 +165,7 @@ const Home = () => {
                                 description: element.data().description,
                                 elements: element.data().elements,
                                 dateCreated: element.data().dateCreated,
+                                adminId: element.data().adminId,
                                 creatorId: id,
                                 editorNumbers: element.data().editorNumbers
                             }]);
