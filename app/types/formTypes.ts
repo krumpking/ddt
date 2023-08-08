@@ -5,6 +5,7 @@ export type IForm = {
     elements: IFormElement[],
     dateCreated: string,
     creatorId: string,
+    adminId: string,
     editorNumbers: string[]
 }
 

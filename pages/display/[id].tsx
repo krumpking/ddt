@@ -16,13 +16,15 @@ import { Dialog, Transition } from '@headlessui/react';
 import ReturnElements from '../../app/components/returnElements';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Document, ImageRun, Packer, Paragraph, TextRun } from 'docx';
+import { AlignmentType, Document, ImageRun, Packer, Paragraph, Table, TableCell, TableRow, TextRun, WidthType } from 'docx';
 import fs from 'fs';
 import { saveAs } from 'file-saver';
 import { getUrl } from '../../app/utils/getImageUrl';
 import { HexColorPicker } from "react-colorful";
 import { getSpecificData } from '../../app/api/formApi';
 import { getCookie } from 'react-use-cookie';
+import { print } from '../../app/utils/console';
+import * as XLSX from 'xlsx';
 
 
 const DataDisplay = () => {
@@ -36,6 +38,7 @@ const DataDisplay = () => {
     const [rowInfo, setRowInfo] = useState<any[]>([]);
     const ref = React.createRef();
     const [changedLayout, setChangedLayout] = useState(true);
+    const [mainData, setMainData] = useState<any>();
 
 
 
@@ -161,14 +164,15 @@ const DataDisplay = () => {
     const downloadWordDoc = async () => {
         const dataFromRow: Paragraph[] = [];
 
+
+        // if (columnLayout) {
+
         rowInfo.forEach(async (element) => {
 
 
             if (element.element == 11) {
 
                 if (typeof data !== 'undefined') {
-
-
                     var imageBuffer = await getUrl(`/${data.infoId}/11/${simpleDecrypt(element.info, data.infoId + data.infoId + data.infoId)}`);
                     if (imageBuffer !== null) {
                         dataFromRow.push(new Paragraph({
@@ -189,22 +193,16 @@ const DataDisplay = () => {
             } else if (element.element == 17) {
                 dataFromRow.push(new Paragraph({
                     children: [
-
-
                         new TextRun('Signature')
-
-
                     ]
                 }));
             } else {
                 if (typeof data !== 'undefined') {
+
                     dataFromRow.push(new Paragraph({
                         children: [
-
-
-                            new TextRun(simpleDecrypt(element.info, `${data.infoId + data.infoId + data.infoId}`))
-
-
+                            new TextRun({ text: `${element.label}:  `, bold: true, break: 1, },),
+                            new TextRun({ text: `${simpleDecrypt(element.info, `${data.infoId + data.infoId + data.infoId}`)}`, break: 1, })
                         ]
                     }));
                 }
@@ -212,6 +210,82 @@ const DataDisplay = () => {
 
 
         });
+        // } else {
+        //     for (let index = 0; index < rowInfo.length; index++) {
+        //         const element = rowInfo[index];
+
+
+        //         if (index % 2 == 0) {
+        //             if (element.element == 11) {
+
+        //                 if (typeof data !== 'undefined') {
+
+
+        //                     var imageBuffer = await getUrl(`/${data.infoId}/11/${simpleDecrypt(element.info, data.infoId + data.infoId + data.infoId)}`);
+        //                     if (imageBuffer !== null) {
+        //                         dataFromRow.push(new Paragraph({
+        //                             children: [
+        //                                 new ImageRun({
+        //                                     data: imageBuffer,
+        //                                     transformation: {
+        //                                         width: 903,
+        //                                         height: 1149,
+        //                                     },
+        //                                 }),
+        //                             ]
+        //                         }));
+        //                     }
+
+        //                 }
+
+        //             } else if (element.element == 17) {
+        //                 dataFromRow.push(new Paragraph({
+        //                     children: [
+
+
+        //                         new TextRun('Signature')
+
+
+        //                     ]
+        //                 }));
+        //             } else {
+        //                 if (typeof data !== 'undefined') {
+
+        //                     dataFromRow.push(new Paragraph({
+        //                         children: [
+        //                             new TextRun({ text: `${element.label}`, bold: true }),
+
+        //                             new TextRun({ text: `${typeof rowInfo[index + 1] === 'undefined' ? '' : rowInfo[index + 1].label}`, bold: true })
+
+
+        //                         ],
+        //                         alignment: AlignmentType.CENTER,
+        //                     }));
+        //                     dataFromRow.push(new Paragraph({
+        //                         children: [
+        //                             new TextRun({ text: `${simpleDecrypt(element.info, `${data.infoId + data.infoId + data.infoId}`)}` }),
+
+        //                             new TextRun({ text: typeof rowInfo[index + 1] === 'undefined' ? '' : simpleDecrypt(rowInfo[index + 1].info, `${data.infoId + data.infoId + data.infoId}`) })
+        //                         ],
+        //                         alignment: AlignmentType.CENTER,
+        //                         spacing: {
+        //                             after: 100,
+        //                         },
+        //                     }));
+        //                 }
+        //             }
+
+        //         }
+
+
+
+
+
+
+
+        //     }
+        // }
+
 
 
         const doc = new Document({
@@ -234,6 +308,39 @@ const DataDisplay = () => {
         });
 
 
+    }
+
+    const downloadExcelWithFormat = async () => {
+        if (columnLayout) {
+            var exlD: any[] = [];
+            data?.info.forEach(element => {
+                const object: IDynamicObject = {};
+                element.data.forEach((el: any) => {
+                    var resInfo = simpleDecrypt(el.info, data.infoId + data.infoId + data.infoId);
+                    object[el.label] = resInfo;
+                });
+                exlD.push(object);
+
+
+            });
+            downloadExcel(exlD, `${data?.title}`);
+        } else {
+
+
+            var table_elt = document.getElementById("divToPrint");
+
+            var workbook = XLSX.utils.table_to_book(table_elt);
+
+            // Process Data (add a new row)
+            var ws = workbook.Sheets["Sheet1"];
+            XLSX.utils.sheet_add_aoa(ws, [["Created " + new Date().toISOString()]], { origin: -1 });
+
+            // Package and Release Data (`writeFile` tries to write and save an XLSB file)
+            XLSX.writeFile(workbook, `${data?.title}.xlsx`);
+
+
+
+        }
     }
 
 
@@ -349,6 +456,7 @@ const DataDisplay = () => {
 
 
                                         });
+                                        setMainData(exlD);
 
                                         downloadExcel(exlD, typeof data?.title === 'undefined' ? 'info' : data?.title);
                                         setLoading(false);
@@ -444,6 +552,12 @@ const DataDisplay = () => {
                                             </svg>
                                             Download as Word Document
                                         </button>
+                                        {/* <button className='flex flex-col items-center' onClick={() => { downloadExcelWithFormat() }}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                            </svg>
+                                            Download as Excell Document
+                                        </button> */}
 
                                         <button className='flex flex-col items-center' onClick={() => { downloadPdf() }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">

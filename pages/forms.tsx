@@ -43,14 +43,21 @@ const Forms = () => {
 
         checkPayment();
 
-        var infoFormCookie = getCookie(COOKIE_ID);
-        if (typeof infoFormCookie !== 'undefined') {
+
+        var infoFromCookie = "";
+        if (getCookie(ADMIN_ID) == "") {
+            infoFromCookie = getCookie(COOKIE_ID);
+        } else {
+            infoFromCookie = getCookie(ADMIN_ID);
+        }
+        if (typeof infoFromCookie !== 'undefined') {
 
 
-            if (infoFormCookie.length > 0) {
-                const id = decrypt(infoFormCookie, COOKIE_ID);
+            if (infoFromCookie.length > 0) {
+                const adminId = decrypt(infoFromCookie, COOKIE_ID);
+                const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
-                getForms(id).then((v) => {
+                getForms(adminId).then((v) => {
                     if (v !== null) {
                         v.data.forEach(element => {
                             setPreviousForms((prevForms) => [...prevForms, {
@@ -59,6 +66,7 @@ const Forms = () => {
                                 description: element.data().description,
                                 elements: element.data().elements,
                                 dateCreated: element.data().dateCreated,
+                                adminId: element.data().adminId,
                                 creatorId: id,
                                 editorNumbers: element.data().editorNumbers
                             }]);
@@ -70,6 +78,7 @@ const Forms = () => {
                                 elements: element.data().elements,
                                 dateCreated: element.data().dateCreated,
                                 creatorId: id,
+                                adminId: element.data().adminId,
                                 editorNumbers: element.data().editorNumbers
                             }]);
 
