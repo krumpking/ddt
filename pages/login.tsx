@@ -78,13 +78,8 @@ const Login = () => {
         if (sent) {
 
             window.confirmationResult.confirm(accessCode).then((result: { user: any; }) => {
-
-
                 const user = result.user;
                 const userId = user.uid;
-
-
-
                 getUser(phone).then(async (v) => {
 
                     if (v == null) {
@@ -94,13 +89,9 @@ const Login = () => {
                         });
                     } else {
 
-
-
-
-
                         v.data.forEach((doc) => {
 
-                            toast.success('Your affiliate number is ' + doc.data().affiliateNo);
+                            toast.success('Welcome to Digital Data Tree');
 
 
 
@@ -173,16 +164,9 @@ const Login = () => {
                             });
                         });
 
-
-
                         router.push({
                             pathname: '/home'
                         });
-
-
-
-
-
                         setLoading(false);
 
                     }

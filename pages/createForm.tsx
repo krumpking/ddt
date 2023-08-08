@@ -107,6 +107,13 @@ const CreateForm = () => {
 
 
             if (v) {
+                var infoFromCookie = "";
+                if (getCookie(ADMIN_ID) == "") {
+                    infoFromCookie = getCookie(COOKIE_ID);
+                } else {
+                    infoFromCookie = getCookie(ADMIN_ID);
+                }
+                var adminId = decrypt(infoFromCookie, COOKIE_ID);
                 const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
                 const newForm = {
@@ -115,13 +122,14 @@ const CreateForm = () => {
                     description: formDescr,
                     elements: elements,
                     creatorId: id,
+                    adminId: adminId,
                     editorNumbers: editors.split(","),
                     dateCreated: new Date().toString()
                 }
 
 
 
-                addForm(id, newForm).then((v) => {
+                addForm(newForm).then((v) => {
                     toast.success('Form created successfully');
                     setLoading(false);
                     router.push({
