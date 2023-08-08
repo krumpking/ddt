@@ -41,6 +41,7 @@ const MyForm = () => {
     const [editors, setEditors] = useState("");
     const [form, setForm] = useState<any>(null);
     const [formDocId, setFormDocId] = useState("");
+    const [adminId, setAdminId] = useState("");
 
 
 
@@ -115,7 +116,6 @@ const MyForm = () => {
             if (v) {
                 const id = decrypt(getCookie(COOKIE_ID), COOKIE_ID);
 
-                print(typeof editors);
 
 
                 const newForm = {
@@ -123,6 +123,7 @@ const MyForm = () => {
                     title: formTitle,
                     description: formDescr,
                     elements: elements,
+                    adminId: adminId,
                     creatorId: id,
                     editorNumbers: editors.split(","),
                     dateCreated: new Date().toString()
@@ -191,6 +192,7 @@ const MyForm = () => {
                 setFormDescr(v.data.data().description);
                 setFormTitle(v.data.data().title);
                 setEditors(v.data.data().editorNumbers.toString());
+                setAdminId(v.data.data().adminId);
                 setHeaderFocus(false);
 
 
@@ -346,7 +348,7 @@ const MyForm = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
-                                    Add Form
+                                    Update Form
                                 </button>
                                 <button className='rounded-[10px] bg-red-500 hidden smXS:flex flex-col text-white items-center justify-center text-center h-full'
                                     onClick={() => {
@@ -636,7 +638,7 @@ const MyForm = () => {
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                                         </svg>
-                                                        Add Form
+                                                        Update Form
                                                     </button>
                                                 </>
 

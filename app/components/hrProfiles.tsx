@@ -712,7 +712,7 @@ const HRProfile = () => {
                       }
                     >
                       <td className="text-left">{value.dateString}</td>
-                      <td className="text-left">{value.title}</td>
+                      <td className="text-left">{value.position}</td>
                       <td className="text-left">{`${value.name} ${value.surname}`}</td>
                       <td className="text-left">{value.phone}</td>
                       <td className="text-left">{value.email}</td>
@@ -766,11 +766,10 @@ const HRProfile = () => {
                                               setView(0);
                                             }
                                           }}
-                                          className={`${
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700'
-                                          } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                          className={`${active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700'
+                                            } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
                                         >
                                           View
                                         </button>
@@ -790,11 +789,10 @@ const HRProfile = () => {
                                               setView(1);
                                             }
                                           }}
-                                          className={`${
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700'
-                                          } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                          className={`${active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700'
+                                            } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
                                         >
                                           Edit
                                         </button>
@@ -814,11 +812,10 @@ const HRProfile = () => {
                                               setView(2);
                                             }
                                           }}
-                                          className={`${
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700'
-                                          } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                          className={`${active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700'
+                                            } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
                                         >
                                           Move Stage
                                         </button>
@@ -835,11 +832,10 @@ const HRProfile = () => {
                                             setEditMember(value);
                                             setView(3);
                                           }}
-                                          className={`${
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700'
-                                          } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                          className={`${active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700'
+                                            } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
                                         >
                                           Add Notes
                                         </button>
@@ -856,11 +852,10 @@ const HRProfile = () => {
                                             setEditMember(value);
                                             setView(4);
                                           }}
-                                          className={`${
-                                            active
-                                              ? 'bg-gray-100 text-gray-900'
-                                              : 'text-gray-700'
-                                          } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
+                                          className={`${active
+                                            ? 'bg-gray-100 text-gray-900'
+                                            : 'text-gray-700'
+                                            } flex justify-between font-bold w-full px-4 py-2 text-sm leading-5 text-left border-sky-600`}
                                         >
                                           Add Task
                                         </button>

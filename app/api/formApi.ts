@@ -9,7 +9,7 @@ import { IForm } from "../types/formTypes";
 export const getForms = async (id: string) => {
 
     // Create a query against the collection.
-    const q = query(collection(firestore, "forms"), where("creatorId", "==", id));
+    const q = query(collection(firestore, "forms"), where("adminId", "==", id));
     const snapshot = await getCountFromServer(q);
     if (snapshot.data().count > 0) {
         const querySnapshot = await getDocs(q);
@@ -43,7 +43,7 @@ export const getOneForm = async (id: string) => {
 }
 
 
-export const addForm = async (id: string, form: IForm) => {
+export const addForm = async (form: IForm) => {
 
 
     // Create a query against the collection.
