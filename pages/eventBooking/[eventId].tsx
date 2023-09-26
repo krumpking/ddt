@@ -260,29 +260,29 @@ const EventBooking = () => {
         }
 
 
-        if (name !== "" && phone !== "" && email !== "") {
-            booking.push({
-                eventId: createId(),
-                name: encrypt(name, adminId),
-                phone: encrypt(phone, adminId),
-                email: encrypt(email, adminId),
-                attended: false,
-                notes: []
-            });
+        // if (name !== "" && phone !== "" && email !== "") {
+        booking.push({
+            eventId: createId(),
+            name: encrypt(name, adminId),
+            phone: encrypt(phone, adminId),
+            email: encrypt(email, adminId),
+            attended: false,
+            notes: []
+        });
 
-            setBookings(booking);
-            print(booking);
+        setBookings(booking);
+        print(booking);
 
-            addBookingToEvent(docId, booking).then((v) => {
-                toast.success("Booking added Sucessfully");
-                setCurrentTab(1);
-                sendEmailAtBooking(email, name, title, description, venue, directions, date, endDate, time, orgEmail, call, organizationName, image, parking, refreshments, dressCode, otherInfo);
-                setLoading(false);
-            }).catch((e) => { console.error(e) });
-        } else {
-            toast.error(`Name, Phone and Email cannot all be empty, please try again`);
+        addBookingToEvent(docId, booking).then((v) => {
+            toast.success("Booking added Sucessfully");
+            setCurrentTab(1);
+            sendEmailAtBooking(email, name, title, description, venue, directions, date, endDate, time, orgEmail, call, organizationName, image, parking, refreshments, dressCode, otherInfo);
             setLoading(false);
-        }
+        }).catch((e) => { console.error(e) });
+        // } else {
+        //     toast.error(`Name, Phone and Email cannot all be empty, please try again`);
+        //     setLoading(false);
+        // }
 
 
 

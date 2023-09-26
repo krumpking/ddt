@@ -22,6 +22,7 @@ const AddGeneralBookingInfo = () => {
     const router = useRouter();
     const [events, setEvents] = useState<any[]>([]);
     const [venues, setVenues] = useState<any[]>([]);
+    const [adminIdde, setAdminIdde] = useState("");
 
 
     useEffect(() => {
@@ -61,7 +62,7 @@ const AddGeneralBookingInfo = () => {
                 infoFromCookie = getCookie(ADMIN_ID);
             }
             var id = decrypt(infoFromCookie, COOKIE_ID);
-
+            setAdminIdde(id);
 
             if (r !== null) {
 
@@ -156,7 +157,7 @@ const AddGeneralBookingInfo = () => {
             }
 
         }
-        print(bookingInfo);
+
 
         updateOrganizationInfo(docId, bookingInfo).then((r) => {
             setLoading(false);
@@ -169,6 +170,22 @@ const AddGeneralBookingInfo = () => {
 
     };
 
+
+    const deleteItem = (itemType: number, index: number) => {
+        if (itemType == 1) {
+            let v = venues;
+            delete v[index];
+            // print(v);
+            setVenues(v);
+
+        } else {
+            let e = events;
+            delete e[index];
+            setEvents(e);
+        }
+        addInfo();
+    }
+
     return (
         <div>
             {loading ? (
@@ -176,10 +193,60 @@ const AddGeneralBookingInfo = () => {
                     <Loader />
                 </div>
             ) : (
-                <div className="grid grid-col-1 gap-4">
-                    <p className='text-center text-xs text-black font-bold'>Add Venues and Events</p>
-                    <div className="mb-6 w-full">
-                        <button className=' w-full
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <div className='flex flex-col w-full'>
+                            <p className=' text-xs text-black font-bold'>Added Venues</p>
+                            <div className='border-2 rounded-[25px] p-4 border-[#fdc92f]'>
+                                {venues.map((v, index) => (
+                                    <div className='grid grid-cols-6' key={index}>
+                                        <div className='col-span-5'>
+                                            <p>{decrypt(v, adminIdde)}</p>
+                                            {/* <p>{v}</p> */}
+                                        </div>
+                                        <div>
+                                            <button onClick={() => { deleteItem(1, index) }}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                        <div className='flex flex-col mt-5'>
+                            <p className='text-xs text-black font-bold'>Added Events</p>
+                            <div className='border-2 rounded-[25px] p-4 border-[#fdc92f]'>
+                                {events.map((v, index) => (
+                                    <div className='grid grid-cols-6' key={index}>
+                                        <div className='col-span-5'>
+                                            <p>{decrypt(v, adminIdde)}</p>
+                                            {/* <p>{v}</p> */}
+                                        </div>
+                                        <div>
+                                            <button onClick={() => { deleteItem(2, index); }}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <p className='text-center text-xs text-black font-bold'>Add Venues and Events</p>
+                        <div className="mb-6 w-full">
+                            <button className=' w-full
                                     rounded-[25px]
                                     border-2
                                     border-[#fdc92f]
@@ -191,32 +258,32 @@ const AddGeneralBookingInfo = () => {
                                     outline-none
                                     focus-visible:shadow-none
                                     focus:border-primary' onClick={(e) => e.preventDefault()}>
-                            <select
-                                value={info}
-                                onChange={(e) => {
-                                    setInfo(e.target.value);
-                                }}
-                                className='bg-white w-full'
-                                required
-                            >
-                                <option value="Category" hidden>
-                                    Category
-                                </option>
-                                <option value="Venue">Venue</option>
-                                <option value="Events">Events</option>
-                            </select>
-                        </button>
+                                <select
+                                    value={info}
+                                    onChange={(e) => {
+                                        setInfo(e.target.value);
+                                    }}
+                                    className='bg-white w-full'
+                                    required
+                                >
+                                    <option value="Category" hidden>
+                                        Category
+                                    </option>
+                                    <option value="Venue">Venue</option>
+                                    <option value="Events">Events</option>
+                                </select>
+                            </button>
 
-                    </div>
-                    <div className="mb-6 ">
-                        <p className='text-center text-xs text-gray-300 mb-4 font-bold'>Separate each {info} with a comma</p>
-                        <textarea
-                            value={addedInfo}
-                            placeholder={`${info} to save`}
-                            onChange={(e) => {
-                                setAddedInfo(e.target.value);
-                            }}
-                            className="
+                        </div>
+                        <div className="mb-6 ">
+                            <p className='text-center text-xs text-gray-300 mb-4 font-bold'>Separate each {info} with a comma</p>
+                            <textarea
+                                value={addedInfo}
+                                placeholder={`${info} to save`}
+                                onChange={(e) => {
+                                    setAddedInfo(e.target.value);
+                                }}
+                                className="
                                     w-full
                                     rounded-[25px]
                                     border-2
@@ -230,14 +297,14 @@ const AddGeneralBookingInfo = () => {
                                     focus-visible:shadow-none
                                     focus:border-primary
                                     "
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <button
-                            onClick={() => {
-                                addInfo();
-                            }}
-                            className="
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <button
+                                onClick={() => {
+                                    addInfo();
+                                }}
+                                className="
                                 font-bold
                                 w-full
                                 rounded-[25px]
@@ -253,10 +320,12 @@ const AddGeneralBookingInfo = () => {
                                 hover:bg-opacity-90
                                 transition
                                     "
-                        >
-                            Add {info}
-                        </button>
+                            >
+                                Add {info}
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             )}
             <ToastContainer position="top-right" autoClose={5000} />

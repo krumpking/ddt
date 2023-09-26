@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <PayPalScriptProvider options={initialOptions}>
-        <AppLogout>
-          < Component {...pageProps} />
-        </AppLogout>
+        {/* <AppLogout> */}
+        < Component {...pageProps} />
+        {/* </AppLogout> */}
       </PayPalScriptProvider>
     </Provider>
 
