@@ -290,7 +290,7 @@ const InvoiceModal: FC<MyProps> = ({
                         </div>
 
                       </div>
-                      <div className="min-h-[1000px]">
+                      <div className="min-h-[800px]">
                         <table className="w-full text-left">
                           <thead>
                             <tr className="text-sm md:text-base p-4">

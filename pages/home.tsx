@@ -160,6 +160,7 @@ const Home = () => {
                     if (v !== null) {
                         v.data.forEach(element => {
                             setPreviousForms((prevForms) => [...prevForms, {
+                                adminId:element.data().adminId,
                                 id: element.id,
                                 title: element.data().title,
                                 description: element.data().description,

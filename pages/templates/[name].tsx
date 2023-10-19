@@ -108,6 +108,7 @@ const Template = () => {
 
                 const newForm = {
                     id: createId(),
+                    adminId:id,
                     title: formTitle,
                     description: formDescr,
                     elements: elements,
@@ -118,7 +119,7 @@ const Template = () => {
 
 
 
-                addForm(id, newForm).then((v) => {
+                addForm(newForm).then((v) => {
                     toast.success('Form created successfully');
                     setLoading(false);
                     router.push({

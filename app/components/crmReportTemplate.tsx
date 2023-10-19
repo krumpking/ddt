@@ -885,7 +885,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                         {
                                                             v.value.map((value: any, index: any) => {
                                                                 totalValueOfSalesPerson += parseFloat(value.value.replace('$', '').replace(',', ''));
-
+                                                                console.log(value);
                                                                 return (
                                                                     <tr key={index}
                                                                         className={'odd:bg-white even:bg-slate-50  hover:cursor-pointer'}
@@ -893,7 +893,7 @@ const CRMReportTemplate: FC<MyProps> = ({ tab }) => {
                                                                         <td className='text-left' >{value.date}</td>
                                                                         <td className='text-left' >{value.name}</td>
                                                                         <td className='text-left' >{value.stage}</td>
-                                                                        <td className='text-left' >{value.enquired[0].product}</td>
+                                                                        <td className='text-left' >{ value.enquired.length > 0 ?  `${value.enquired[0].product}` : 'Receipt' }</td>
                                                                         <td className='text-left' >{value.value}</td>
                                                                     </tr>
                                                                 )
